@@ -20,7 +20,7 @@ public class Tp {
         Vendedor v2 = new Vendedor(1,"Evaristo","California 2445",new Coordenada(-31.7413545,-60.5405618));
         Vendedor v3 = new Vendedor(2,"Rodney Sacks","New York 324",new Coordenada(-37.7413945,-10.5405818));
         Vendedor v4 = new Vendedor(3,"Evaristo","Zapallito 352",new Coordenada(-55.7413945,-10.5405818));
-        //System.out.println(v1 instanceof Vendedor);
+       //System.out.println(v1 instanceof Vendedor);
         //System.out.println(v2.getNombre());
        // System.out.println(v3.getCoord().getLat() + " " + v3.getCoord().getLng());
     
