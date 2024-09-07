@@ -4,6 +4,9 @@
  */
 package isi.deso.tp.usuarios;
 
+import isi.deso.tp.menu.Bebida;
+import isi.deso.tp.menu.ItemMenu;
+import isi.deso.tp.menu.Plato;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,7 @@ public class Vendedor {
     private String nombre;
     private String direccion;
     private Coordenada coord;
-
+    private List<ItemMenu> listItems;
     
     public int getId() {
         return id;
@@ -111,4 +114,53 @@ public class Vendedor {
 
     }
     
+    
+    
+  public List<Plato>getPlatos(){
+        List <Plato> aux = new ArrayList<Plato>();
+       for(ItemMenu e : listItems){
+          if(e instanceof Plato){
+            aux.add((Plato) e);
+          }
+       }
+       return aux;
+    }
+  
+  
+   public List<Bebida>getBebidas(){
+        List <Bebida> aux = new ArrayList<Bebida>();
+       for(ItemMenu e : listItems){
+          if(e instanceof Bebida){
+            aux.add((Bebida) e);
+          }
+       }
+       return aux;
+    }
+  
+    public List<Plato>getComidasVeganas(){
+        List <Plato> aux = new ArrayList<Plato>();
+       for(ItemMenu e : listItems){
+          if(e instanceof Plato){
+            if(e.aptoVegano()){
+              aux.add((Plato) e);
+            }
+          }
+       }
+       return aux;
+    }
+    
+     public List<Bebida>getBebidasSinAlcohol(){
+        List <Bebida> aux = new ArrayList<Bebida>();
+       for(ItemMenu e : listItems){
+          if(e instanceof Bebida){
+            if(!((Bebida) e).esAlcohol()){
+              aux.add((Bebida) e);
+            }
+          }
+       }
+       return aux;
+    }
+    
 }
+
+
