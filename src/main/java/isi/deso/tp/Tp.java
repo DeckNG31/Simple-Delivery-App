@@ -4,6 +4,8 @@
 
 package isi.deso.tp;
 
+import isi.deso.tp.menu.Bebida;
+import isi.deso.tp.menu.Plato;
 import isi.deso.tp.usuarios.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,15 @@ public class Tp {
 
     public static void main(String[] args) {
         
-        Vendedor v1 = new Vendedor(0,"Toreto","Chaco 12",new Coordenada(-60.7413545,-60.5405618));
+     //etapa1Pruebas();
+      
+     etapa2Pruebas();
+    }
+    
+    //metodos de prueba de etapas
+    
+    public static void etapa1Pruebas(){
+          Vendedor v1 = new Vendedor(0,"Toreto","Chaco 12",new Coordenada(-60.7413545,-60.5405618));
         Vendedor v2 = new Vendedor(1,"Evaristo","California 2445",new Coordenada(-31.7413545,-60.5405618));
         Vendedor v3 = new Vendedor(2,"Rodney Sacks","New York 324",new Coordenada(-37.7413945,-10.5405818));
         Vendedor v4 = new Vendedor(3,"Evaristo","Zapallito 352",new Coordenada(-55.7413945,-10.5405818));
@@ -62,8 +72,37 @@ public class Tp {
      
    
     System.out.println(v1.distancia(c1));
-      
-     
+    }
+    
+    
+    public static void etapa2Pruebas(){
+         // Crear una bebida con alcohol
+        Bebida bebidaAlcoholica = new Bebida(500.0, 5.0, 1, "Cerveza", "Cerveza artesanal", 150.0, false, 0.5);
+        // Crear una bebida sin alcohol
+        Bebida bebidaSinAlcohol = new Bebida(330.0, 0.0, 2, "Refresco", "Refresco de cola", 100.0, true, 0.33);
+
+        // Crear un plato apto para veganos y celiacos
+        Plato platoVeganoCeliaco = new Plato(250.0, true, 3, "Ensalada", "Ensalada mixta", 200.0, true, 0.4);
+        // Crear un plato no apto para veganos ni celiacos
+        Plato platoNoVeganoNoCeliaco = new Plato(500.0, false, 4, "Pizza", "Pizza de queso", 300.0, false, 0.8);
+
+        // Pruebas para las bebidas
+        System.out.println("Probando Bebidas:");
+        System.out.println("¿La bebida 'Cerveza' es alcohol? " + bebidaAlcoholica.esAlcohol()); // true
+        System.out.println("¿La bebida 'Refresco' es alcohol? " + bebidaSinAlcohol.esAlcohol()); // false
+        System.out.println("Peso calculado de 'Cerveza': " + bebidaAlcoholica.peso()); // peso calculado con alcohol
+        System.out.println("Peso calculado de 'Refresco': " + bebidaSinAlcohol.peso()); // peso calculado sin alcohol
+        System.out.println("¿'Cerveza' es comida? " + bebidaAlcoholica.esComida()); // false
+        System.out.println("¿'Cerveza' es bebida? " + bebidaAlcoholica.esBebida()); // true
+        System.out.println("¿'Refresco' es vegano? " + bebidaSinAlcohol.aptoVegano()); // true
+
+        // Pruebas para los platos
+        System.out.println("\nProbando Platos:");
+        System.out.println("¿El plato 'Ensalada' es vegano? " + platoVeganoCeliaco.aptoVegano()); // true
+        System.out.println("¿El plato 'Pizza' es apto para celiacos? " + platoNoVeganoNoCeliaco.isAptoCeliaco()); // false
+        System.out.println("Peso calculado de 'Ensalada': " + platoVeganoCeliaco.peso()); // peso ajustado
+        System.out.println("Peso calculado de 'Pizza': " + platoNoVeganoNoCeliaco.peso()); // peso ajustado
+        System.out.println("Calorías del plato 'Pizza': " + platoNoVeganoNoCeliaco.getCalorias()); // 500.0
     }
    
    
