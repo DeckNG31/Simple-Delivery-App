@@ -8,44 +8,39 @@ package isi.deso.tp.menu;
  *
  * @author deck
  */
-public class Plato extends ItemMenu{
-    
+public class Plato extends ItemMenu {
+
     private Double calorias;
     private boolean aptoCeliaco;
 
-    
-    
-    @Override
-    public Double peso(){
-        peso = peso*(1.1);
-        return peso;
-    }
-    
-    @Override
-    public boolean aptoVegano(){
-    return this.aptoVegano;
-}
-
-   @Override
-   public boolean esBebida(){
-       return false;
-   }
-   
-   @Override
-   public boolean esComida(){
-       return true;
-   }
-
-    public Plato(Double calorias, Double peso) {
-        this.calorias = calorias;
-        this.peso = peso;
+    public Plato(){
     }
 
-    public Plato(Double calorias, boolean aptoCeliaco, boolean aptoVegetariano, Double peso) {
+    public Plato(Double calorias, boolean aptoCeliaco, Integer id, String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso) {
+        super(id, nombre, descripcion, precio, aptoVegano, peso);
         this.calorias = calorias;
         this.aptoCeliaco = aptoCeliaco;
-        this.aptoVegano = aptoVegetariano;
-        this.peso = peso;
+    }
+    
+    @Override
+    public Double peso() {
+        peso = peso * (1.1);
+        return peso;
+    }
+
+    @Override
+    public boolean aptoVegano() {
+        return this.aptoVegano;
+    }
+
+    @Override
+    public boolean esBebida() {
+        return false;
+    }
+
+    @Override
+    public boolean esComida() {
+        return true;
     }
 
     public Double getCalorias() {
@@ -107,11 +102,11 @@ public class Plato extends ItemMenu{
     /*public Object getCategoria() {
         return categoria;
     }
-*/
-  /*  public void setCategoria(Object categoria) {
+     */
+ /*  public void setCategoria(Object categoria) {
         this.categoria = categoria;
     }
-*/
+     */
     public Double getPeso() {
         return peso;
     }
@@ -120,10 +115,4 @@ public class Plato extends ItemMenu{
         this.peso = peso;
     }
 
-  
-    
-    
-    
-    
-    
 }

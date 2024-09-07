@@ -18,14 +18,20 @@ public abstract class ItemMenu {
     Double peso;
     
     public abstract Double peso();
+
+    public ItemMenu() {
+    }
+    
+    public ItemMenu(Integer id, String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.aptoVegano = aptoVegano;
+        this.peso = peso;
+    }
     public abstract boolean esComida();
     public abstract boolean esBebida();
     public abstract boolean aptoVegano();
-    
-    
    
-    
-    
-    
-    
 }
