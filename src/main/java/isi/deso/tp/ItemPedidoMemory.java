@@ -43,7 +43,7 @@ public class ItemPedidoMemory implements ItemsPedidoDao{
     ItemPedido::getPrecio es equivalente a item -> item.getPrecio() , pero es mas compacto claramente            
     */
     
-    if(resultado.isEmpty()) throw new ItemNoEncontradoException("vamo boookaaa");
+    if(resultado.isEmpty()) throw new ItemNoEncontradoException("Item No Encontrado");
        
      return resultado;
     
@@ -55,7 +55,7 @@ public class ItemPedidoMemory implements ItemsPedidoDao{
        .filter(item -> item.getPrecio() >= precioMin && item.getPrecio()<=precioMax)
        .collect(Collectors.toList());
 
-       if(resultado.isEmpty()) throw new ItemNoEncontradoException("vamo boookaaa");
+       if(resultado.isEmpty()) throw new ItemNoEncontradoException("Item No Encontrado");
        
        return resultado;
     }
@@ -72,7 +72,7 @@ public class ItemPedidoMemory implements ItemsPedidoDao{
     del mismo restaurante en minus o mayus y queremos que se tome por lo mismo
     */
     
-    if(resultado.isEmpty()) throw new ItemNoEncontradoException("vamo boookaaa");
+    if(resultado.isEmpty()) throw new ItemNoEncontradoException("Item No Encontrado");
     
     return resultado;
     }
