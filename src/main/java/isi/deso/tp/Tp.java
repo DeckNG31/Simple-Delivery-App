@@ -4,7 +4,9 @@
 
 package isi.deso.tp;
 
+import exceptions.ItemNoEncontradoException;
 import isi.deso.tp.menu.Bebida;
+import isi.deso.tp.menu.ItemPedido;
 import isi.deso.tp.menu.Plato;
 import isi.deso.tp.usuarios.*;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class Tp {
         
      //etapa1Pruebas();
       
-     etapa2Pruebas();
+     etapa3Pruebas();
     }
     
     //metodos de prueba de etapas
@@ -105,5 +107,27 @@ public class Tp {
         System.out.println("Calorías del plato 'Pizza': " + platoNoVeganoNoCeliaco.getCalorias()); // 500.0
     }
    
+    
+    
+    public static void etapa3Pruebas(){
+        
+        List<ItemPedido> lista = null;
+         ItemPedidoMemory gestionItems = new ItemPedidoMemory(lista);
+
+        // Agregar algunos ítems de ejemplo
+        gestionItems.itemsPedido.add(new ItemPedido("Pizza", 12.5, "Restaurante A"));
+        gestionItems.itemsPedido.add(new ItemPedido("Hamburguesa", 8.0, "Restaurante B"));
+        List<ItemPedido> todosItems = gestionItems.getTodosItems();
+        System.out.println(todosItems.toString());
+        // Buscar por rango de precios
+        try {
+            List<ItemPedido> items = gestionItems.buscarPorRangoDePrecios(5, 15);
+            items.forEach(item -> System.out.println(item.getNombre() + " - " + item.getPrecio()));
+        } catch (ItemNoEncontradoException e) {
+            System.out.println(e.getMessage());
+        }
+
+        
+    }
    
 }
