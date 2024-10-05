@@ -15,12 +15,13 @@ import java.util.List;
  * @author Deck
  */
 public class Vendedor {
+
     private int id;
     private String nombre;
     private String direccion;
     private Coordenada coord;
-    private List<ItemMenu> listItems;
-    
+    private List<ItemMenu> listItems = new ArrayList();
+
     public int getId() {
         return id;
     }
@@ -52,17 +53,15 @@ public class Vendedor {
     public void setCoord(Coordenada coord) {
         this.coord = coord;
     }
-    
-    
-    
+
     public Vendedor(int id, String nombre, String direccion, Coordenada coord) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
         this.coord = coord;
     }
-  
-    public Vendedor(){
+
+    public Vendedor() {
     }
 
     @Override
@@ -70,29 +69,29 @@ public class Vendedor {
         return "Vendedor{" + "id=" + id + ", nombre=" + nombre + ", direccion=" + direccion + ", coord= " + coord.toString() + '}';
     }
 
-   public static List<Vendedor> buscarVendedor(int id , List<Vendedor> v){
-       List <Vendedor> nombre = new ArrayList<Vendedor>(); 
-       
-       for(Vendedor  vendedor : v){
-           if(vendedor.getId() == id){
-               nombre.add(vendedor); 
-               return nombre;
-           }
-       }
-          return nombre;
-   }
-   
-   public static List<Vendedor> buscarVendedor(String nombre , List<Vendedor> v){
-       List <Vendedor> segundo_nombre = new ArrayList<Vendedor>();
-        nombre = nombre.toLowerCase();        
-       for(Vendedor  vendedor : v){
-           if(nombre.equals(vendedor.getNombre().toLowerCase())) segundo_nombre.add(vendedor);
-       }
-       return segundo_nombre;
-   }
-  
+    public static List<Vendedor> buscarVendedor(int id, List<Vendedor> v) {
+        List<Vendedor> nombre = new ArrayList<Vendedor>();
 
-    
+        for (Vendedor vendedor : v) {
+            if (vendedor.getId() == id) {
+                nombre.add(vendedor);
+                return nombre;
+            }
+        }
+        return nombre;
+    }
+
+    public static List<Vendedor> buscarVendedor(String nombre, List<Vendedor> v) {
+        List<Vendedor> segundo_nombre = new ArrayList<Vendedor>();
+        nombre = nombre.toLowerCase();
+        for (Vendedor vendedor : v) {
+            if (nombre.equals(vendedor.getNombre().toLowerCase())) {
+                segundo_nombre.add(vendedor);
+            }
+        }
+        return segundo_nombre;
+    }
+
     public double distancia(Cliente cliente) {
         double R = 6371.0; // Radio de la Tierra en km
 
@@ -113,54 +112,53 @@ public class Vendedor {
         return 2 * R * Math.asin(Math.sqrt(h));
 
     }
-    
-    
-    
-  public List<Plato>getPlatos(){
-        List <Plato> aux = new ArrayList<Plato>();
-       for(ItemMenu e : listItems){
-          if(e instanceof Plato){
-            aux.add((Plato) e);
-          }
-       }
-       return aux;
+
+    public void AddItemMenu(ItemMenu item) {
+        listItems.add(item);
     }
-  
-  
-   public List<Bebida>getBebidas(){
-        List <Bebida> aux = new ArrayList<Bebida>();
-       for(ItemMenu e : listItems){
-          if(e instanceof Bebida){
-            aux.add((Bebida) e);
-          }
-       }
-       return aux;
-    }
-  
-    public List<Plato>getComidasVeganas(){
-        List <Plato> aux = new ArrayList<Plato>();
-       for(ItemMenu e : listItems){
-          if(e instanceof Plato){
-            if(e.aptoVegano()){
-              aux.add((Plato) e);
+
+    public List<Plato> getPlatos() {
+        List<Plato> aux = new ArrayList<Plato>();
+        for (ItemMenu e : listItems) {
+            if (e instanceof Plato) {
+                aux.add((Plato) e);
             }
-          }
-       }
-       return aux;
+        }
+        return aux;
     }
-    
-     public List<Bebida>getBebidasSinAlcohol(){
-        List <Bebida> aux = new ArrayList<Bebida>();
-       for(ItemMenu e : listItems){
-          if(e instanceof Bebida){
-            if(!((Bebida) e).esAlcohol()){
-              aux.add((Bebida) e);
+
+    public List<Bebida> getBebidas() {
+        List<Bebida> aux = new ArrayList<Bebida>();
+        for (ItemMenu e : listItems) {
+            if (e instanceof Bebida) {
+                aux.add((Bebida) e);
             }
-          }
-       }
-       return aux;
+        }
+        return aux;
     }
-    
+
+    public List<Plato> getComidasVeganas() {
+        List<Plato> aux = new ArrayList<Plato>();
+        for (ItemMenu e : listItems) {
+            if (e instanceof Plato) {
+                if (e.aptoVegano()) {
+                    aux.add((Plato) e);
+                }
+            }
+        }
+        return aux;
+    }
+
+    public List<Bebida> getBebidasSinAlcohol() {
+        List<Bebida> aux = new ArrayList<Bebida>();
+        for (ItemMenu e : listItems) {
+            if (e instanceof Bebida) {
+                if (!((Bebida) e).esAlcohol()) {
+                    aux.add((Bebida) e);
+                }
+            }
+        }
+        return aux;
+    }
+
 }
-
-
