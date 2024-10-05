@@ -20,17 +20,21 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
 
     public List<ItemPedido> itemsPedido;  //""""Simula"""" la BD
     public Cliente cliente;
+    //este seria el contexto de metodo de pago
     private MetodoPago metodoPago;
     private EstadoPedido estado;
 
     public ItemPedidoMemory() {
     }
 
-    public ItemPedidoMemory(List<ItemPedido> itemsPedido, Cliente cliente, MetodoPago metodoPago) {
+    public ItemPedidoMemory(List<ItemPedido> itemsPedido, Cliente cliente) {
         this.itemsPedido = itemsPedido;
         this.cliente = cliente;
+        this.estado = EstadoPedido.RECIBIDO;
+    }
+
+    public void setStrategyPago(MetodoPago metodoPago) {
         this.metodoPago = metodoPago;
-        this.estado = EstadoPedido.REALIZADO;
     }
 
     public void pagar() {
@@ -50,7 +54,7 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
     @Override
     public List<ItemPedido> ordernarPorPrecio(boolean asc) {
         List<ItemPedido> resultado = itemsPedido.stream()
-                .sorted(asc ? Comparator.comparing(ItemPedido::getTotal) : Comparator.comparing(ItemPedido::getTotal).reversed())
+                .sorted(asc ? Comparator.comparing(ItemPedido::getPrecio) : Comparator.comparing(ItemPedido::getPrecio).reversed())
                 .collect(Collectors.toList());
 
         /*NOTA!!!
@@ -67,7 +71,7 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
     @Override
     public List<ItemPedido> buscarPorRangoDePrecios(double precioMin, double precioMax) {
         List<ItemPedido> resultado = itemsPedido.stream()
-                .filter(item -> item.getTotal() >= precioMin && item.getTotal() <= precioMax)
+                .filter(item -> item.getPrecio() >= precioMin && item.getPrecio() <= precioMax)
                 .collect(Collectors.toList());
 
         if (resultado.isEmpty()) {

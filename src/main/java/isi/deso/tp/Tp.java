@@ -146,7 +146,8 @@ public class Tp {
         MetodoPago mercadoPago = new MercadoPago("la.parri.mp");
 
         //cargamos los pedidos a memoria
-        ItemPedidoMemory detallePedido = new ItemPedidoMemory(pedidos_c1, c1, mercadoPago);
+        ItemPedidoMemory detallePedido = new ItemPedidoMemory(pedidos_c1, c1);
+        detallePedido.setStrategyPago(mercadoPago);
 
         System.out.println(detallePedido.toString());
 
