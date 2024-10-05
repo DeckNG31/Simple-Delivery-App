@@ -16,18 +16,18 @@ public class ItemPedido {
     private Integer cantidad;
     private Vendedor vendedor;
     private String restaurante;
-    private Double total = 0.0;
+    private Double precio = 0.0;
 
     public ItemPedido(ItemMenu item, Integer cantidad, Vendedor vendedor) {
         this.item = item;
         this.cantidad = cantidad;
         this.vendedor = vendedor;
         this.restaurante = vendedor.getNombre();
-        this.total = cantidad * item.getPrecio();
+        this.precio = cantidad * item.getPrecio();
     }
 
-    public Double getTotal() {
-        return total;
+    public Double getPrecio() {
+        return precio;
     }
 
     public ItemMenu getItem() {
@@ -52,7 +52,7 @@ public class ItemPedido {
 
     @Override
     public String toString() {
-        return "ItemPedido{" + "item=" + item + ", cantidad=" + cantidad + ", restaurante=" + restaurante + ", total=" + total + '}';
+        return "ItemPedido{" + "item=" + item + ", cantidad=" + cantidad + ", restaurante=" + restaurante + ", total=" + precio + '}';
     }
 
 }
