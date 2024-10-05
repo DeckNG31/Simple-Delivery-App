@@ -6,7 +6,8 @@ package isi.deso.tp;
 
 import exceptions.ItemNoEncontradoException;
 import isi.deso.tp.menu.ItemPedido;
-import java.util.ArrayList;
+import isi.deso.tp.metodos.pago.MetodoPago;
+import isi.deso.tp.usuarios.Cliente;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,18 +16,31 @@ import java.util.stream.Collectors;
  *
  * @author Deck
  */
-public class ItemPedidoMemory implements ItemsPedidoDao{
-    
+public class ItemPedidoMemory implements ItemsPedidoDao {
+
     public List<ItemPedido> itemsPedido;  //""""Simula"""" la BD
+    public Cliente cliente;
+    private MetodoPago metodoPago;
+    private EstadoPedido estado;
 
     public ItemPedidoMemory() {
     }
-   
 
-    public ItemPedidoMemory(List<ItemPedido> itemsPedido) {
-        this.itemsPedido = new ArrayList<>();
+    public ItemPedidoMemory(List<ItemPedido> itemsPedido, Cliente cliente, MetodoPago metodoPago) {
+        this.itemsPedido = itemsPedido;
+        this.cliente = cliente;
+        this.metodoPago = metodoPago;
+        this.estado = EstadoPedido.REALIZADO;
     }
-    
+
+    public void pagar() {
+        this.metodoPago.pagar();
+    }
+
+    @Override
+    public String toString() {
+        return "ItemPedidoMemory{" + "itemsPedido=" + itemsPedido + ", cliente=" + cliente + '}';
+    }
 
     @Override
     public List<ItemPedido> getTodosItems() {
@@ -35,47 +49,50 @@ public class ItemPedidoMemory implements ItemsPedidoDao{
 
     @Override
     public List<ItemPedido> ordernarPorPrecio(boolean asc) {
-    List<ItemPedido> resultado = itemsPedido.stream()
-    .sorted(asc ? Comparator.comparing(ItemPedido::getPrecio) : Comparator.comparing(ItemPedido::getPrecio).reversed())
-    .collect(Collectors.toList());     
-    
-    /*NOTA!!!
-    ItemPedido::getPrecio es equivalente a item -> item.getPrecio() , pero es mas compacto claramente            
-    */
-    
-    if(resultado.isEmpty()) throw new ItemNoEncontradoException("Item No Encontrado");
-       
-     return resultado;
-    
+        List<ItemPedido> resultado = itemsPedido.stream()
+                .sorted(asc ? Comparator.comparing(ItemPedido::getTotal) : Comparator.comparing(ItemPedido::getTotal).reversed())
+                .collect(Collectors.toList());
+
+        /*NOTA!!!
+    ItemPedido::getPrecio es equivalente a item -> item.getPrecio() , pero es mas compacto claramente
+         */
+        if (resultado.isEmpty()) {
+            throw new ItemNoEncontradoException("Item No Encontrado");
+        }
+
+        return resultado;
+
     }
 
     @Override
     public List<ItemPedido> buscarPorRangoDePrecios(double precioMin, double precioMax) {
-       List <ItemPedido> resultado = itemsPedido.stream()
-       .filter(item -> item.getPrecio() >= precioMin && item.getPrecio()<=precioMax)
-       .collect(Collectors.toList());
+        List<ItemPedido> resultado = itemsPedido.stream()
+                .filter(item -> item.getTotal() >= precioMin && item.getTotal() <= precioMax)
+                .collect(Collectors.toList());
 
-       if(resultado.isEmpty()) throw new ItemNoEncontradoException("Item No Encontrado");
-       
-       return resultado;
+        if (resultado.isEmpty()) {
+            throw new ItemNoEncontradoException("Item No Encontrado");
+        }
+
+        return resultado;
     }
 
     @Override
     public List<ItemPedido> buscarPorRestaurante(String restaurante) {
-    List<ItemPedido> resultado = itemsPedido.stream()
-    .filter(item-> item.getRestaurante().equalsIgnoreCase(restaurante))
-    .collect(Collectors.toList());
-    
-    /*
+        List<ItemPedido> resultado = itemsPedido.stream()
+                .filter(item -> item.getRestaurante().equalsIgnoreCase(restaurante))
+                .collect(Collectors.toList());
+
+        /*
     NOTA!!!:
     equalsIgnoreCase no tiene en cuenta mayusculas y minusculas , esto es bueno porque por ahi se pone el nombre
     del mismo restaurante en minus o mayus y queremos que se tome por lo mismo
-    */
-    
-    if(resultado.isEmpty()) throw new ItemNoEncontradoException("Item No Encontrado");
-    
-    return resultado;
+         */
+        if (resultado.isEmpty()) {
+            throw new ItemNoEncontradoException("Item No Encontrado");
+        }
+
+        return resultado;
     }
-    
- 
+
 }

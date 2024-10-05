@@ -4,48 +4,55 @@
  */
 package isi.deso.tp.menu;
 
+import isi.deso.tp.usuarios.Vendedor;
+
 /**
  *
  * @author Deck
  */
 public class ItemPedido {
 
-private String nombre;
-private Double precio;
-private String restaurante;
+    private ItemMenu item;
+    private Integer cantidad;
+    private Vendedor vendedor;
+    private String restaurante;
+    private Double total = 0.0;
 
-  public ItemPedido(String nombre, Double precio, String restaurante) {
-      this.nombre = nombre;
-      this.precio = precio;
-     this.restaurante = restaurante;
+    public ItemPedido(ItemMenu item, Integer cantidad, Vendedor vendedor) {
+        this.item = item;
+        this.cantidad = cantidad;
+        this.vendedor = vendedor;
+        this.restaurante = vendedor.getNombre();
+        this.total = cantidad * item.getPrecio();
     }
 
-    public String getNombre() {
-        return nombre;
+    public Double getTotal() {
+        return total;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public ItemMenu getItem() {
+        return item;
     }
 
-    public Double getPrecio() {
-        return precio;
+    public void setItem(ItemMenu item) {
+        this.item = item;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
     public String getRestaurante() {
         return restaurante;
     }
 
-    public void setRestaurante(String restaurante) {
-        this.restaurante = restaurante;
+    @Override
+    public String toString() {
+        return "ItemPedido{" + "item=" + item + ", cantidad=" + cantidad + ", restaurante=" + restaurante + ", total=" + total + '}';
     }
-   
-  
-  
 
-    
 }
