@@ -10,5 +10,5 @@ package isi.deso.tp;
  */
 public enum EstadoPedido {
     RECIBIDO,
-    REALIZADO
+    EN_ENVIO
 }

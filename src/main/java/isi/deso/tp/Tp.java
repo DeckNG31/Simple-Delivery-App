@@ -3,6 +3,7 @@
  */
 package isi.deso.tp;
 
+
 import isi.deso.tp.menu.Bebida;
 import isi.deso.tp.menu.ItemPedido;
 import isi.deso.tp.menu.Plato;
@@ -23,7 +24,8 @@ public class Tp {
         //etapa1Pruebas();
         //etapa2Pruebas();
         //etapa3Pruebas();
-        etapa4Pruebas();
+        //etapa4Pruebas();
+        etapa5Pruebas();
     }
 
     //metodos de prueba de etapas
@@ -153,5 +155,39 @@ public class Tp {
 
         detallePedido.pagar();
 
+    }
+
+    public static void etapa5Pruebas(){
+      // Crear los 3 vendedores
+        Vendedor v1 = new Vendedor(1, "La Parrillita", "Calle Falsa 123", new Coordenada(-34.603722, -58.381592));
+
+        // Añadir platos y bebidas
+        v1.AddItemMenu(new Plato(500.0, false, 1, "Asado Completo", "Asado con achuras y guarnición", 1200.0, false, 1.2));
+        v1.AddItemMenu(new Plato(300.0, true, 2, "Provoleta", "Queso provolone a la parrilla con orégano", 550.0, true, 0.3));
+        v1.AddItemMenu(new Bebida(500.0, 4.5, 3, "Vino Malbec", "Vino tinto Malbec de reserva", 700.0, false, 0.75));
+
+        //cliente
+        Cliente c1 = new Cliente(0, "20-43427317-0", "benshapozzi@gmail.com", "Sauce 1120", new Coordenada(-53, -23), "Benjamin");
+
+        //generamos pedido
+        List<ItemPedido> pedidos_c1 = new ArrayList();
+
+        pedidos_c1.add(new ItemPedido(v1.getBebidas().get(0), 3, v1));
+        pedidos_c1.add(new ItemPedido(v1.getPlatos().get(0), 1, v1));
+
+        //creamos un metodo de pago
+        MetodoPago mercadoPago = new MercadoPago("la.parri.mp");
+
+        //cargamos los pedidos a memoria
+        ItemPedidoMemory detallePedido_c1 = new ItemPedidoMemory(pedidos_c1, c1);
+        detallePedido_c1.setStrategyPago(mercadoPago);
+
+        //vendedor puede buscar todos los pedidos que le llegaron por estado y puede actualizar el estado
+        
+        //agregamos los pedidos al vendedor
+        v1.addPedido(detallePedido_c1);
+        //el vendedor obtiene el pedido y le setea un estado
+        v1.getListPedidos().get(0).setEstado(EstadoPedido.EN_ENVIO);
+        
     }
 }

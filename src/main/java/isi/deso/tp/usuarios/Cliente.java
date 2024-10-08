@@ -4,6 +4,7 @@
  */
 package isi.deso.tp.usuarios;
 
+import isi.deso.tp.SuscriptorPedido;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author Deck
  */
-public class Cliente {
+public class Cliente implements SuscriptorPedido{
     private int id;
     private String cuit;
     private String email;
@@ -112,6 +113,11 @@ public class Cliente {
        }
        return clientes;
    }
+
+    @Override
+    public void update() {
+        //aca va la logica que se ejecuta cuando el vendedor cambia el estado del pedido al que el cliente se suscribió
+    }
     
     
 }

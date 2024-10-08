@@ -4,6 +4,7 @@
  */
 package isi.deso.tp.usuarios;
 
+import isi.deso.tp.ItemPedidoMemory;
 import isi.deso.tp.menu.Bebida;
 import isi.deso.tp.menu.ItemMenu;
 import isi.deso.tp.menu.Plato;
@@ -21,6 +22,19 @@ public class Vendedor {
     private String direccion;
     private Coordenada coord;
     private List<ItemMenu> listItems = new ArrayList();
+    private List<ItemPedidoMemory> listPedidos = new ArrayList();
+
+    public List<ItemPedidoMemory> getListPedidos() {
+        return listPedidos;
+    }
+
+    public void setListPedidos(List<ItemPedidoMemory> listPedidos) {
+        this.listPedidos = listPedidos;
+    }
+
+    public void addPedido(ItemPedidoMemory pedido) {
+        this.listPedidos.add(pedido);
+    }
 
     public int getId() {
         return id;

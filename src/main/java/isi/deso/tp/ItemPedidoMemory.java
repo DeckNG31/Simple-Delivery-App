@@ -24,6 +24,16 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
     private MetodoPago metodoPago;
     private EstadoPedido estado;
 
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoPedido estado) {
+        this.estado = estado;
+    }
+
+    
+    
     public ItemPedidoMemory() {
     }
 
