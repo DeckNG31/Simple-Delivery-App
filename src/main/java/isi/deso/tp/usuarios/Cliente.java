@@ -4,6 +4,8 @@
  */
 package isi.deso.tp.usuarios;
 
+import exceptions.ItemNoEncontradoException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,29 +91,33 @@ public class Cliente {
     public String toString() {
         return "Cliente{" + "id=" + id + ", cuit=" + cuit + ", email=" + email + ", direccion=" + direccion + ", coord=" + coord + ", nombre=" + nombre + '}';
     }
-    
-    
-    
-      public static List<Cliente> buscarCliente(int id , List<Cliente> listaCliente){
-       List <Cliente> clientes = new ArrayList<Cliente>(); 
-       
-       for(Cliente cliente : listaCliente){
-           if(cliente.getId() == id){
-               clientes.add(cliente); 
-               return clientes;
-           }
-       }
-          return clientes;
-   }
-   
- public static List<Cliente> buscarCliente(String nombre , List<Cliente> listaCliente){
-       List <Cliente> clientes = new ArrayList<Cliente>();
-       nombre = nombre.toLowerCase();
-       for(Cliente cliente : listaCliente){
-           if(nombre.equals(cliente.getNombre())) clientes.add(cliente);
-       }
-       return clientes;
-   }
+
+
+
+    public static List<Cliente> buscarCliente(int id, List<Cliente> listaCliente) {
+        List<Cliente> clientes = new ArrayList<>();
+        for (Cliente cliente : listaCliente) {
+            if (cliente.getId() == id) {
+                clientes.add(cliente);
+                return clientes;
+            }
+        }
+        throw new ItemNoEncontradoException("Cliente con ID " + id + " no encontrado.");
+    }
+
+    public static List<Cliente> buscarCliente(String nombre, List<Cliente> listaCliente) {
+        List<Cliente> clientes = new ArrayList<>();
+        nombre = nombre.toLowerCase();
+        for (Cliente cliente : listaCliente) {
+            if (nombre.equals(cliente.getNombre())) {
+                clientes.add(cliente);
+            }
+        }
+        if (clientes.isEmpty()) {
+            throw new ItemNoEncontradoException("Cliente con nombre " + nombre + " no encontrado.");
+        }
+        return clientes;
+    }
     
     
 }
