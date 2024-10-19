@@ -4,6 +4,7 @@
  */
 package isi.deso.tp.usuarios;
 
+
 import isi.deso.tp.EstadoPedido;
 import isi.deso.tp.ItemPedidoMemory;
 import isi.deso.tp.SuscriptorPedido;
@@ -93,6 +94,7 @@ public class Cliente implements SuscriptorPedido {
         return "Cliente{" + "id=" + id + ", cuit=" + cuit + ", email=" + email + ", direccion=" + direccion + ", coord=" + coord + ", nombre=" + nombre + '}';
     }
 
+
     public static List<Cliente> buscarCliente(int id, List<Cliente> listaCliente) {
         List<Cliente> clientes = new ArrayList<Cliente>();
 
@@ -102,17 +104,20 @@ public class Cliente implements SuscriptorPedido {
                 return clientes;
             }
         }
+
         return clientes;
     }
 
     public static List<Cliente> buscarCliente(String nombre, List<Cliente> listaCliente) {
         List<Cliente> clientes = new ArrayList<Cliente>();
+
         nombre = nombre.toLowerCase();
         for (Cliente cliente : listaCliente) {
             if (nombre.equals(cliente.getNombre())) {
                 clientes.add(cliente);
             }
         }
+
         return clientes;
     }
 

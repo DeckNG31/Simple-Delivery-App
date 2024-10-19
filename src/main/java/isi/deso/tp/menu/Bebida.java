@@ -10,8 +10,8 @@ package isi.deso.tp.menu;
  */
 public class Bebida extends ItemMenu {
 
-    Double volumen;
-    Double graduacionAlcohol;
+    private Double volumen;
+    private Double graduacionAlcohol;
 
     public Bebida() {
     }

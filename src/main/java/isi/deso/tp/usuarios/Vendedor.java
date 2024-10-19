@@ -4,7 +4,9 @@
  */
 package isi.deso.tp.usuarios;
 
+
 import isi.deso.tp.ItemPedidoMemory;
+
 import isi.deso.tp.menu.Bebida;
 import isi.deso.tp.menu.ItemMenu;
 import isi.deso.tp.menu.Plato;
@@ -93,18 +95,21 @@ public class Vendedor {
                 return nombre;
             }
         }
-        return nombre;
+        throw new ItemNoEncontradoException("Vendedor con ID " + id + " no encontrado.");
     }
 
     public static List<Vendedor> buscarVendedor(String nombre, List<Vendedor> v) {
-        List<Vendedor> segundo_nombre = new ArrayList<Vendedor>();
+        List<Vendedor> listaVendedores = new ArrayList<Vendedor>();
         nombre = nombre.toLowerCase();
         for (Vendedor vendedor : v) {
             if (nombre.equals(vendedor.getNombre().toLowerCase())) {
-                segundo_nombre.add(vendedor);
+                listaVendedores.add(vendedor);
             }
         }
-        return segundo_nombre;
+        if (listaVendedores.isEmpty()) {
+            throw new ItemNoEncontradoException("Vendedor con nombre " + nombre + " no encontrado.");
+        }
+        return listaVendedores;
     }
 
     public double distancia(Cliente cliente) {
