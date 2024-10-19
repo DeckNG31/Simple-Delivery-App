@@ -19,10 +19,12 @@ import java.util.stream.Collectors;
  * @author Deck
  */
 public class ItemPedidoMemory implements ItemsPedidoDao {
+
     
     public List<ItemPedido> itemsPedido;  //""""Simula"""" la BD
     public Cliente cliente;
     public Integer vendedorId;
+
     private EstadoPedido estado;
 
     //Patron observer
@@ -85,9 +87,6 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
                 .sorted(asc ? Comparator.comparing(ItemPedido::getPrecio) : Comparator.comparing(ItemPedido::getPrecio).reversed())
                 .collect(Collectors.toList());
 
-        /*NOTA!!!
-    ItemPedido::getPrecio es equivalente a item -> item.getPrecio() , pero es mas compacto claramente
-         */
         if (resultado.isEmpty()) {
             throw new ItemNoEncontradoException("Item No Encontrado");
         }
@@ -115,11 +114,6 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
                 .filter(item -> item.getRestaurante().equalsIgnoreCase(restaurante))
                 .collect(Collectors.toList());
 
-        /*
-    NOTA!!!:
-    equalsIgnoreCase no tiene en cuenta mayusculas y minusculas , esto es bueno porque por ahi se pone el nombre
-    del mismo restaurante en minus o mayus y queremos que se tome por lo mismo
-         */
         if (resultado.isEmpty()) {
             throw new ItemNoEncontradoException("Item No Encontrado");
         }
