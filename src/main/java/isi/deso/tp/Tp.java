@@ -148,11 +148,11 @@ public class Tp {
 
         //cargamos los pedidos a memoria
         ItemPedidoMemory detallePedido = new ItemPedidoMemory(pedidos_c1, c1);
-        detallePedido.setStrategyPago(mercadoPago);
+        //detallePedido.setStrategyPago(mercadoPago);
 
-        System.out.println(detallePedido.toString());
+        //System.out.println(detallePedido.toString());
 
-        detallePedido.pagar();
+        //detallePedido.pagar();
 
     }
 
@@ -191,7 +191,7 @@ public class Tp {
         v1.addPedido(detallePedido_c1);
         
         //el vendedor obtiene el pedido y le setea un estado
-        v1.getListPedidos().get(0).setEstado(EstadoPedido.ACEPTADO);
+        v1.getListPedidos().get(0).setEstado(EstadoPedido.ACEPTADO); //deberia pagar
         
         
         v1.getListPedidos().get(0).setEstado(EstadoPedido.EN_ENVIO);

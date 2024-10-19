@@ -9,6 +9,7 @@ import isi.deso.tp.ItemPedidoMemory;
 import isi.deso.tp.SuscriptorPedido;
 import isi.deso.tp.metodos.pago.MercadoPago;
 import isi.deso.tp.metodos.pago.MetodoPago;
+import isi.deso.tp.metodos.pago.Pago;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,15 +120,16 @@ public class Cliente implements SuscriptorPedido {
     public void update(ItemPedidoMemory p) {
         //aca va la logica que se ejecuta cuando el vendedor cambia el estado del pedido al que el cliente se suscribió
         System.out.println("Cliente: " + this.nombre + " ,Estado: " + p.getEstado());
-        if(p.getEstado() == EstadoPedido.ACEPTADO){
+        if(p.getEstado() == EstadoPedido.ACEPTADO && p.cliente.getId() == this.id){
             
+            Pago factura = new Pago(p);
             //setea estrategia
             MetodoPago mercadoPago = new MercadoPago("la.parri.mp");
             
-            p.setStrategyPago(mercadoPago);
+            factura.setStrategyPago(mercadoPago);
              
             
-            p.pagar();
+            factura.pagar();
         }
     }
 

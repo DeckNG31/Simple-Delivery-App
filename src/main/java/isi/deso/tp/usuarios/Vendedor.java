@@ -34,6 +34,7 @@ public class Vendedor {
 
     public void addPedido(ItemPedidoMemory pedido) {
         this.listPedidos.add(pedido);
+        pedido.setVendedor(this.id);
     }
 
     public int getId() {
