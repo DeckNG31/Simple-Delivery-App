@@ -4,7 +4,11 @@
  */
 package isi.deso.tp.usuarios;
 
+import isi.deso.tp.EstadoPedido;
+import isi.deso.tp.ItemPedidoMemory;
 import isi.deso.tp.SuscriptorPedido;
+import isi.deso.tp.metodos.pago.MercadoPago;
+import isi.deso.tp.metodos.pago.MetodoPago;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,16 +16,16 @@ import java.util.List;
  *
  * @author Deck
  */
-public class Cliente implements SuscriptorPedido{
+public class Cliente implements SuscriptorPedido {
+
     private int id;
     private String cuit;
     private String email;
     private String direccion;
     private Coordenada coord;
     private String nombre;
-    
-    //Getters and Setters
 
+    //Getters and Setters
     public int getId() {
         return id;
     }
@@ -69,11 +73,8 @@ public class Cliente implements SuscriptorPedido{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
-    
 
-    public Cliente(int id, String cuit, String email, String direccion, Coordenada coord , String nombre) {
+    public Cliente(int id, String cuit, String email, String direccion, Coordenada coord, String nombre) {
         this.id = id;
         this.cuit = cuit;
         this.email = email;
@@ -81,43 +82,53 @@ public class Cliente implements SuscriptorPedido{
         this.coord = coord;
         this.nombre = nombre;
     }
-    
-    public Cliente(){
-        
+
+    public Cliente() {
+
     }
 
     @Override
     public String toString() {
         return "Cliente{" + "id=" + id + ", cuit=" + cuit + ", email=" + email + ", direccion=" + direccion + ", coord=" + coord + ", nombre=" + nombre + '}';
     }
-    
-    
-    
-      public static List<Cliente> buscarCliente(int id , List<Cliente> listaCliente){
-       List <Cliente> clientes = new ArrayList<Cliente>(); 
-       
-       for(Cliente cliente : listaCliente){
-           if(cliente.getId() == id){
-               clientes.add(cliente); 
-               return clientes;
-           }
-       }
-          return clientes;
-   }
-   
- public static List<Cliente> buscarCliente(String nombre , List<Cliente> listaCliente){
-       List <Cliente> clientes = new ArrayList<Cliente>();
-       nombre = nombre.toLowerCase();
-       for(Cliente cliente : listaCliente){
-           if(nombre.equals(cliente.getNombre())) clientes.add(cliente);
-       }
-       return clientes;
-   }
+
+    public static List<Cliente> buscarCliente(int id, List<Cliente> listaCliente) {
+        List<Cliente> clientes = new ArrayList<Cliente>();
+
+        for (Cliente cliente : listaCliente) {
+            if (cliente.getId() == id) {
+                clientes.add(cliente);
+                return clientes;
+            }
+        }
+        return clientes;
+    }
+
+    public static List<Cliente> buscarCliente(String nombre, List<Cliente> listaCliente) {
+        List<Cliente> clientes = new ArrayList<Cliente>();
+        nombre = nombre.toLowerCase();
+        for (Cliente cliente : listaCliente) {
+            if (nombre.equals(cliente.getNombre())) {
+                clientes.add(cliente);
+            }
+        }
+        return clientes;
+    }
 
     @Override
-    public void update() {
+    public void update(ItemPedidoMemory p) {
         //aca va la logica que se ejecuta cuando el vendedor cambia el estado del pedido al que el cliente se suscribió
+        System.out.println("Cliente: " + this.nombre + " ,Estado: " + p.getEstado());
+        if(p.getEstado() == EstadoPedido.ACEPTADO){
+            
+            //setea estrategia
+            MetodoPago mercadoPago = new MercadoPago("la.parri.mp");
+            
+            p.setStrategyPago(mercadoPago);
+             
+            
+            p.pagar();
+        }
     }
-    
-    
+
 }

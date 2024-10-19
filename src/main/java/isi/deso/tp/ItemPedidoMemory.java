@@ -8,6 +8,7 @@ import exceptions.ItemNoEncontradoException;
 import isi.deso.tp.menu.ItemPedido;
 import isi.deso.tp.metodos.pago.MetodoPago;
 import isi.deso.tp.usuarios.Cliente;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,16 +25,30 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
     private MetodoPago metodoPago;
     private EstadoPedido estado;
 
-    public EstadoPedido getEstado() {
-        return estado;
+    //TODO: calcular total metodo
+    
+    //Patron observer
+    private List<Cliente> clientesSuscriptos = new ArrayList(); //clientes que se quieren enterar de este pedido
+
+    public void addSuscriptor(Cliente c) {
+        clientesSuscriptos.add(c);
+    }
+
+    public void removeSuscriptor(Cliente c) {
+        clientesSuscriptos.remove(c);
     }
 
     public void setEstado(EstadoPedido estado) {
         this.estado = estado;
+        //notificar a clientes (observer)
+        clientesSuscriptos.stream().forEach(c -> c.update(this));
     }
 
-    
-    
+
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+
     public ItemPedidoMemory() {
     }
 
@@ -48,6 +63,8 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
     }
 
     public void pagar() {
+        //crear Pagar class
+        
         this.metodoPago.pagar();
     }
 

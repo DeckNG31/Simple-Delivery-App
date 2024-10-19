@@ -1,11 +1,1 @@
-isi\deso\tp\menu\ItemMenu.class
-isi\deso\tp\menu\Bebida.class
-isi\deso\tp\metodos\pago\Transferencia.class
-isi\deso\tp\menu\Plato.class
-isi\deso\tp\metodos\pago\MercadoPago.class
-isi\deso\tp\metodos\pago\MetodoPago.class
-isi\deso\tp\EstadoPedido.class
-exceptions\ItemNoEncontradoException.class
-isi\deso\tp\ItemsPedidoDao.class
-isi\deso\tp\ItemPedidoMemory.class
-isi\deso\tp\menu\ItemPedido.class
+isi/deso/tp/SuscriptorPedido.class

@@ -3,7 +3,6 @@
  */
 package isi.deso.tp;
 
-
 import isi.deso.tp.menu.Bebida;
 import isi.deso.tp.menu.ItemPedido;
 import isi.deso.tp.menu.Plato;
@@ -157,8 +156,8 @@ public class Tp {
 
     }
 
-    public static void etapa5Pruebas(){
-      // Crear los 3 vendedores
+    public static void etapa5Pruebas() {
+        // Crear los 3 vendedores
         Vendedor v1 = new Vendedor(1, "La Parrillita", "Calle Falsa 123", new Coordenada(-34.603722, -58.381592));
 
         // Añadir platos y bebidas
@@ -168,6 +167,7 @@ public class Tp {
 
         //cliente
         Cliente c1 = new Cliente(0, "20-43427317-0", "benshapozzi@gmail.com", "Sauce 1120", new Coordenada(-53, -23), "Benjamin");
+        Cliente c2 = new Cliente(1, "20-43113753-5", "marianitocapox@outlook.net", "Calle 123", new Coordenada(134.5, 242.7), "Mariano");
 
         //generamos pedido
         List<ItemPedido> pedidos_c1 = new ArrayList();
@@ -175,19 +175,30 @@ public class Tp {
         pedidos_c1.add(new ItemPedido(v1.getBebidas().get(0), 3, v1));
         pedidos_c1.add(new ItemPedido(v1.getPlatos().get(0), 1, v1));
 
-        //creamos un metodo de pago
-        MetodoPago mercadoPago = new MercadoPago("la.parri.mp");
+       
+       
 
         //cargamos los pedidos a memoria
         ItemPedidoMemory detallePedido_c1 = new ItemPedidoMemory(pedidos_c1, c1);
-        detallePedido_c1.setStrategyPago(mercadoPago);
+       
+
+        //suscribir al cliente 
+        detallePedido_c1.addSuscriptor(c1);
+        detallePedido_c1.addSuscriptor(c2);
 
         //vendedor puede buscar todos los pedidos que le llegaron por estado y puede actualizar el estado
-        
         //agregamos los pedidos al vendedor
         v1.addPedido(detallePedido_c1);
+        
         //el vendedor obtiene el pedido y le setea un estado
+        v1.getListPedidos().get(0).setEstado(EstadoPedido.ACEPTADO);
+        
+        
         v1.getListPedidos().get(0).setEstado(EstadoPedido.EN_ENVIO);
         
+        
+        v1.getListPedidos().get(0).setEstado(EstadoPedido.RECIBIDO);
     }
+
+   
 }

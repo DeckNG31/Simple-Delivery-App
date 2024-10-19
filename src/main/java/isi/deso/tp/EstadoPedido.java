@@ -9,6 +9,7 @@ package isi.deso.tp;
  * @author maria
  */
 public enum EstadoPedido {
+    ACEPTADO,
     RECIBIDO,
     EN_ENVIO
 }

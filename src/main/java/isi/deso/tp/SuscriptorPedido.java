@@ -9,5 +9,5 @@ package isi.deso.tp;
  * @author st
  */
 public interface SuscriptorPedido {
-    public void update();
+    public void update(ItemPedidoMemory p);
 }
