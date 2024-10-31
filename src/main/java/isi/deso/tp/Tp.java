@@ -11,6 +11,10 @@ import isi.deso.tp.metodos.pago.MetodoPago;
 import isi.deso.tp.usuarios.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
+import view.ListaVendedorVista;
 
 /**
  *
@@ -24,7 +28,12 @@ public class Tp {
         //etapa2Pruebas();
         //etapa3Pruebas();
         //etapa4Pruebas();
-        etapa5Pruebas();
+        //etapa5Pruebas();
+        SwingUtilities.invokeLater(() -> {
+            new ListaVendedorVista().setVisible(true);
+
+        });
+
     }
 
     //metodos de prueba de etapas
@@ -151,9 +160,7 @@ public class Tp {
         //detallePedido.setStrategyPago(mercadoPago);
 
         //System.out.println(detallePedido.toString());
-
         //detallePedido.pagar();
-
     }
 
     public static void etapa5Pruebas() {
@@ -175,12 +182,8 @@ public class Tp {
         pedidos_c1.add(new ItemPedido(v1.getBebidas().get(0), 3, v1));
         pedidos_c1.add(new ItemPedido(v1.getPlatos().get(0), 1, v1));
 
-       
-       
-
         //cargamos los pedidos a memoria
         ItemPedidoMemory detallePedido_c1 = new ItemPedidoMemory(pedidos_c1, c1);
-       
 
         //suscribir al cliente 
         detallePedido_c1.addSuscriptor(c1);
@@ -189,16 +192,13 @@ public class Tp {
         //vendedor puede buscar todos los pedidos que le llegaron por estado y puede actualizar el estado
         //agregamos los pedidos al vendedor
         v1.addPedido(detallePedido_c1);
-        
+
         //el vendedor obtiene el pedido y le setea un estado
         v1.getListPedidos().get(0).setEstado(EstadoPedido.ACEPTADO); //deberia pagar
-        
-        
+
         v1.getListPedidos().get(0).setEstado(EstadoPedido.EN_ENVIO);
-        
-        
+
         v1.getListPedidos().get(0).setEstado(EstadoPedido.RECIBIDO);
     }
 
-   
 }
