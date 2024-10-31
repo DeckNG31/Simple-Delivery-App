@@ -5,6 +5,7 @@
 package isi.deso.tp.usuarios;
 
 
+import exceptions.ItemNoEncontradoException;
 import isi.deso.tp.ItemPedidoMemory;
 
 import isi.deso.tp.menu.Bebida;
@@ -67,6 +68,10 @@ public class Vendedor {
         return coord;
     }
 
+    public String getCoordString() {
+        return  coord.getLat() + ", " + coord.getLng();
+    }
+    
     public void setCoord(Coordenada coord) {
         this.coord = coord;
     }

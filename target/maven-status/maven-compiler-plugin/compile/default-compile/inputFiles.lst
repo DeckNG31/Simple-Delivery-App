@@ -1,3 +1,5 @@
+/home/mariano/Desktop/Simple-Delivery-App/src/main/java/DAOs/VendedorDAO.java
+/home/mariano/Desktop/Simple-Delivery-App/src/main/java/controllers/VendedorController.java
 /home/mariano/Desktop/Simple-Delivery-App/src/main/java/exceptions/ItemNoEncontradoException.java
 /home/mariano/Desktop/Simple-Delivery-App/src/main/java/isi/deso/tp/EstadoPedido.java
 /home/mariano/Desktop/Simple-Delivery-App/src/main/java/isi/deso/tp/ItemPedidoMemory.java
@@ -15,3 +17,8 @@
 /home/mariano/Desktop/Simple-Delivery-App/src/main/java/isi/deso/tp/usuarios/Cliente.java
 /home/mariano/Desktop/Simple-Delivery-App/src/main/java/isi/deso/tp/usuarios/Coordenada.java
 /home/mariano/Desktop/Simple-Delivery-App/src/main/java/isi/deso/tp/usuarios/Vendedor.java
+/home/mariano/Desktop/Simple-Delivery-App/src/main/java/memories/VendedorMemory.java
+/home/mariano/Desktop/Simple-Delivery-App/src/main/java/view/CrearVendedorVista.java
+/home/mariano/Desktop/Simple-Delivery-App/src/main/java/view/EditaVendedorVista.java
+/home/mariano/Desktop/Simple-Delivery-App/src/main/java/view/ListaVendedorVista.java
+/home/mariano/Desktop/Simple-Delivery-App/src/main/java/view/PrincipalVista.java
