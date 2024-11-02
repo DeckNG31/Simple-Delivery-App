@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import memories.VendedorMemory;
 import view.vendedor.ListaVendedorVista;
 import view.MainVista;
 
@@ -30,6 +31,11 @@ public class Tp {
         //etapa3Pruebas();
         //etapa4Pruebas();
         //etapa5Pruebas();
+        VendedorMemory vm = VendedorMemory.getInstance();
+        vm.crearVendedor("Toreto", "Chaco 12", new Coordenada(-60.7413545, -60.5405618));
+        vm.crearVendedor("Evaristo", "California 2445", new Coordenada(-31.7413545, -60.5405618));
+        vm.crearVendedor("Rodney Sacks", "New York 324", new Coordenada(-37.7413945, -10.5405818));
+        vm.crearVendedor("Evaristo", "Zapallito 352", new Coordenada(-55.7413945, -10.5405818));
         SwingUtilities.invokeLater(() -> {
             JFrame main = new MainVista();
             main.setLocationRelativeTo(null);
@@ -38,7 +44,7 @@ public class Tp {
         });
 
     }
-
+    /*
     //metodos de prueba de etapas
     public static void etapa1Pruebas() {
         Vendedor v1 = new Vendedor(0, "Toreto", "Chaco 12", new Coordenada(-60.7413545, -60.5405618));
@@ -118,7 +124,7 @@ public class Tp {
     }
 
     public static void etapa3Pruebas() {
-        /*
+        
         List<ItemPedido> lista = null;
         ItemPedidoMemory gestionItems = new ItemPedidoMemory(lista);
 
@@ -134,7 +140,7 @@ public class Tp {
         } catch (ItemNoEncontradoException e) {
             System.out.println(e.getMessage());
         }
-         */
+         
     }
 
     public static void etapa4Pruebas() {
@@ -203,5 +209,5 @@ public class Tp {
 
         v1.getListPedidos().get(0).setEstado(EstadoPedido.RECIBIDO);
     }
-
+     */
 }

@@ -4,9 +4,6 @@
  */
 package view.ItemMenu;
 
-import view.cliente.*;
-import view.cliente.*;
-import controllers.ClienteController;
 import helpers.HelpersVista;
 import java.awt.event.KeyEvent;
 import javax.swing.RowFilter;
@@ -107,7 +104,7 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
             tablaClientes.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        jButton1.setText("Agregar Cliente");
+        jButton1.setText("Agregar Plato");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -122,7 +119,7 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Cliente");
+        jLabel5.setText("ItemsMenu");
 
         jButton2.setText("<- Volver");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -213,7 +210,7 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        HelpersVista.cambiarVentana(this, CrearItemMenuVista.class);
+        HelpersVista.cambiarVentana(this, CrearPlatoVista.class);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void editarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBtnActionPerformed
@@ -222,7 +219,7 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
             try {
                 Integer clienteId = (Integer) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
 
-                HelpersVista.cambiarVentana(this, EditarItemMenuVista.class, clienteId);
+                HelpersVista.cambiarVentana(this, EditarPlatoVista.class, clienteId);
 
                 System.out.println(clienteId);
             } catch (Exception e) {
@@ -243,7 +240,7 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
                 try {
                     //controller
                     int clienteId = (int) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
-                    ClienteController vc = new ClienteController();
+                    //ClienteController vc = new ClienteController();
                     vm.eliminarCliente(clienteId);
                     model.removeRow(i);
                 } catch (Exception e) {

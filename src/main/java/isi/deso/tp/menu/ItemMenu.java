@@ -17,17 +17,24 @@ public abstract class ItemMenu {
     boolean aptoVegano;
     //Categoria categoria;
     Double peso;
-    
+
     Integer vendedorId; //FK
-    
 
     public abstract Double peso();
 
     public ItemMenu() {
     }
 
-    public ItemMenu(Integer id, String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso,Integer vendedorId) {
+    public ItemMenu(Integer id, String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso, Integer vendedorId) {
         this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.aptoVegano = aptoVegano;
+        this.peso = peso;
+    }
+//sin id
+    public ItemMenu(String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso, Integer vendedorId) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
