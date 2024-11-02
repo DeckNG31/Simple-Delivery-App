@@ -4,7 +4,6 @@
  */
 package isi.deso.tp.usuarios;
 
-
 import isi.deso.tp.EstadoPedido;
 import isi.deso.tp.ItemPedidoMemory;
 import isi.deso.tp.SuscriptorPedido;
@@ -21,11 +20,11 @@ import java.util.List;
 public class Cliente implements SuscriptorPedido {
 
     private int id;
+    private String nombre;
     private String cuit;
     private String email;
     private String direccion;
     private Coordenada coord;
-    private String nombre;
 
     //Getters and Setters
     public int getId() {
@@ -64,6 +63,10 @@ public class Cliente implements SuscriptorPedido {
         return coord;
     }
 
+    public String getCoordString() {
+        return coord.getLat() + ", " + coord.getLng();
+    }
+
     public void setCoord(Coordenada coord) {
         this.coord = coord;
     }
@@ -76,7 +79,7 @@ public class Cliente implements SuscriptorPedido {
         this.nombre = nombre;
     }
 
-    public Cliente(int id, String cuit, String email, String direccion, Coordenada coord, String nombre) {
+    public Cliente(int id, String nombre, String cuit, String email, String direccion, Coordenada coord) {
         this.id = id;
         this.cuit = cuit;
         this.email = email;
@@ -93,7 +96,6 @@ public class Cliente implements SuscriptorPedido {
     public String toString() {
         return "Cliente{" + "id=" + id + ", cuit=" + cuit + ", email=" + email + ", direccion=" + direccion + ", coord=" + coord + ", nombre=" + nombre + '}';
     }
-
 
     public static List<Cliente> buscarCliente(int id, List<Cliente> listaCliente) {
         List<Cliente> clientes = new ArrayList<Cliente>();
@@ -125,15 +127,14 @@ public class Cliente implements SuscriptorPedido {
     public void update(ItemPedidoMemory p) {
         //aca va la logica que se ejecuta cuando el vendedor cambia el estado del pedido al que el cliente se suscribió
         System.out.println("Cliente: " + this.nombre + " ,Estado: " + p.getEstado());
-        if(p.getEstado() == EstadoPedido.ACEPTADO && p.cliente.getId() == this.id){
-            
+        if (p.getEstado() == EstadoPedido.ACEPTADO && p.cliente.getId() == this.id) {
+
             Pago factura = new Pago(p);
             //setea estrategia
             MetodoPago mercadoPago = new MercadoPago("la.parri.mp");
-            
+
             factura.setStrategyPago(mercadoPago);
-             
-            
+
             factura.pagar();
         }
     }

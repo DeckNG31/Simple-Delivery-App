@@ -2,17 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view;
+package view.vendedor;
 
 import controllers.VendedorController;
+import helpers.HelpersVista;
 import java.awt.event.KeyEvent;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import memories.VendedorMemory;
+import view.MainVista;
 
 /**
  *
@@ -124,6 +123,11 @@ public class ListaVendedorVista extends javax.swing.JFrame {
         jLabel5.setText("Vendedor");
 
         jButton2.setText("<- Volver");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         editarBtn.setText("Editar");
         editarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -206,32 +210,24 @@ public class ListaVendedorVista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        CrearVendedorVista secondFrame = new CrearVendedorVista();
-        secondFrame.setVisible(true);
 
-        // Ocultar o cerrar el JFrame actual
-        setVisible(false);
+        HelpersVista.cambiarVentana(this, CrearVendedorVista.class);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void editarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBtnActionPerformed
         // TODO add your handling code here:
         if (tablaVendedores.getSelectedRow() > -1) {
             try {
-                int vendedorId = (int) tablaVendedores.getValueAt(tablaVendedores.getSelectedRow(), 0);
+                Integer vendedorId = (Integer) tablaVendedores.getValueAt(tablaVendedores.getSelectedRow(), 0);
 
-                EditaVendedorVista secondFrame = new EditaVendedorVista(vendedorId);
-                secondFrame.setVisible(true);
-
-                // Ocultar o cerrar el JFrame actual
-                setVisible(false);
+                HelpersVista.cambiarVentana(this, EditarVendedorVista.class, vendedorId);
 
                 System.out.println(vendedorId);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         } else {
-            mostrarMensaje("Selecciona algo !", "Error", "Alerta");
+            HelpersVista.mostrarMensaje("Selecciona algo !", "Error", "Alerta");
         }
 
     }//GEN-LAST:event_editarBtnActionPerformed
@@ -239,7 +235,7 @@ public class ListaVendedorVista extends javax.swing.JFrame {
     private void eliminarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnActionPerformed
         DefaultTableModel model = (DefaultTableModel) tablaVendedores.getModel();
         if (tablaVendedores.getSelectedRows().length < 1) {
-            mostrarMensaje("Selecciona una o mas vendedores !", "Error", "Alerta");
+            HelpersVista.mostrarMensaje("Selecciona una o mas vendedores !", "Error", "Alerta");
         } else {
             for (int i : tablaVendedores.getSelectedRows()) {
                 try {
@@ -262,10 +258,15 @@ public class ListaVendedorVista extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarBtnActionPerformed
 
     private void buscarFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarFieldKeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-        buscar();  // Llama al método buscar solo si se presiona ENTER
-    }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            buscar();  // Llama al método buscar solo si se presiona ENTER
+        }
     }//GEN-LAST:event_buscarFieldKeyPressed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        HelpersVista.cambiarVentana(this, MainVista.class);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public void buscar() {
         String texto = buscarField.getText().trim();
@@ -290,20 +291,6 @@ public class ListaVendedorVista extends javax.swing.JFrame {
         }
     }
 
-    public void mostrarMensaje(String mensaje, String tipoDeMensaje, String titulo) {
-        JOptionPane optionpane = new JOptionPane(mensaje);
-        if (tipoDeMensaje.equals("Info")) {
-            optionpane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            if (tipoDeMensaje.equals("Error")) {
-                optionpane.setMessageType(JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-        JDialog dialog = optionpane.createDialog(titulo);
-        dialog.setAlwaysOnTop(true);
-        dialog.setVisible(true);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscarBtn;

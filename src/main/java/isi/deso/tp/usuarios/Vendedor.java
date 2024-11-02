@@ -24,7 +24,10 @@ public class Vendedor {
     private String nombre;
     private String direccion;
     private Coordenada coord;
+    
     private List<ItemMenu> listItems = new ArrayList();
+    
+    
     private List<ItemPedidoMemory> listPedidos = new ArrayList();
 
     public List<ItemPedidoMemory> getListPedidos() {
@@ -39,6 +42,7 @@ public class Vendedor {
         this.listPedidos.add(pedido);
         pedido.setVendedor(this.id);
     }
+    
 
     public int getId() {
         return id;
@@ -137,7 +141,7 @@ public class Vendedor {
         return 2 * R * Math.asin(Math.sqrt(h));
 
     }
-
+/*
     public void AddItemMenu(ItemMenu item) {
         listItems.add(item);
     }
@@ -185,5 +189,5 @@ public class Vendedor {
         }
         return aux;
     }
-
+*/
 }
