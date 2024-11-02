@@ -17,18 +17,18 @@ public class VendedorController {
 
         VendedorMemory InstanceVendedorMemory = VendedorMemory.getInstance();
 
-        Coordenada cord = new Coordenada(Double.parseDouble(lat), Double.parseDouble(lng));
+        Coordenada coord = new Coordenada(Double.parseDouble(lat), Double.parseDouble(lng));
 
-        InstanceVendedorMemory.crearVendedor(nombre, direccion,cord);
+        InstanceVendedorMemory.crearVendedor(nombre, direccion,coord);
     }
     
     public void editarVendedor(Integer id, String nombre, String direccion, String lat, String lng) {
 
         VendedorMemory InstanceVendedorMemory = VendedorMemory.getInstance();
 
-        Coordenada cord = new Coordenada(Double.parseDouble(lat), Double.parseDouble(lng));
+        Coordenada coord = new Coordenada(Double.parseDouble(lat), Double.parseDouble(lng));
 
-        InstanceVendedorMemory.editarVendedor(id,nombre, direccion,cord);
+        InstanceVendedorMemory.editarVendedor(id,nombre, direccion,coord);
     }
     
     public void eliminarVendedor(Integer id){

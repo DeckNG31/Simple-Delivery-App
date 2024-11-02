@@ -14,7 +14,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import view.ListaVendedorVista;
+import view.vendedor.ListaVendedorVista;
+import view.MainVista;
 
 /**
  *
@@ -30,7 +31,9 @@ public class Tp {
         //etapa4Pruebas();
         //etapa5Pruebas();
         SwingUtilities.invokeLater(() -> {
-            new ListaVendedorVista().setVisible(true);
+            JFrame main = new MainVista();
+            main.setLocationRelativeTo(null);
+            main.setVisible(true);
 
         });
 
@@ -60,9 +63,9 @@ public class Tp {
         //   }
         //  v.remove(0);
         //  v.forEach(element->{System.out.println(element.toString());});
-        Cliente c1 = new Cliente(0, "20-43427317-0", "benshapozzi@gmail.com", "Suecia 1120", new Coordenada(-53, -23), "Benjamin");
-        Cliente c2 = new Cliente(1, "20-43113753-5", "marianitocapox@outlook.net", "Calle 123", new Coordenada(134.5, 242.7), "Mariano");
-        Cliente c3 = new Cliente(2, "20-42272167-6", "dardosanchez2000@gmail.com", "San Martin 1560", new Coordenada(60, 20), "Dardo");
+        Cliente c1 = new Cliente(0, "Benjamin", "20-43427317-0", "benshapozzi@gmail.com", "Suecia 1120", new Coordenada(-53, -23));
+        Cliente c2 = new Cliente(1, "Mariano", "20-43113753-5", "marianitocapox@outlook.net", "Calle 123", new Coordenada(134.5, 242.7));
+        Cliente c3 = new Cliente(2, "Dardo", "20-42272167-6", "dardosanchez2000@gmail.com", "San Martin 1560", new Coordenada(60, 20));
 
         List<Cliente> clientes = new ArrayList<Cliente>();
         clientes.add(c1);
@@ -144,7 +147,7 @@ public class Tp {
         v1.AddItemMenu(new Bebida(500.0, 4.5, 3, "Vino Malbec", "Vino tinto Malbec de reserva", 700.0, false, 0.75));
 
         //cliente
-        Cliente c1 = new Cliente(0, "20-43427317-0", "benshapozzi@gmail.com", "Sauce 1120", new Coordenada(-53, -23), "Benjamin");
+        Cliente c1 = new Cliente(0, "Benjamin", "20-43427317-0", "benshapozzi@gmail.com", "Sauce 1120", new Coordenada(-53, -23));
 
         //generamos pedido
         List<ItemPedido> pedidos_c1 = new ArrayList();
@@ -173,8 +176,8 @@ public class Tp {
         v1.AddItemMenu(new Bebida(500.0, 4.5, 3, "Vino Malbec", "Vino tinto Malbec de reserva", 700.0, false, 0.75));
 
         //cliente
-        Cliente c1 = new Cliente(0, "20-43427317-0", "benshapozzi@gmail.com", "Sauce 1120", new Coordenada(-53, -23), "Benjamin");
-        Cliente c2 = new Cliente(1, "20-43113753-5", "marianitocapox@outlook.net", "Calle 123", new Coordenada(134.5, 242.7), "Mariano");
+        Cliente c1 = new Cliente(0, "Benjamin", "20-43427317-0", "benshapozzi@gmail.com", "Sauce 1120", new Coordenada(-53, -23));
+        Cliente c2 = new Cliente(1, "Mariano", "20-43113753-5", "marianitocapox@outlook.net", "Calle 123", new Coordenada(134.5, 242.7));
 
         //generamos pedido
         List<ItemPedido> pedidos_c1 = new ArrayList();

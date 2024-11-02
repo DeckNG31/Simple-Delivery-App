@@ -17,19 +17,30 @@ public abstract class ItemMenu {
     boolean aptoVegano;
     //Categoria categoria;
     Double peso;
+    
+    Integer vendedorId; //FK
+    
 
     public abstract Double peso();
 
     public ItemMenu() {
     }
 
-    public ItemMenu(Integer id, String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso) {
+    public ItemMenu(Integer id, String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso,Integer vendedorId) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.aptoVegano = aptoVegano;
         this.peso = peso;
+    }
+
+    public Integer getVendedorId() {
+        return vendedorId;
+    }
+
+    public void setVendedorId(Integer vendedorId) {
+        this.vendedorId = vendedorId;
     }
 
     public abstract boolean esComida();
