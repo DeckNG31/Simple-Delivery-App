@@ -59,6 +59,8 @@ public class Plato extends ItemMenu {
         this.aptoCeliaco = aptoCeliaco;
     }
 
+    
+
     public boolean isAptoVegano() {
         return aptoVegano;
     }

@@ -32,6 +32,7 @@ public abstract class ItemMenu {
         this.precio = precio;
         this.aptoVegano = aptoVegano;
         this.peso = peso;
+        this.vendedorId = vendedorId;
     }
 //sin id
     public ItemMenu(String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso, Integer vendedorId) {
@@ -40,6 +41,7 @@ public abstract class ItemMenu {
         this.precio = precio;
         this.aptoVegano = aptoVegano;
         this.peso = peso;
+        this.vendedorId = vendedorId;
     }
 
     public Integer getVendedorId() {

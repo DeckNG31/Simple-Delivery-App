@@ -4,12 +4,15 @@
  */
 package view.ItemMenu;
 
+import controllers.ItemMenuController;
 import helpers.HelpersVista;
+import isi.deso.tp.menu.Bebida;
+import isi.deso.tp.menu.Plato;
 import java.awt.event.KeyEvent;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import memories.ClienteMemory;
+import memories.ItemMenuMemory;
 import view.MainVista;
 
 /**
@@ -18,14 +21,14 @@ import view.MainVista;
  */
 public class ListaItemMenuVista extends javax.swing.JFrame {
 
-    ClienteMemory vm;
+    ItemMenuMemory imm;
 
     /**
      * Creates new form ListaClienteVista
      */
     public ListaItemMenuVista() {
         initComponents();
-        vm = ClienteMemory.getInstance();
+        imm = ItemMenuMemory.getInstance();
 
         llenarTabla();
 
@@ -39,12 +42,46 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
             }
         };
 
-        String titulos[] = {"ID", "Nombre", "CUIT", "Email", "Direccion", "Coordenadas"};
+        String titulos[] = {"ID", "Nombre", "Descripcion", "Precio", "Apto para veganos", "Peso", "Calorias", "Apto para celiacos", "Volumen", "Graduacion Alcohol", "Vendedor"};
         Modelotabla.setColumnIdentifiers(titulos);
 
         // Llenar la tabla con los datos de los clientes
-        vm.clientes.forEach(c -> {
-            Modelotabla.addRow(new Object[]{c.getId(), c.getNombre(), c.getCuit(), c.getEmail(), c.getDireccion(), c.getCoordString()});
+        imm.itemsMenu.forEach(im -> {
+
+            if (im instanceof Plato) {
+                Plato plato = (Plato) im; // Hacemos un casting a Plato
+                Modelotabla.addRow(new Object[]{
+                    plato.getId(),
+                    plato.getNombre(),
+                    plato.getDescripcion(),
+                    plato.getPrecio(),
+                    plato.aptoVegano() ? "Si" : "No",
+                    plato.getPeso(),
+                    plato.getCalorias(),
+                    plato.isAptoCeliaco() ? "Si" : "No",
+                    "--",
+                    "--",
+                    plato.getVendedorId()
+                });
+            }
+
+            if (im instanceof Bebida) {
+                Bebida bebida = (Bebida) im; // Hacemos un casting a Plato
+                Modelotabla.addRow(new Object[]{
+                    bebida.getId(),
+                    bebida.getNombre(),
+                    bebida.getDescripcion(),
+                    bebida.getPrecio(),
+                    bebida.aptoVegano() ? "Si" : "No",
+                    bebida.getPeso(),
+                    "--",
+                    "--",
+                    bebida.getVolumen(),
+                    bebida.getGraduacionAlcohol(),
+                    bebida.getVendedorId()
+                });
+            }
+
         });
 
         // Establecer el modelo en la tabla
@@ -75,6 +112,7 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
         eliminarBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         buscarBtn = new javax.swing.JButton();
+        bebidaBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -149,6 +187,13 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
             }
         });
 
+        bebidaBtn.setText("Agregar Bebida");
+        bebidaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bebidaBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -158,6 +203,8 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bebidaBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buscarBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -182,7 +229,8 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(buscarBtn)
-                    .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bebidaBtn))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -217,11 +265,17 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (tablaClientes.getSelectedRow() > -1) {
             try {
-                Integer clienteId = (Integer) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
+                Integer imtemMenuId = (Integer) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
 
-                HelpersVista.cambiarVentana(this, EditarPlatoVista.class, clienteId);
+                if (imm.buscarItemMenu(imtemMenuId) instanceof Plato) {
+                    HelpersVista.cambiarVentana(this, EditarPlatoVista.class, imtemMenuId);
+                }
 
-                System.out.println(clienteId);
+                if (imm.buscarItemMenu(imtemMenuId) instanceof Bebida) {
+
+                    HelpersVista.cambiarVentana(this, EditarBebidaVista.class, imtemMenuId);
+                }
+
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -234,14 +288,16 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
     private void eliminarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnActionPerformed
         DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();
         if (tablaClientes.getSelectedRows().length < 1) {
-            HelpersVista.mostrarMensaje("Selecciona una o mas clientes !", "Error", "Alerta");
+            HelpersVista.mostrarMensaje("Selecciona una o mas items !", "Error", "Alerta");
         } else {
             for (int i : tablaClientes.getSelectedRows()) {
                 try {
                     //controller
-                    int clienteId = (int) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
-                    //ClienteController vc = new ClienteController();
-                    vm.eliminarCliente(clienteId);
+                    Integer imtemMenuId = (Integer) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
+                    ItemMenuController imc = new ItemMenuController();
+
+                    imc.eliminarItemMenu(imtemMenuId);
+
                     model.removeRow(i);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -266,6 +322,10 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
         // TODO add your handling code here:
         HelpersVista.cambiarVentana(this, MainVista.class);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void bebidaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bebidaBtnActionPerformed
+        HelpersVista.cambiarVentana(this, CrearBebidaVista.class);
+    }//GEN-LAST:event_bebidaBtnActionPerformed
 
     public void buscar() {
         String texto = buscarField.getText().trim();
@@ -292,6 +352,7 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bebidaBtn;
     private javax.swing.JButton buscarBtn;
     private javax.swing.JTextField buscarField;
     private javax.swing.JButton editarBtn;

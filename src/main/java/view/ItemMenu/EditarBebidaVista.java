@@ -6,25 +6,50 @@ package view.ItemMenu;
 
 import controllers.ItemMenuController;
 import helpers.HelpersVista;
+import isi.deso.tp.menu.Bebida;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import memories.ItemMenuMemory;
 import memories.VendedorMemory;
 
 /**
  *
  * @author mariano
  */
-public class CrearPlatoVista extends javax.swing.JFrame {
+public class EditarBebidaVista extends javax.swing.JFrame {
 
-    VendedorMemory vm;
+    public Integer itemMenuId;
+    public Integer vendedorId; //dueño del item menu
+    public ItemMenuMemory imm;
+    public VendedorMemory vm;
 
     /**
-     * Creates new form ClienteVista
+     * Creates new form EditarBebidaVista
      */
-    public CrearPlatoVista() {
-
+    public EditarBebidaVista() {
         initComponents();
+    }
+
+    public EditarBebidaVista(Integer id) {
+        itemMenuId = id;
         vm = VendedorMemory.getInstance();
+        imm = ItemMenuMemory.getInstance();
+        initComponents();
+
+        vendedorId = imm.buscarItemMenu(itemMenuId).getVendedorId();
+
+        //buscar cliente por id
+        Bebida b = (Bebida) imm.buscarItemMenu(id);
+
+        //insertar en fields
+        nombreInput.setText(b.getNombre());
+        descripcionInput.setText(b.getDescripcion());
+        precioInput.setText(b.getPrecio().toString());
+        pesoInput.setText(b.getPeso().toString());
+        volumenInput.setText(b.getVolumen().toString());
+        alcoholInput.setText(b.getGraduacionAlcohol().toString());
+        veganoBox.setSelected(b.aptoVegano());
+
         cargarVendedores();
     }
 
@@ -39,16 +64,30 @@ public class CrearPlatoVista extends javax.swing.JFrame {
         String titulos[] = {"ID", "Nombre"};
         Modelotabla.setColumnIdentifiers(titulos);
 
+        int rowIndexToSelect = -1;
+        int currentIndex = 0;
+
         // Llenar la tabla con los datos de los vendedores
-        vm.vendedores.forEach(v -> {
+        for (var v : vm.vendedores) {
             Modelotabla.addRow(new Object[]{v.getId(), v.getNombre()});
-        });
+
+            if (v.getId() == vendedorId) {
+                vendedorText.setText(v.getId() + ", " + v.getNombre());
+                rowIndexToSelect = currentIndex;
+            }
+            currentIndex++;
+        }
 
         // Establecer el modelo en la tabla
         tablaVendedores.setModel(Modelotabla);
 
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(Modelotabla);
         tablaVendedores.setRowSorter(sorter);
+
+        // Seleccionar la fila si rowIndexToSelect tiene un valor válido
+        if (rowIndexToSelect != -1) {
+            tablaVendedores.setRowSelectionInterval(rowIndexToSelect, rowIndexToSelect);
+        }
     }
 
     /**
@@ -79,8 +118,9 @@ public class CrearPlatoVista extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         vendedorText = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        caloriasInput = new javax.swing.JTextField();
-        celiacoBox = new javax.swing.JCheckBox();
+        volumenInput = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        alcoholInput = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,7 +144,7 @@ public class CrearPlatoVista extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Plato");
+        jLabel5.setText("Bebida (editar)");
 
         jLabel6.setText("Descripcion");
 
@@ -136,9 +176,9 @@ public class CrearPlatoVista extends javax.swing.JFrame {
 
         vendedorText.setEditable(false);
 
-        jLabel4.setText("Calorias");
+        jLabel4.setText("Volumen");
 
-        celiacoBox.setText("Apto para celiaco");
+        jLabel9.setText("Graduacion de alcohol");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,7 +196,7 @@ public class CrearPlatoVista extends javax.swing.JFrame {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(0, 99, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(277, 277, 277))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -181,15 +221,19 @@ public class CrearPlatoVista extends javax.swing.JFrame {
                                 .addComponent(vendedorText, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(22, 22, 22))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4)
-                            .addComponent(caloriasInput, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(volumenInput, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                            .addComponent(alcoholInput))
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(celiacoBox)
-                    .addComponent(veganoBox))
+                    .addComponent(veganoBox)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel8))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -218,14 +262,16 @@ public class CrearPlatoVista extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(caloriasInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(celiacoBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addComponent(volumenInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(alcoholInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(vendedorText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -255,11 +301,6 @@ public class CrearPlatoVista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
-
-        HelpersVista.cambiarVentana(this, ListaItemMenuVista.class);
-    }//GEN-LAST:event_cancelarBtnActionPerformed
-
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
 
         try {
@@ -268,7 +309,8 @@ public class CrearPlatoVista extends javax.swing.JFrame {
                     || descripcionInput.getText().equals("")
                     || precioInput.getText().equals("")
                     || pesoInput.getText().equals("")
-                    || caloriasInput.getText().equals("")) {
+                    || volumenInput.getText().equals("")
+                    || alcoholInput.getText().equals("")) {
 
                 throw new Exception("Llena todo lcdtm");
             }
@@ -290,20 +332,22 @@ public class CrearPlatoVista extends javax.swing.JFrame {
 
             //obtener checkbox
             boolean aptoVegano = veganoBox.isSelected();
-            boolean aptoCeliaco = celiacoBox.isSelected();
 
             ItemMenuController imc = new ItemMenuController();
 
-            imc.crearPlato(nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, precioInput.getText(), caloriasInput.getText(), aptoCeliaco, vendedorId);
+            imc.editarBebida(itemMenuId, nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, pesoInput.getText(), volumenInput.getText(), alcoholInput.getText(), vendedorId);
 
             //vuelve
             HelpersVista.cambiarVentana(this, ListaItemMenuVista.class);
         } catch (Exception e) {
             HelpersVista.mostrarMensaje(e.getMessage(), "Error", "Alerta");
         }
-
-
     }//GEN-LAST:event_guardarBtnActionPerformed
+
+    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
+
+        HelpersVista.cambiarVentana(this, ListaItemMenuVista.class);
+    }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void tablaVendedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVendedoresMouseClicked
         int row = tablaVendedores.rowAtPoint(evt.getPoint());
@@ -316,11 +360,44 @@ public class CrearPlatoVista extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tablaVendedoresMouseClicked
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(EditarBebidaVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(EditarBebidaVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(EditarBebidaVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(EditarBebidaVista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new EditarBebidaVista().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField caloriasInput;
+    private javax.swing.JTextField alcoholInput;
     private javax.swing.JButton cancelarBtn;
-    private javax.swing.JCheckBox celiacoBox;
     private javax.swing.JTextField descripcionInput;
     private javax.swing.JButton guardarBtn;
     private javax.swing.JLabel jLabel1;
@@ -331,6 +408,7 @@ public class CrearPlatoVista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nombreInput;
@@ -339,5 +417,6 @@ public class CrearPlatoVista extends javax.swing.JFrame {
     private javax.swing.JTable tablaVendedores;
     private javax.swing.JCheckBox veganoBox;
     private javax.swing.JTextField vendedorText;
+    private javax.swing.JTextField volumenInput;
     // End of variables declaration//GEN-END:variables
 }
