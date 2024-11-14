@@ -29,15 +29,19 @@ public class ItemMenuMemory {
     }
 
     public void agregarItemMenu(ItemMenu im) {
+
         im.setId(idCount);
         itemsMenu.add(im);
         idCount++;
     }
 
-    public void editarItemMenu(ItemMenu im) {
+    //recive el id del plato a reemplazar
+    public void editarItemMenu(Integer id, ItemMenu im) {
 
-        ItemMenu actual = buscarItemMenu(im.getId());
-
+        ItemMenu actual = buscarItemMenu(id);
+        
+        im.setId(id);
+        
         if (actual != null) {
             itemsMenu.remove(actual);
         }
@@ -49,7 +53,7 @@ public class ItemMenuMemory {
         itemsMenu.stream().forEach(c -> System.out.println(c.toString()));
     }
 
-    public ItemMenu buscarItemMenu(int id) {
+    public ItemMenu buscarItemMenu(Integer id) {
         return itemsMenu.stream()
                 .filter(c -> c.getId() == id)
                 .findFirst()
@@ -67,4 +71,5 @@ public class ItemMenuMemory {
             itemsMenu.remove(itemMenuAEliminar);
         }
     }
+
 }

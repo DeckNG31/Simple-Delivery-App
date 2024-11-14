@@ -5,6 +5,7 @@
 package view;
 import view.vendedor.ListaVendedorVista;
 import helpers.HelpersVista;
+import view.ItemMenu.ListaItemMenuVista;
 import view.cliente.ListaClienteVista;
 
 /**
@@ -32,7 +33,7 @@ public class MainVista extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         vendedorBtn = new javax.swing.JButton();
         clienteBtn = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        itemMenuBtn = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,7 +52,12 @@ public class MainVista extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("ItemMenu");
+        itemMenuBtn.setText("ItemMenu");
+        itemMenuBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuBtnActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Pedido");
 
@@ -67,7 +73,7 @@ public class MainVista extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(clienteBtn))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(itemMenuBtn)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)))
                 .addContainerGap(41, Short.MAX_VALUE))
@@ -81,7 +87,7 @@ public class MainVista extends javax.swing.JFrame {
                     .addComponent(clienteBtn))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(itemMenuBtn)
                     .addComponent(jButton4))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
@@ -108,6 +114,10 @@ public class MainVista extends javax.swing.JFrame {
     private void clienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteBtnActionPerformed
         HelpersVista.cambiarVentana(this,ListaClienteVista.class);
     }//GEN-LAST:event_clienteBtnActionPerformed
+
+    private void itemMenuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuBtnActionPerformed
+        HelpersVista.cambiarVentana(this,ListaItemMenuVista.class);
+    }//GEN-LAST:event_itemMenuBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,7 +156,7 @@ public class MainVista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton clienteBtn;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton itemMenuBtn;
     private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton vendedorBtn;

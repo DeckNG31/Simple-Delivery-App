@@ -13,15 +13,15 @@ public class Plato extends ItemMenu {
     private Double calorias;
     private boolean aptoCeliaco;
 
-    public Plato(){
+    public Plato() {
     }
 
-    public Plato(Double calorias, boolean aptoCeliaco, Integer id, String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso,Integer vendedorId) {
-        super(id, nombre, descripcion, precio, aptoVegano, peso,vendedorId);
+    public Plato(String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso, Double calorias, boolean aptoCeliaco, Integer vendedorId) {
+        super(nombre, descripcion, precio, aptoVegano, peso, vendedorId);
         this.calorias = calorias;
         this.aptoCeliaco = aptoCeliaco;
     }
-    
+
     @Override
     public Double peso() {
         peso = peso * (1.1);
@@ -58,6 +58,8 @@ public class Plato extends ItemMenu {
     public void setAptoCeliaco(boolean aptoCeliaco) {
         this.aptoCeliaco = aptoCeliaco;
     }
+
+    
 
     public boolean isAptoVegano() {
         return aptoVegano;
