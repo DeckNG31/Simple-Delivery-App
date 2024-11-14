@@ -4,8 +4,11 @@
  */
 package controllers;
 
+import JDBCs.ClienteJDBC;
+import DAOs.ClienteDAO;
+import isi.deso.tp.usuarios.Cliente;
 import isi.deso.tp.usuarios.Coordenada;
-import memories.ClienteMemory;
+import java.util.List;
 
 /**
  *
@@ -13,26 +16,50 @@ import memories.ClienteMemory;
  */
 public class ClienteController {
 
-    public void crearCliente(String nombre, String cuit, String email, String direccion, String lat, String lng) {
+    private static ClienteController instance;
 
-        ClienteMemory InstanceClienteMemory = ClienteMemory.getInstance();
+    private final ClienteDAO clienteDAO;
 
-        Coordenada coord = new Coordenada(Double.parseDouble(lat), Double.parseDouble(lng));
-
-        InstanceClienteMemory.crearCliente(nombre, cuit, email, direccion, coord);
+    private ClienteController() {
+        clienteDAO = ClienteJDBC.getInstance();
     }
 
-    public void editarCliente(Integer id, String nombre, String cuit, String email, String direccion, String lat, String lng) {
+    public static synchronized ClienteController getInstance() {
+        if (instance == null) {
+            instance = new ClienteController();
+        }
+        return instance;
+    }
 
-        ClienteMemory InstanceClienteMemory = ClienteMemory.getInstance();
-
+    public void crearCliente(String nombre, String cuit, String email, String direccion, String lat, String lng) {
         Coordenada coord = new Coordenada(Double.parseDouble(lat), Double.parseDouble(lng));
+        Cliente cliente = new Cliente(0, nombre, cuit, email, direccion, coord);
 
-        InstanceClienteMemory.editarCliente(id, nombre, cuit, email, direccion, coord);
+        clienteDAO.crearCliente(cliente);
+    }
+
+    public void editarCliente(Cliente clienteEditar, String nombre, String cuit, String email, String direccion, String lat, String lng) {
+
+        clienteEditar.getCoord().setLat(Double.parseDouble(lat));
+        clienteEditar.getCoord().setLng(Double.parseDouble(lng));
+
+        clienteEditar.setNombre(nombre);
+        clienteEditar.setCuit(cuit);
+        clienteEditar.setEmail(email);
+        clienteEditar.setDireccion(direccion);
+
+        clienteDAO.editarCliente(clienteEditar);
     }
 
     public void eliminarCliente(Integer id) {
-        ClienteMemory InstanceClienteMemory = ClienteMemory.getInstance();
-        InstanceClienteMemory.eliminarCliente(id);
+        clienteDAO.eliminarCliente(id);
+    }
+
+    public List<Cliente> listarClientes() {
+        return clienteDAO.listarClientes();
+    }
+
+    public Cliente buscarClientePorId(int id) {
+        return clienteDAO.buscarClientePorId(id);
     }
 }

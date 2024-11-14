@@ -4,10 +4,22 @@
  */
 package DAOs;
 
+import isi.deso.tp.usuarios.Vendedor;
+import java.util.List;
+
 /**
  *
  * @author mariano
  */
-public class VendedorDAO {
-    
+public interface VendedorDAO {
+
+    public List<Vendedor> listarVendedores(); // Listado
+
+    public void crearVendedor(Vendedor p); // crea
+
+    public void editarVendedor(Vendedor p); // edita
+
+    public void eliminarVendedor(int id); // elimina 
+
+    public Vendedor buscarVendedorPorId(int id); // busca
 }

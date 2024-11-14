@@ -9,10 +9,19 @@ package isi.deso.tp.usuarios;
  * @author Deck
  */
 public class Coordenada {
+
+    private Integer id;
     private double lat;
     private double lng;
 
-    
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     //getter y setter para latitud
     public double getLat() {
         return lat;
@@ -22,7 +31,6 @@ public class Coordenada {
         this.lat = lat;
     }
 
-    
     //getter y setter para longitud
     public double getLng() {
         return lng;
@@ -36,15 +44,17 @@ public class Coordenada {
     public String toString() {
         return "Coordenada{" + "lat=" + lat + ", lng=" + lng + '}';
     }
-    
-    
-    
-    //constructores
 
+    public Coordenada(Integer id, double lat, double lng) {
+        this.id = id;
+        this.lat = lat;
+        this.lng = lng;
+    }
+
+    //constructores
     public Coordenada(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;
     }
-    
-    
+
 }

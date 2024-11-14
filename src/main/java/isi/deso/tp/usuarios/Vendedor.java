@@ -6,7 +6,7 @@ package isi.deso.tp.usuarios;
 
 
 import exceptions.ItemNoEncontradoException;
-import isi.deso.tp.ItemPedidoMemory;
+import memories.PedidoMemory;
 
 import isi.deso.tp.menu.Bebida;
 import isi.deso.tp.menu.ItemMenu;
@@ -28,17 +28,17 @@ public class Vendedor {
     private List<ItemMenu> listItems = new ArrayList();
     
     
-    private List<ItemPedidoMemory> listPedidos = new ArrayList();
+    private List<PedidoMemory> listPedidos = new ArrayList();
 
-    public List<ItemPedidoMemory> getListPedidos() {
+    public List<PedidoMemory> getListPedidos() {
         return listPedidos;
     }
 
-    public void setListPedidos(List<ItemPedidoMemory> listPedidos) {
+    public void setListPedidos(List<PedidoMemory> listPedidos) {
         this.listPedidos = listPedidos;
     }
 
-    public void addPedido(ItemPedidoMemory pedido) {
+    public void addPedido(PedidoMemory pedido) {
         this.listPedidos.add(pedido);
         pedido.setVendedor(this.id);
     }

@@ -14,12 +14,15 @@ import helpers.HelpersVista;
  */
 public class CrearClienteVista extends javax.swing.JFrame {
 
+    private final ClienteController cc;
+
     /**
      * Creates new form ClienteVista
      */
     public CrearClienteVista() {
 
         initComponents();
+        cc = ClienteController.getInstance();
     }
 
     /**
@@ -182,7 +185,6 @@ public class CrearClienteVista extends javax.swing.JFrame {
                 && !emailInput.getText().equals("")
                 && !latitudInput.getText().equals("")
                 && !longitudInput.getText().equals("")) {
-            ClienteController cc = new ClienteController();
 
             cc.crearCliente(nombreInput.getText(), cuitInput.getText(), emailInput.getText(), direccionInput.getText(), latitudInput.getText(), longitudInput.getText());
 

@@ -4,7 +4,7 @@
  */
 package isi.deso.tp.metodos.pago;
 
-import isi.deso.tp.ItemPedidoMemory;
+import memories.PedidoMemory;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -15,13 +15,13 @@ import java.util.Date;
 public class Pago {
 
     LocalDateTime fecha;
-    ItemPedidoMemory pedido;
+    PedidoMemory pedido;
     Double total;
     MetodoPago metodoPago;
 
     
 
-    public Pago(ItemPedidoMemory pedido) {
+    public Pago(PedidoMemory pedido) {
         this.pedido = pedido;
         this.total = pedido.calcularTotal();
         this.fecha = LocalDateTime.now();

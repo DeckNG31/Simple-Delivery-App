@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package isi.deso.tp;
+package memories;
 
+import DAOs.PedidoDAO;
 import exceptions.ItemNoEncontradoException;
+import isi.deso.tp.EstadoPedido;
+import isi.deso.tp.Pedido;
 import isi.deso.tp.menu.ItemPedido;
 import isi.deso.tp.metodos.pago.MetodoPago;
 import isi.deso.tp.usuarios.Cliente;
@@ -18,9 +21,8 @@ import java.util.stream.Collectors;
  *
  * @author Deck
  */
-public class ItemPedidoMemory implements ItemsPedidoDao {
+public class PedidoMemory implements PedidoDAO {
 
-    
     public List<ItemPedido> itemsPedido;  //""""Simula"""" la BD
     public Cliente cliente;
     public Integer vendedorId;
@@ -62,10 +64,10 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
                 .reduce(0.0, Double::sum); // Sumamos los precios
     }
 
-    public ItemPedidoMemory() {
+    public PedidoMemory() {
     }
 
-    public ItemPedidoMemory(List<ItemPedido> itemsPedido, Cliente cliente) {
+    public PedidoMemory(List<ItemPedido> itemsPedido, Cliente cliente) {
         this.itemsPedido = itemsPedido;
         this.cliente = cliente;
         this.estado = EstadoPedido.RECIBIDO;
@@ -76,7 +78,6 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
         return "ItemPedidoMemory{" + "itemsPedido=" + itemsPedido + ", cliente=" + cliente + '}';
     }
 
-    @Override
     public List<ItemPedido> getTodosItems() {
         return itemsPedido;
     }
@@ -119,6 +120,31 @@ public class ItemPedidoMemory implements ItemsPedidoDao {
         }
 
         return resultado;
+    }
+
+    @Override
+    public List<Pedido> listarPedidos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void crearPedido(Pedido p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void editarPedido(Pedido p) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarPedido(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Pedido buscarPedidoPorId(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

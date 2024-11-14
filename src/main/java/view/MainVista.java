@@ -60,6 +60,11 @@ public class MainVista extends javax.swing.JFrame {
         });
 
         jButton4.setText("Pedido");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -118,6 +123,10 @@ public class MainVista extends javax.swing.JFrame {
     private void itemMenuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuBtnActionPerformed
         HelpersVista.cambiarVentana(this,ListaItemMenuVista.class);
     }//GEN-LAST:event_itemMenuBtnActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
