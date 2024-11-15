@@ -4,10 +4,22 @@
  */
 package DAOs;
 
+import isi.deso.tp.usuarios.Cliente;
+import java.util.List;
+
 /**
  *
  * @author mariano
  */
-public class ClienteDAO {
-    
+public interface ClienteDAO {
+
+    public List<Cliente> listarClientes(); // Listado
+
+    public void crearCliente(Cliente p); // crea
+
+    public void editarCliente(Cliente p); // edita
+
+    public void eliminarCliente(int id); // elimina 
+
+    public Cliente buscarClientePorId(int id); // busca
 }

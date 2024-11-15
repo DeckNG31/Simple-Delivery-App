@@ -20,15 +20,16 @@ import view.MainVista;
  */
 public class ListaClienteVista extends javax.swing.JFrame {
 
-    ClienteMemory vm;
+    private final ClienteController cc;
 
     /**
      * Creates new form ListaClienteVista
      */
     public ListaClienteVista() {
         initComponents();
-        vm = ClienteMemory.getInstance();
 
+        cc = ClienteController.getInstance();
+        
         llenarTabla();
 
     }
@@ -43,9 +44,9 @@ public class ListaClienteVista extends javax.swing.JFrame {
 
         String titulos[] = {"ID", "Nombre", "CUIT", "Email", "Direccion", "Coordenadas"};
         Modelotabla.setColumnIdentifiers(titulos);
-
         // Llenar la tabla con los datos de los clientes
-        vm.clientes.forEach(c -> {
+
+        cc.listarClientes().forEach(c -> {
             Modelotabla.addRow(new Object[]{c.getId(), c.getNombre(), c.getCuit(), c.getEmail(), c.getDireccion(), c.getCoordString()});
         });
 
@@ -242,8 +243,8 @@ public class ListaClienteVista extends javax.swing.JFrame {
                 try {
                     //controller
                     int clienteId = (int) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
-                    ClienteController vc = new ClienteController();
-                    vm.eliminarCliente(clienteId);
+                    
+                    cc.eliminarCliente(clienteId);
                     model.removeRow(i);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());

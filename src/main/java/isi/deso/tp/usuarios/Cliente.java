@@ -5,7 +5,7 @@
 package isi.deso.tp.usuarios;
 
 import isi.deso.tp.EstadoPedido;
-import isi.deso.tp.ItemPedidoMemory;
+import memories.PedidoMemory;
 import isi.deso.tp.SuscriptorPedido;
 import isi.deso.tp.metodos.pago.MercadoPago;
 import isi.deso.tp.metodos.pago.MetodoPago;
@@ -24,6 +24,7 @@ public class Cliente implements SuscriptorPedido {
     private String cuit;
     private String email;
     private String direccion;
+    
     private Coordenada coord;
 
     //Getters and Setters
@@ -124,7 +125,7 @@ public class Cliente implements SuscriptorPedido {
     }
 
     @Override
-    public void update(ItemPedidoMemory p) {
+    public void update(PedidoMemory p) {
         //aca va la logica que se ejecuta cuando el vendedor cambia el estado del pedido al que el cliente se suscribió
         System.out.println("Cliente: " + this.nombre + " ,Estado: " + p.getEstado());
         if (p.getEstado() == EstadoPedido.ACEPTADO && p.cliente.getId() == this.id) {

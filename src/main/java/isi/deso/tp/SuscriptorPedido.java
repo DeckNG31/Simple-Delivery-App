@@ -5,11 +5,13 @@
  */
 package isi.deso.tp;
 
+import memories.PedidoMemory;
+
 /**
  *
  * @author st
  */
 public interface SuscriptorPedido {
-    public void update(ItemPedidoMemory p);
+    public void update(PedidoMemory p);
 }
 

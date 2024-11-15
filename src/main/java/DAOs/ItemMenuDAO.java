@@ -4,10 +4,22 @@
  */
 package DAOs;
 
+import isi.deso.tp.menu.ItemMenu;
+import java.util.List;
+
 /**
  *
  * @author mariano
  */
-public class ItemMenuDAO {
-    
+public interface ItemMenuDAO {
+
+    public List<ItemMenu> listarItemMenus(); // Listado
+
+    public void crearItemMenu(ItemMenu p); // crea
+
+    public void editarItemMenu(ItemMenu p); // edita
+
+    public void eliminarItemMenu(int id); // elimina 
+
+    public ItemMenu buscarItemMenuPorId(int id); // busca
 }

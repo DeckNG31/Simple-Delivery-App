@@ -20,29 +20,31 @@ import memories.ClienteMemory;
 public class EditarClienteVista extends javax.swing.JFrame {
 
     public Integer clienteId;
-    public ClienteMemory vm;
+    private final ClienteController cc;
+    private Cliente clienteEditar;
 
     /**
      * Creates new form EditaClienteVista
      */
     public EditarClienteVista() {
         initComponents();
+        cc = ClienteController.getInstance();
     }
 
     public EditarClienteVista(Integer id) {
         clienteId = id;
-        vm = ClienteMemory.getInstance();
-        initComponents();
 
+        initComponents();
+        cc = ClienteController.getInstance();
         //buscar cliente por id
-        Cliente v = vm.buscarCliente(id);
+        clienteEditar = cc.buscarClientePorId(id);
 
         //insertar en fields
-        nombreInput.setText(v.getNombre());
-        cuitInput.setText(v.getCuit());
-        emailInput.setText(v.getEmail());
-        direccionInput.setText(v.getDireccion());
-        Coordenada coord = v.getCoord();
+        nombreInput.setText(clienteEditar.getNombre());
+        cuitInput.setText(clienteEditar.getCuit());
+        emailInput.setText(clienteEditar.getEmail());
+        direccionInput.setText(clienteEditar.getDireccion());
+        Coordenada coord = clienteEditar.getCoord();
         latitudInput.setText(Double.toString(coord.getLat()));
         longitudInput.setText(Double.toString(coord.getLng()));
     }
@@ -196,9 +198,8 @@ public class EditarClienteVista extends javax.swing.JFrame {
                 && !emailInput.getText().equals("")
                 && !latitudInput.getText().equals("")
                 && !longitudInput.getText().equals("")) {
-            ClienteController cc = new ClienteController();
 
-            cc.editarCliente(clienteId, nombreInput.getText(), cuitInput.getText(), emailInput.getText(), direccionInput.getText(), latitudInput.getText(), longitudInput.getText());
+            cc.editarCliente(clienteEditar, nombreInput.getText(), cuitInput.getText(), emailInput.getText(), direccionInput.getText(), latitudInput.getText(), longitudInput.getText());
 
             nombreInput.setText("");
             cuitInput.setText("");
