@@ -25,8 +25,6 @@ public class Vendedor {
     private String direccion;
     private Coordenada coord;
     
-    private List<ItemMenu> listItems = new ArrayList();
-    
     
     private List<PedidoMemory> listPedidos = new ArrayList();
 

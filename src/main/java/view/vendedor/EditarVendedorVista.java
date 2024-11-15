@@ -19,7 +19,7 @@ import memories.VendedorMemory;
 public class EditarVendedorVista extends javax.swing.JFrame {
 
     public Integer vendedorId;
-    public VendedorMemory vm;
+    public VendedorController vc;
 
     /**
      * Creates new form EditaVendedorVista
@@ -30,11 +30,11 @@ public class EditarVendedorVista extends javax.swing.JFrame {
 
     public EditarVendedorVista(Integer id) {
         vendedorId = id;
-        vm = VendedorMemory.getInstance();
+        vc = VendedorController.getInstance();
         initComponents();
 
         //buscar vendedor por id
-        Vendedor v = vm.buscarVendedor(id);
+        Vendedor v = vc.buscarVendedorPorId(id);
 
         //insertar en fields
         nombreInput.setText(v.getNombre());
@@ -172,7 +172,6 @@ public class EditarVendedorVista extends javax.swing.JFrame {
                 && !direccionInput.getText().equals("")
                 && !latitudInput.getText().equals("")
                 && !longitudInput.getText().equals("")) {
-            VendedorController vc = new VendedorController();
 
             vc.editarVendedor(vendedorId, nombreInput.getText(), direccionInput.getText(), latitudInput.getText(), longitudInput.getText());
 

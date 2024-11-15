@@ -224,7 +224,7 @@ public class ListaClienteVista extends javax.swing.JFrame {
 
                 HelpersVista.cambiarVentana(this, EditarClienteVista.class, clienteId);
 
-                System.out.println(clienteId);
+              //  System.out.println(clienteId);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

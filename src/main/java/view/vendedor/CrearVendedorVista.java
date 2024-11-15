@@ -147,14 +147,14 @@ public class CrearVendedorVista extends javax.swing.JFrame {
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
 
         HelpersVista.cambiarVentana(this, ListaVendedorVista.class);
-    }//GEN-LAST:event_cancelarBtnActionPerformed
+    }
 
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
         if (!nombreInput.getText().equals("")
                 && !direccionInput.getText().equals("")
                 && !latitudInput.getText().equals("")
                 && !longitudInput.getText().equals("")) {
-            VendedorController vc = new VendedorController();
+            VendedorController vc = VendedorController.getInstance();
 
             vc.crearVendedor(nombreInput.getText(), direccionInput.getText(), latitudInput.getText(), longitudInput.getText());
 

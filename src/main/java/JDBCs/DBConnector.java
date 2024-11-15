@@ -13,8 +13,8 @@ import java.sql.SQLException;
  * @author mariano
  */
 class DBConnector {
-       private static String user = "deso";
-    private static String pass = "deso";
+       private static String user = "root";
+    private static String pass = "admin";
     private static String url = "jdbc:mysql://localhost:3306";
     private static String database = "deso";
     

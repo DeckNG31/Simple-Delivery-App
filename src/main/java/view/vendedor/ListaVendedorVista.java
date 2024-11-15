@@ -19,14 +19,14 @@ import view.MainVista;
  */
 public class ListaVendedorVista extends javax.swing.JFrame {
 
-    VendedorMemory vm;
+    VendedorController vc;
 
     /**
      * Creates new form ListaVendedorVista
      */
     public ListaVendedorVista() {
         initComponents();
-        vm = VendedorMemory.getInstance();
+        vc = VendedorController.getInstance();
 
         llenarTabla();
 
@@ -44,7 +44,7 @@ public class ListaVendedorVista extends javax.swing.JFrame {
         Modelotabla.setColumnIdentifiers(titulos);
 
         // Llenar la tabla con los datos de los vendedores
-        vm.vendedores.forEach(v -> {
+        vc.listarVendedores().forEach(v -> {
             Modelotabla.addRow(new Object[]{v.getId(), v.getNombre(), v.getDireccion(), v.getCoordString()});
         });
 
@@ -215,14 +215,14 @@ public class ListaVendedorVista extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void editarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBtnActionPerformed
-        // TODO add your handling code here:
+
         if (tablaVendedores.getSelectedRow() > -1) {
             try {
                 Integer vendedorId = (Integer) tablaVendedores.getValueAt(tablaVendedores.getSelectedRow(), 0);
 
                 HelpersVista.cambiarVentana(this, EditarVendedorVista.class, vendedorId);
 
-                System.out.println(vendedorId);
+              //  System.out.println(vendedorId);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -241,8 +241,7 @@ public class ListaVendedorVista extends javax.swing.JFrame {
                 try {
                     //controller
                     int vendedorId = (int) tablaVendedores.getValueAt(tablaVendedores.getSelectedRow(), 0);
-                    VendedorController vc = new VendedorController();
-                    vm.eliminarVendedor(vendedorId);
+                    vc.eliminarVendedor(vendedorId);
                     model.removeRow(i);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
