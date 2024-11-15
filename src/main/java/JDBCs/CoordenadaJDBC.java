@@ -60,14 +60,14 @@ public class CoordenadaJDBC implements CoordenadaDAO {
     @Override
     public Coordenada buscarCoordenadaPorId(int id) {
         Connection conn = DBConnector.getInstance();
-        String query = "SELECT * FROM coordenada WHERE id = ?";
+        String query = "SELECT * FROM coordenada WHERE idCoordenada = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 double lat = rs.getDouble("lat");
                 double lng = rs.getDouble("lng");
-                return new Coordenada(lat, lng); // Ajusta esto si tienes un constructor con el id
+                return new Coordenada(id,lat, lng); // Ajusta esto si tienes un constructor con el id
             }
         } catch (SQLException ex) {
             Logger.getLogger(CoordenadaJDBC.class.getName()).log(Level.SEVERE, null, ex);
