@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import memories.ClienteMemory;
+//import memories.ClienteMemory;
 import view.MainVista;
 
 /**

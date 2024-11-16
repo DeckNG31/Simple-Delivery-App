@@ -31,4 +31,10 @@ public class MercadoPago implements MetodoPago {
         System.out.println("Pagando con mercado pago a " + alias + ", recargo del " + recargo * 100 + "%");
 
     }
+    
+    @Override
+    public String getString(){
+        return "Mercado Pago";
+    }
+    
 }

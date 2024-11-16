@@ -11,4 +11,5 @@ package isi.deso.tp.metodos.pago;
 public interface MetodoPago {
 
     public void pagar();
+    public String getString();
 }

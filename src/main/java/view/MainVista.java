@@ -7,6 +7,7 @@ import view.vendedor.ListaVendedorVista;
 import helpers.HelpersVista;
 import view.ItemMenu.ListaItemMenuVista;
 import view.cliente.ListaClienteVista;
+import view.pedido.CrearPedidoVista;
 
 /**
  *
@@ -126,6 +127,7 @@ public class MainVista extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        HelpersVista.cambiarVentana(this,CrearPedidoVista.class);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

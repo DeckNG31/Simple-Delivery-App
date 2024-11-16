@@ -40,4 +40,10 @@ public class Transferencia implements MetodoPago {
     public void pagar() {
         System.out.println("Pagando con transferencia a " + cbu + ", recargo del " + recargo * 100 + "%");
     }
+    
+    
+     public String getString(){
+        return "Transferencia";
+    }
+    
 }

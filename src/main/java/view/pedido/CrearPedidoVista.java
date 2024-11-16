@@ -4,6 +4,14 @@
  */
 package view.pedido;
 
+import controllers.PedidoController;
+import helpers.HelpersVista;
+import isi.deso.tp.Pedido;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import view.ItemMenu.ListaItemMenuVista;
+
 /**
  *
  * @author mariano
@@ -13,6 +21,7 @@ public class CrearPedidoVista extends javax.swing.JFrame {
     /**
      * Creates new form CrearPedidoVista
      */
+    private final PedidoController pc;
     public CrearPedidoVista() {
         initComponents();
         
@@ -45,7 +54,7 @@ public class CrearPedidoVista extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         fieldCbu = new javax.swing.JTextField();
         rbEfectivo = new javax.swing.JRadioButton();
-        jLabel1 = new javax.swing.JLabel();
+        fecha = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         rbMercadoPago = new javax.swing.JRadioButton();
@@ -54,16 +63,26 @@ public class CrearPedidoVista extends javax.swing.JFrame {
         rbTransferencia = new javax.swing.JRadioButton();
         labelTotal = new javax.swing.JLabel();
         labelCliente = new javax.swing.JLabel();
+        Guardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnAgregarItem.setText("Agregar ItemMenu");
+        btnAgregarItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarItemActionPerformed(evt);
+            }
+        });
+
+        fieldCuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldCuitActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Items agregados");
 
         jLabel2.setText("CUIT");
-
-        labelFecha.setText("14/11/24");
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -103,7 +122,7 @@ public class CrearPedidoVista extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Fecha");
+        fecha.setText("Fecha: {dayname} {day} de {month} de {year}");
 
         jLabel6.setText("Cliente seleccionado: ");
 
@@ -135,6 +154,13 @@ public class CrearPedidoVista extends javax.swing.JFrame {
 
         labelCliente.setText("jLabel5");
 
+        Guardar.setText("Guardar");
+        Guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuardarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -142,9 +168,9 @@ public class CrearPedidoVista extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(174, 174, 174)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(105, 105, 105)
+                        .addComponent(fecha)
+                        .addGap(75, 75, 75)
                         .addComponent(labelFecha))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
@@ -161,6 +187,17 @@ public class CrearPedidoVista extends javax.swing.JFrame {
                                 .addComponent(labelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAgregarItem))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(297, 297, 297))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnCancelar)
+                                        .addGap(143, 143, 143)
+                                        .addComponent(Guardar)
+                                        .addGap(82, 82, 82))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,16 +217,7 @@ public class CrearPedidoVista extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(labelCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(jLabel8))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(297, 297, 297))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btnCancelar)
-                                        .addGap(308, 308, 308)))))))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(33, 33, 33))
         );
         jPanel1Layout.setVerticalGroup(
@@ -197,7 +225,7 @@ public class CrearPedidoVista extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelFecha))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(jLabel8)
@@ -234,7 +262,9 @@ public class CrearPedidoVista extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fieldCbu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnCancelar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar)
+                    .addComponent(Guardar))
                 .addGap(30, 30, 30))
         );
 
@@ -275,6 +305,110 @@ public class CrearPedidoVista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void fieldCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldCuitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldCuitActionPerformed
+
+    private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
+                                         
+    // Validamos que los campos no estén vacíos y que se haya seleccionado un método de pago
+    if (!fieldAlias.getText().equals("") 
+            && !fieldCbu.getText().equals("") 
+            && !fieldCuit.getText().equals("") 
+            && (rbEfectivo.isSelected() || rbMercadoPago.isSelected() || rbTransferencia.isSelected())) {
+        
+        
+        // Obtenemos los valores de los campos
+        String alias = fieldAlias.getText();
+        String cbu = fieldCbu.getText();
+        String cuit = fieldCuit.getText();
+        String metodoPago = obtenerMetodoPagoSeleccionado();
+        double total = calcularTotal();  // Suponiendo que tienes una función que calcula el total
+        //String fecha = obtenerFechaActual();  // Puedes usar una fecha actual o de selección
+        int clienteId = obtenerClienteSeleccionado(); // Asumiendo que tienes alguna forma de seleccionar un cliente
+
+        
+         pc.crearPedido(Double.NaN, LocalDate.EPOCH, WIDTH, metodoPagoStr);
+        
+        
+        // Crear el pedido
+       // Pedido pedido = new Pedido(fecha, total, metodoPago, cuit, alias, cbu, clienteId);
+       // Pedido pedido = new Pedido(total,fecha,clienteId,metodoPago);
+        
+        // Guardar el pedido en la base de datos
+       // cc.crearPedido(pedido);
+        
+        // Guardamos los detalles del pedido (items seleccionados)
+        //guardarDetallePedido(pedido.getId());
+
+        // Limpiar los campos
+        fieldAlias.setText("");
+        fieldCbu.setText("");
+        fieldCuit.setText("");
+
+        // Cambiar de vista (volvemos a la lista de pedidos)
+        HelpersVista.cambiarVentana(this, ListarPedidoVista.class);
+
+    } else {
+        // Mostrar un mensaje de error si los campos no están completos
+        HelpersVista.mostrarMensaje("Complete todos los campos y seleccione un método de pago", "Error", "Alerta");
+    }
+}
+// Función para obtener el método de pago seleccionado
+private String obtenerMetodoPagoSeleccionado() {
+    if (rbEfectivo.isSelected()) {
+        return "Efectivo";
+    } else if (rbMercadoPago.isSelected()) {
+        return "Mercado Pago";
+    } else if (rbTransferencia.isSelected()) {
+        return "Transferencia";
+    }
+    return "";
+}
+
+// Función para calcular el total del pedido (suponiendo que tienes una tabla de items)
+private double calcularTotal() {
+    double total = 0.0;
+    for (int i = 0; i < tablaItemsAgregados.getRowCount(); i++) {
+        double precioItem = Double.parseDouble(tablaItemsAgregados.getValueAt(i, 2).toString()); // Precio en la columna 2
+        int cantidad = Integer.parseInt(tablaItemsAgregados.getValueAt(i, 1).toString()); // Cantidad en la columna 1
+        total += precioItem * cantidad;
+    }
+    return total;
+}
+
+// Función para obtener el ID del cliente seleccionado (suponiendo que tienes una tabla de clientes)
+private int obtenerClienteSeleccionado() {
+    int selectedRow = tablaClientes.getSelectedRow();
+    if (selectedRow != -1) {
+        return Integer.parseInt(tablaClientes.getValueAt(selectedRow, 0).toString()); // ID del cliente en la columna 0
+    }
+    return -1; // Si no hay cliente seleccionado
+}
+
+// Función para guardar los detalles del pedido
+private void guardarDetallePedido(int pedidoId) {
+    for (int i = 0; i < tablaItemsAgregados.getRowCount(); i++) {
+        int itemMenuId = Integer.parseInt(tablaItemsAgregados.getValueAt(i, 0).toString()); // ID del item en la columna 0
+        int cantidad = Integer.parseInt(tablaItemsAgregados.getValueAt(i, 1).toString()); // Cantidad en la columna 1
+        
+        //PedidoDetalle detalle = new PedidoDetalle(itemMenuId, pedidoId, cantidad);
+        //cc.crearDetallePedido(detalle); // Asumiendo que tienes un método para guardar los detalles
+    }
+
+
+        
+        
+    }//GEN-LAST:event_GuardarActionPerformed
+
+    private void btnAgregarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarItemActionPerformed
+        // TODO add your handling code here:
+        HelpersVista.cambiarVentana(this,ListaItemMenuVista.class);
+        
+    }//GEN-LAST:event_btnAgregarItemActionPerformed
+
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -309,15 +443,20 @@ public class CrearPedidoVista extends javax.swing.JFrame {
             }
         });
     }
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Guardar;
     private javax.swing.JButton btnAgregarItem;
     private javax.swing.JButton btnCancelar;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel fecha;
     private javax.swing.JTextField fieldAlias;
     private javax.swing.JTextField fieldCbu;
     private javax.swing.JTextField fieldCuit;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

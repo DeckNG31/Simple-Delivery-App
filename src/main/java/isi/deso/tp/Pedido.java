@@ -6,6 +6,7 @@ package isi.deso.tp;
 
 import isi.deso.tp.metodos.pago.MetodoPago;
 import java.time.LocalDate;
+import javax.swing.JLabel;
 
 /**
  *
@@ -19,7 +20,7 @@ public class Pedido {
     private Integer clienteId;
     private MetodoPago metodoPago;
 
-    public Pedido() {
+    public Pedido(double total1, JLabel fecha1, int clienteId1, String metodoPago1) {
     }
 
     public Integer getId() {
@@ -78,5 +79,23 @@ public class Pedido {
         this.clienteId = clienteId;
         this.metodoPago = metodoPago;
     }
+
+    public Pedido(Integer id, Double total, LocalDate fecha, Integer clienteId, MetodoPago metodoPago) {
+        this.id = id;
+        this.total = total;
+        this.fecha = fecha;
+        this.clienteId = clienteId;
+        this.metodoPago = metodoPago;
+    }
+
+    public Pedido(Double total, LocalDate fecha, Integer clienteId, MetodoPago metodoPago) {
+        this.total = total;
+        this.fecha = fecha;
+        this.clienteId = clienteId;
+        this.metodoPago = metodoPago;
+    }
+    
+    
+    
    
 }
