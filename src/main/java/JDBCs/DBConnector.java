@@ -12,9 +12,9 @@ import java.sql.SQLException;
  *
  * @author mariano
  */
-class DBConnector {
+public class DBConnector {
        private static String user = "root";
-    private static String pass = "admin";
+    private static String pass = "root";
     private static String url = "jdbc:mysql://localhost:3306";
     private static String database = "deso";
     

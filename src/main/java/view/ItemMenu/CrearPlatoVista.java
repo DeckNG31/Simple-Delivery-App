@@ -5,6 +5,7 @@
 package view.ItemMenu;
 
 import controllers.ItemMenuController;
+import controllers.VendedorController;
 import helpers.HelpersVista;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -16,15 +17,16 @@ import memories.VendedorMemory;
  */
 public class CrearPlatoVista extends javax.swing.JFrame {
 
-    VendedorMemory vm;
-
+    VendedorController vc;
+    ItemMenuController imc;
     /**
      * Creates new form ClienteVista
      */
     public CrearPlatoVista() {
 
         initComponents();
-        vm = VendedorMemory.getInstance();
+        vc = VendedorController.getInstance();
+        imc = ItemMenuController.getInstance();
         cargarVendedores();
     }
 
@@ -40,7 +42,7 @@ public class CrearPlatoVista extends javax.swing.JFrame {
         Modelotabla.setColumnIdentifiers(titulos);
 
         // Llenar la tabla con los datos de los vendedores
-        vm.vendedores.forEach(v -> {
+        vc.listarVendedores().forEach(v -> {
             Modelotabla.addRow(new Object[]{v.getId(), v.getNombre()});
         });
 
@@ -270,7 +272,7 @@ public class CrearPlatoVista extends javax.swing.JFrame {
                     || pesoInput.getText().equals("")
                     || caloriasInput.getText().equals("")) {
 
-                throw new Exception("Llena todo lcdtm");
+                throw new Exception("Llena todos los campos");
             }
 
             //comprobar si selecciono vendedor
@@ -292,9 +294,8 @@ public class CrearPlatoVista extends javax.swing.JFrame {
             boolean aptoVegano = veganoBox.isSelected();
             boolean aptoCeliaco = celiacoBox.isSelected();
 
-            ItemMenuController imc = new ItemMenuController();
 
-            imc.crearPlato(nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, precioInput.getText(), caloriasInput.getText(), aptoCeliaco, vendedorId);
+            imc.crearPlato(nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, pesoInput.getText(), caloriasInput.getText(), aptoCeliaco, vendedorId);
 
             //vuelve
             HelpersVista.cambiarVentana(this, ListaItemMenuVista.class);

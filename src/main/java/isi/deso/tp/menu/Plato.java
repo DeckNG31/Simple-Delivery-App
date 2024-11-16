@@ -16,8 +16,8 @@ public class Plato extends ItemMenu {
     public Plato() {
     }
 
-    public Plato(String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso, Double calorias, boolean aptoCeliaco, Integer vendedorId) {
-        super(nombre, descripcion, precio, aptoVegano, peso, vendedorId);
+    public Plato(Integer id,String nombre, String descripcion, Double precio, boolean aptoVegano, Double peso, Double calorias, boolean aptoCeliaco, Integer vendedorId) {
+        super(id,nombre, descripcion, precio, aptoVegano, peso, vendedorId);
         this.calorias = calorias;
         this.aptoCeliaco = aptoCeliaco;
     }

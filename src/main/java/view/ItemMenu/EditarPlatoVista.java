@@ -5,6 +5,7 @@
 package view.ItemMenu;
 
 import controllers.ItemMenuController;
+import controllers.VendedorController;
 import helpers.HelpersVista;
 import isi.deso.tp.menu.Plato;
 import javax.swing.table.DefaultTableModel;
@@ -20,8 +21,8 @@ public class EditarPlatoVista extends javax.swing.JFrame {
 
     public Integer itemMenuId;
     public Integer vendedorId; //dueño del item menu
-    public ItemMenuMemory imm;
-    public VendedorMemory vm;
+    public ItemMenuController imc;
+    public VendedorController vc;
 
     /**
      * Creates new form EditaClienteVista
@@ -32,14 +33,12 @@ public class EditarPlatoVista extends javax.swing.JFrame {
 
     public EditarPlatoVista(Integer id) {
         itemMenuId = id;
-        vm = VendedorMemory.getInstance();
-        imm = ItemMenuMemory.getInstance();
+        vc = VendedorController.getInstance();
+        imc = ItemMenuController.getInstance();
         initComponents();
 
-        vendedorId = imm.buscarItemMenu(itemMenuId).getVendedorId();
-
-        //buscar cliente por id
-        Plato p = (Plato) imm.buscarItemMenu(id);
+        Plato p = (Plato) imc.buscarItemMenuPorId(itemMenuId);
+        vendedorId = p.getVendedorId();
 
         //insertar en fields
         nombreInput.setText(p.getNombre());
@@ -68,7 +67,7 @@ public class EditarPlatoVista extends javax.swing.JFrame {
         int currentIndex = 0;
 
         // Llenar la tabla con los datos de los vendedores
-        for (var v : vm.vendedores) {
+        for (var v : vc.listarVendedores()) {
             Modelotabla.addRow(new Object[]{v.getId(), v.getNombre()});
 
             if (v.getId() == vendedorId) {
@@ -304,7 +303,7 @@ public class EditarPlatoVista extends javax.swing.JFrame {
                     || pesoInput.getText().equals("")
                     || caloriasInput.getText().equals("")) {
 
-                throw new Exception("Llena todo lcdtm");
+                throw new Exception("Llena todos los campos");
             }
 
             //comprobar si selecciono vendedor
@@ -326,10 +325,8 @@ public class EditarPlatoVista extends javax.swing.JFrame {
             boolean aptoVegano = veganoBox.isSelected();
             boolean aptoCeliaco = celiacoBox.isSelected();
 
-            ItemMenuController imc = new ItemMenuController();
-
-            imc.editarPlato(itemMenuId, nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, precioInput.getText(), caloriasInput.getText(), aptoCeliaco, vendedorId);
-
+        
+            imc.editarPlato(itemMenuId, nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, pesoInput.getText(), caloriasInput.getText(), aptoCeliaco, vendedorId);
             //vuelve
             HelpersVista.cambiarVentana(this, ListaItemMenuVista.class);
         } catch (Exception e) {
