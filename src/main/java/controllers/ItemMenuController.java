@@ -71,8 +71,8 @@ public class ItemMenuController {
             double volumenFormateado = parsearADouble(volumen, "El volumen debe ser un número");
             double alcoholFormateado = parsearADouble(alcohol, "La graduación del alcohol debe ser un número");
 
-            //TODO  ItemMenu bebida = new Bebida(nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
-            //itemMenuMemory.agregarItemMenu(bebida);
+            ItemMenu bebida = new Bebida(0,nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
+            itemMenuDAO.crearItemMenu(bebida);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -85,8 +85,8 @@ public class ItemMenuController {
             double volumenFormateado = parsearADouble(volumen, "El volumen debe ser un número");
             double alcoholFormateado = parsearADouble(alcohol, "La graduación del alcohol debe ser un número");
 
-            //TODO ItemMenu bebida = new Bebida(nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
-            //itemMenuMemory.editarItemMenu(id, bebida);
+            ItemMenu bebida = new Bebida(id,nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
+            itemMenuDAO.editarItemMenu(bebida);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

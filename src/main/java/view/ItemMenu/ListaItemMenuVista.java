@@ -273,11 +273,11 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
                     HelpersVista.cambiarVentana(this, EditarPlatoVista.class, itemMenuId);
                 }
 
-                /* TODO
-                if (imc.buscarItemMenu(imtemMenuId) instanceof Bebida) {
 
-                    HelpersVista.cambiarVentana(this, EditarBebidaVista.class, imtemMenuId);
-                }*/
+                if (imc.buscarItemMenuPorId(itemMenuId) instanceof Bebida) {
+
+                    HelpersVista.cambiarVentana(this, EditarBebidaVista.class, itemMenuId);
+                }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
