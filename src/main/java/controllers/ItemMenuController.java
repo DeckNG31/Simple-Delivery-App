@@ -4,10 +4,12 @@
  */
 package controllers;
 
+import DAOs.ItemMenuDAO;
+import JDBCs.ItemMenuJDBC;
 import isi.deso.tp.menu.Bebida;
 import isi.deso.tp.menu.ItemMenu;
 import isi.deso.tp.menu.Plato;
-import memories.ItemMenuMemory;
+import java.util.List;
 
 /**
  *
@@ -15,21 +17,30 @@ import memories.ItemMenuMemory;
  */
 public class ItemMenuController {
 
-    ItemMenuMemory imm;
+    private final ItemMenuDAO itemMenuDAO;
 
-    //crear platos y bebidas
+    //singleton
+    private static ItemMenuController instance;
+
+    private ItemMenuController() {
+        itemMenuDAO = ItemMenuJDBC.getInstance();
+    }
+
+    public static synchronized ItemMenuController getInstance() {
+        if (instance == null) {
+            instance = new ItemMenuController();
+        }
+        return instance;
+    }
+
     public void crearPlato(String nombre, String descripcion, String precio, boolean aptoVegano, String peso, String calorias, boolean aptoCeliaco, Integer vendedorId) throws Exception {
-
         try {
-            // Validación y conversión de precio, peso y calorías a Double
             double precioFormateado = parsearADouble(precio, "El precio debe ser un número");
             double pesoFormateado = parsearADouble(peso, "El peso debe ser un número");
             double caloriasFormateado = parsearADouble(calorias, "Las calorías deben ser un número");
 
-            // Creación de un nuevo plato y almacenamiento en la memoria
-            ItemMenu plato = new Plato(nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, caloriasFormateado, aptoCeliaco, vendedorId);
-            ItemMenuMemory imm = ItemMenuMemory.getInstance();
-            imm.agregarItemMenu(plato);
+            ItemMenu plato = new Plato(0, nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, caloriasFormateado, aptoCeliaco, vendedorId);
+            itemMenuDAO.crearItemMenu(plato);
 
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -37,61 +48,45 @@ public class ItemMenuController {
     }
 
     public void editarPlato(Integer id, String nombre, String descripcion, String precio, boolean aptoVegano, String peso, String calorias, boolean aptoCeliaco, Integer vendedorId) throws Exception {
-
         try {
-            // Validación y conversión de precio, peso y calorías a Double
             double precioFormateado = parsearADouble(precio, "El precio debe ser un número");
             double pesoFormateado = parsearADouble(peso, "El peso debe ser un número");
             double caloriasFormateado = parsearADouble(calorias, "Las calorías deben ser un número");
 
-            // Creación de un nuevo plato y almacenamiento en la memoria
-            ItemMenu plato = new Plato(nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, caloriasFormateado, aptoCeliaco, vendedorId);
-            ItemMenuMemory imm = ItemMenuMemory.getInstance();
-            imm.editarItemMenu(id, plato);
-
+            ItemMenu plato = new Plato(id, nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, caloriasFormateado, aptoCeliaco, vendedorId);
+            itemMenuDAO.editarItemMenu(plato);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
     public void eliminarItemMenu(Integer id) {
-        ItemMenuMemory imm = ItemMenuMemory.getInstance();
-        imm.eliminarItemMenu(id);
+        itemMenuDAO.eliminarItemMenu(id);
     }
 
     public void crearBebida(String nombre, String descripcion, String precio, boolean aptoVegano, String peso, String volumen, String alcohol, Integer vendedorId) throws Exception {
-
         try {
-            // Validación y conversión de precio, peso y calorías a Double
             double precioFormateado = parsearADouble(precio, "El precio debe ser un número");
             double pesoFormateado = parsearADouble(peso, "El peso debe ser un número");
-            double volumenFormateado = parsearADouble(volumen, "El volumen deben ser un número");
-            double alcoholFormateado = parsearADouble(alcohol, "La graduacion del alcohol deben ser un número");
+            double volumenFormateado = parsearADouble(volumen, "El volumen debe ser un número");
+            double alcoholFormateado = parsearADouble(alcohol, "La graduación del alcohol debe ser un número");
 
-            // Creación de un nuevo plato y almacenamiento en la memoria
-            ItemMenu bebida = new Bebida(nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
-            ItemMenuMemory imm = ItemMenuMemory.getInstance();
-            imm.agregarItemMenu(bebida);
-
+            //TODO  ItemMenu bebida = new Bebida(nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
+            //itemMenuMemory.agregarItemMenu(bebida);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
-    
-     public void editarBebida(Integer id, String nombre, String descripcion, String precio, boolean aptoVegano, String peso, String volumen, String alcohol, Integer vendedorId) throws Exception {
 
+    public void editarBebida(Integer id, String nombre, String descripcion, String precio, boolean aptoVegano, String peso, String volumen, String alcohol, Integer vendedorId) throws Exception {
         try {
-            // Validación y conversión de precio, peso y calorías a Double
             double precioFormateado = parsearADouble(precio, "El precio debe ser un número");
             double pesoFormateado = parsearADouble(peso, "El peso debe ser un número");
-            double volumenFormateado = parsearADouble(volumen, "El volumen deben ser un número");
-            double alcoholFormateado = parsearADouble(alcohol, "La graduacion del alcohol deben ser un número");
+            double volumenFormateado = parsearADouble(volumen, "El volumen debe ser un número");
+            double alcoholFormateado = parsearADouble(alcohol, "La graduación del alcohol debe ser un número");
 
-            // Creación de un nuevo plato y almacenamiento en la memoria
-            ItemMenu bebida = new Bebida(nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
-            ItemMenuMemory imm = ItemMenuMemory.getInstance();
-            imm.editarItemMenu(id, bebida);
-
+            //TODO ItemMenu bebida = new Bebida(nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
+            //itemMenuMemory.editarItemMenu(id, bebida);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -104,4 +99,13 @@ public class ItemMenuController {
             throw new Exception(mensajeError);
         }
     }
+
+    public List<ItemMenu> listarItemsMenu() {
+        return itemMenuDAO.listarItemMenus();
+    }
+
+    public ItemMenu buscarItemMenuPorId(int id) {
+        return itemMenuDAO.buscarItemMenuPorId(id);
+    }
+
 }

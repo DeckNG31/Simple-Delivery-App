@@ -32,23 +32,7 @@ public class Tp {
         //etapa3Pruebas();
         //etapa4Pruebas();
         //etapa5Pruebas();
-        VendedorMemory vm = VendedorMemory.getInstance();
-        vm.crearVendedor("Toreto", "Chaco 12", new Coordenada(-60.7413545, -60.5405618));
-        vm.crearVendedor("Evaristo", "California 2445", new Coordenada(-31.7413545, -60.5405618));
-        vm.crearVendedor("Rodney Sacks", "New York 324", new Coordenada(-37.7413945, -10.5405818));
-        vm.crearVendedor("El Benya", "Zapallito 352", new Coordenada(-55.7413945, -10.5405818));
 
-        ItemMenuMemory imm = ItemMenuMemory.getInstance();
-        imm.agregarItemMenu(new Bebida("Coca-Cola", "Refresco gaseoso", 2.5, true, 0.5, 0.33, 0.0, 0));
-        imm.agregarItemMenu(new Bebida("Pepsi", "Refresco gaseoso", 2.5, true, 0.5, 0.33, 0.0, 1));
-        imm.agregarItemMenu(new Bebida("Cerveza", "Cerveza artesanal", 5.0, false, 0.6, 0.5, 5.0, 2));
-        imm.agregarItemMenu(new Bebida("Vino Tinto", "Vino rojo, añejado", 10.0, false, 0.75, 0.75, 12.0, 3));
-        imm.agregarItemMenu(new Bebida("Jugo de Naranja", "Jugo natural", 3.0, true, 0.4, 0.3, 0.0, 0));
-        imm.agregarItemMenu(new Plato("Ensalada", "Ensalada mixta", 6.5, true, 0.3, 150.0, true, 1));
-        imm.agregarItemMenu(new Plato("Pizza", "Pizza de queso", 8.0, false, 0.8, 700.0, false, 2));
-        imm.agregarItemMenu(new Plato("Hamburguesa", "Hamburguesa con queso", 7.5, false, 0.5, 800.0, false, 3));
-        imm.agregarItemMenu(new Plato("Pasta", "Pasta con salsa", 6.0, true, 0.4, 600.0, true, 0));
-        imm.agregarItemMenu(new Plato("Sopa", "Sopa de verduras", 4.5, true, 0.5, 200.0, true, 1));
 
         SwingUtilities.invokeLater(() -> {
             JFrame main = new MainVista();

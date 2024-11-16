@@ -21,14 +21,14 @@ import view.MainVista;
  */
 public class ListaItemMenuVista extends javax.swing.JFrame {
 
-    ItemMenuMemory imm;
+    ItemMenuController imc;
 
     /**
      * Creates new form ListaClienteVista
      */
     public ListaItemMenuVista() {
         initComponents();
-        imm = ItemMenuMemory.getInstance();
+        imc = ItemMenuController.getInstance();
 
         llenarTabla();
 
@@ -42,16 +42,17 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
             }
         };
 
-        String titulos[] = {"ID", "Nombre", "Descripcion", "Precio", "Apto para veganos", "Peso", "Calorias", "Apto para celiacos", "Volumen", "Graduacion Alcohol", "Vendedor"};
+        String titulos[] = {"ID", "Tipo", "Nombre", "Descripcion", "Precio", "Apto para veganos", "Peso", "Calorias", "Apto para celiacos", "Volumen", "Graduacion Alcohol", "Vendedor"};
         Modelotabla.setColumnIdentifiers(titulos);
 
         // Llenar la tabla con los datos de los clientes
-        imm.itemsMenu.forEach(im -> {
+        imc.listarItemsMenu().forEach(im -> {
 
             if (im instanceof Plato) {
                 Plato plato = (Plato) im; // Hacemos un casting a Plato
                 Modelotabla.addRow(new Object[]{
                     plato.getId(),
+                    "Plato",
                     plato.getNombre(),
                     plato.getDescripcion(),
                     plato.getPrecio(),
@@ -69,6 +70,7 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
                 Bebida bebida = (Bebida) im; // Hacemos un casting a Plato
                 Modelotabla.addRow(new Object[]{
                     bebida.getId(),
+                    "Bebida",
                     bebida.getNombre(),
                     bebida.getDescripcion(),
                     bebida.getPrecio(),
@@ -265,17 +267,17 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (tablaClientes.getSelectedRow() > -1) {
             try {
-                Integer imtemMenuId = (Integer) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
+                Integer itemMenuId = (Integer) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
 
-                if (imm.buscarItemMenu(imtemMenuId) instanceof Plato) {
-                    HelpersVista.cambiarVentana(this, EditarPlatoVista.class, imtemMenuId);
+                if (imc.buscarItemMenuPorId(itemMenuId) instanceof Plato) {
+                    HelpersVista.cambiarVentana(this, EditarPlatoVista.class, itemMenuId);
                 }
 
-                if (imm.buscarItemMenu(imtemMenuId) instanceof Bebida) {
+                /* TODO
+                if (imc.buscarItemMenu(imtemMenuId) instanceof Bebida) {
 
                     HelpersVista.cambiarVentana(this, EditarBebidaVista.class, imtemMenuId);
-                }
-
+                }*/
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -290,19 +292,22 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
         if (tablaClientes.getSelectedRows().length < 1) {
             HelpersVista.mostrarMensaje("Selecciona una o mas items !", "Error", "Alerta");
         } else {
-            for (int i : tablaClientes.getSelectedRows()) {
+            for (int i = tablaClientes.getSelectedRowCount() - 1; i >= 0; i--) {
                 try {
-                    //controller
-                    Integer imtemMenuId = (Integer) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
-                    ItemMenuController imc = new ItemMenuController();
+                    // Obtener el índice de la fila seleccionada
+                    int rowIndex = tablaClientes.getSelectedRows()[i];
+                    Integer itemMenuId = (Integer) tablaClientes.getValueAt(rowIndex, 0);
 
-                    imc.eliminarItemMenu(imtemMenuId);
+                    // Eliminar el item del menú
+                    imc.eliminarItemMenu(itemMenuId);
 
-                    model.removeRow(i);
+                    // Eliminar la fila de la tabla
+                    model.removeRow(rowIndex);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             }
+
         }
     }//GEN-LAST:event_eliminarBtnActionPerformed
 
