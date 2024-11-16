@@ -5,6 +5,7 @@
 package view.ItemMenu;
 
 import controllers.ItemMenuController;
+import controllers.VendedorController;
 import helpers.HelpersVista;
 import isi.deso.tp.menu.Bebida;
 import javax.swing.table.DefaultTableModel;
@@ -20,9 +21,8 @@ public class EditarBebidaVista extends javax.swing.JFrame {
 
     public Integer itemMenuId;
     public Integer vendedorId; //dueño del item menu
-    public ItemMenuMemory imm;
-    public VendedorMemory vm;
-
+    public ItemMenuController imc;
+    public VendedorController vc;
     /**
      * Creates new form EditarBebidaVista
      */
@@ -32,14 +32,12 @@ public class EditarBebidaVista extends javax.swing.JFrame {
 
     public EditarBebidaVista(Integer id) {
         itemMenuId = id;
-        vm = VendedorMemory.getInstance();
-        imm = ItemMenuMemory.getInstance();
+        vc = VendedorController.getInstance();
+        imc = ItemMenuController.getInstance();
         initComponents();
 
-        vendedorId = imm.buscarItemMenu(itemMenuId).getVendedorId();
-
-        //buscar cliente por id
-        Bebida b = (Bebida) imm.buscarItemMenu(id);
+        Bebida b = (Bebida) imc.buscarItemMenuPorId(itemMenuId);
+        vendedorId = b.getVendedorId();
 
         //insertar en fields
         nombreInput.setText(b.getNombre());
@@ -68,7 +66,7 @@ public class EditarBebidaVista extends javax.swing.JFrame {
         int currentIndex = 0;
 
         // Llenar la tabla con los datos de los vendedores
-        for (var v : vm.vendedores) {
+        for (var v : vc.listarVendedores()) {
             Modelotabla.addRow(new Object[]{v.getId(), v.getNombre()});
 
             if (v.getId() == vendedorId) {
@@ -333,9 +331,7 @@ public class EditarBebidaVista extends javax.swing.JFrame {
             //obtener checkbox
             boolean aptoVegano = veganoBox.isSelected();
 
-            //TODO ItemMenuController imc = new ItemMenuController();
-
-            //TODO imc.editarBebida(itemMenuId, nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, pesoInput.getText(), volumenInput.getText(), alcoholInput.getText(), vendedorId);
+            imc.editarBebida(itemMenuId, nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, pesoInput.getText(), volumenInput.getText(), alcoholInput.getText(), vendedorId);
 
             //vuelve
             HelpersVista.cambiarVentana(this, ListaItemMenuVista.class);

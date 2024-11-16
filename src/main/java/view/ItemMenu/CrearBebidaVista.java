@@ -5,6 +5,7 @@
 package view.ItemMenu;
 
 import controllers.ItemMenuController;
+import controllers.VendedorController;
 import helpers.HelpersVista;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -16,14 +17,16 @@ import memories.VendedorMemory;
  */
 public class CrearBebidaVista extends javax.swing.JFrame {
 
-    VendedorMemory vm;
+    VendedorController vc;
+    ItemMenuController imc;
 
     /**
      * Creates new form CrearBebidaVista
      */
     public CrearBebidaVista() {
         initComponents();
-        vm = VendedorMemory.getInstance();
+        vc = VendedorController.getInstance();
+        imc = ItemMenuController.getInstance();
         cargarVendedores();
     }
 
@@ -238,26 +241,26 @@ public class CrearBebidaVista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
   public void cargarVendedores() {
-        DefaultTableModel Modelotabla = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Evita que todas las celdas sean editables
-            }
-        };
+      DefaultTableModel Modelotabla = new DefaultTableModel() {
+          @Override
+          public boolean isCellEditable(int row, int column) {
+              return false; // Evita que todas las celdas sean editables
+          }
+      };
 
-        String titulos[] = {"ID", "Nombre"};
-        Modelotabla.setColumnIdentifiers(titulos);
+      String titulos[] = {"ID", "Nombre"};
+      Modelotabla.setColumnIdentifiers(titulos);
 
-        // Llenar la tabla con los datos de los vendedores
-        vm.vendedores.forEach(v -> {
-            Modelotabla.addRow(new Object[]{v.getId(), v.getNombre()});
-        });
+      // Llenar la tabla con los datos de los vendedores
+      vc.listarVendedores().forEach(v -> {
+          Modelotabla.addRow(new Object[]{v.getId(), v.getNombre()});
+      });
 
-        // Establecer el modelo en la tabla
-        tablaVendedores.setModel(Modelotabla);
+      // Establecer el modelo en la tabla
+      tablaVendedores.setModel(Modelotabla);
 
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(Modelotabla);
-        tablaVendedores.setRowSorter(sorter);
+      TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(Modelotabla);
+      tablaVendedores.setRowSorter(sorter);
     }
     private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
 
@@ -270,7 +273,7 @@ public class CrearBebidaVista extends javax.swing.JFrame {
                     || volumenInput.getText().equals("")
                     || alcoholInput.getText().equals("")) {
 
-                throw new Exception("Llena todo lcdtm");
+                throw new Exception("Llena todos los campos");
             }
 
             //comprobar si selecciono vendedor
@@ -291,9 +294,7 @@ public class CrearBebidaVista extends javax.swing.JFrame {
             //obtener checkbox
             boolean aptoVegano = veganoBox.isSelected();
 
-           //TODO ItemMenuController imc = new ItemMenuController();
-
-           //TODO imc.crearBebida(nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, pesoInput.getText(), volumenInput.getText(), alcoholInput.getText(), vendedorId);
+           imc.crearBebida(nombreInput.getText(), descripcionInput.getText(), precioInput.getText(), aptoVegano, pesoInput.getText(), volumenInput.getText(), alcoholInput.getText(), vendedorId);
 
             //vuelve
             HelpersVista.cambiarVentana(this, ListaItemMenuVista.class);
