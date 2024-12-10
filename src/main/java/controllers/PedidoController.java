@@ -27,7 +27,7 @@ public class PedidoController {
     // Crear un pedido
     public void crearPedido(Double total, LocalDate fecha, Integer clienteId, String metodoPagoStr) {
         // Convertir el String de metodoPago a un objeto MetodoPago
-        MetodoPago metodoPago = obtenerMetodoPago;
+        MetodoPago metodoPago = obtenerMetodoPago(metodoPagoStr);
 
         // Crear un objeto Pedido
         Pedido pedido = new Pedido(total, fecha, clienteId, metodoPago /*, detallepedido*/);
@@ -72,11 +72,11 @@ public class PedidoController {
         // Aquí deberías mapear el String al tipo de MetodoPago adecuado.
         switch (metodoPagoStr.toLowerCase()) {
             case "efectivo":
-                return (new Efectivo);
+                //return new Efectivo();
             case "mercadopago":
-                return MetodoPago.MERCADOPAGO;
+                //return MetodoPago.MERCADOPAGO;
             case "transferencia":
-                return new MercadoPago;
+                //return new MercadoPago();
             default:
                 return null; // O lanzar una excepción si el método de pago no es válido
         }

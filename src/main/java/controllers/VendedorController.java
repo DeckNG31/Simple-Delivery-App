@@ -9,6 +9,7 @@ import DAOs.VendedorDAO;
 import JDBCs.VendedorJDBC;
 import isi.deso.tp.usuarios.Coordenada;
 import isi.deso.tp.usuarios.Vendedor;
+import java.util.ArrayList;
 import memories.VendedorMemory;
 
 import java.util.List;
@@ -70,6 +71,8 @@ public class VendedorController {
     public Vendedor buscarVendedorPorId(int id) {
         return vendedorDAO.buscarVendedorPorId(id); // Llama al DAO para buscar un vendedor por ID
     }
+
+    public ArrayList<Integer> obtenerIds() {
+        return vendedorDAO.obtenerIds();
+    }
 }
-
-

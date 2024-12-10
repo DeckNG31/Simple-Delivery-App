@@ -5,6 +5,7 @@
 package DAOs;
 
 import isi.deso.tp.usuarios.Vendedor;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,4 +23,6 @@ public interface VendedorDAO {
     public void eliminarVendedor(int id); // elimina 
 
     public Vendedor buscarVendedorPorId(int id); // busca
+    
+     public ArrayList<Integer> obtenerIds();
 }

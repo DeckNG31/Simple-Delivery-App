@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Deck
  */
-public class Vendedor {
+public class Vendedor implements Usuario{
 
     private int id;
     private String nombre;
@@ -88,6 +88,8 @@ public class Vendedor {
     public Vendedor() {
     }
 
+   
+    
     @Override
     public String toString() {
         return "Vendedor{" + "id=" + id + ", nombre=" + nombre + ", direccion=" + direccion + ", coord= " + coord.toString() + '}';
@@ -188,4 +190,9 @@ public class Vendedor {
         return aux;
     }
 */
+    
+      @Override
+    public String getTipo() {
+        return "vendedor";
+    }
 }

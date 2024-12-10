@@ -15,30 +15,49 @@ import javax.swing.JOptionPane;
  */
 public class HelpersVista {
 
-    public static void cambiarVentana(JFrame ventanaACerrar, Class<? extends JFrame> claseVentanaAbrir) {
+    
+ 
+    
+  
+    public static <T> void abrirVentana(Class<? extends JFrame> claseVentanaAbrir, T... parametros) {
         try {
-            // Crear una instancia de la nueva ventana a abrir
-            JFrame ventanaAbrir = claseVentanaAbrir.getDeclaredConstructor().newInstance();
+            Class<?>[] tiposParametros = new Class[parametros.length];
+            for (int i = 0; i < parametros.length; i++) {
+                tiposParametros[i] = parametros[i].getClass();
+            }
 
+            Constructor<? extends JFrame> constructor = claseVentanaAbrir.getDeclaredConstructor(tiposParametros);
+
+       
+           JFrame ventanaAbrir = constructor.newInstance(parametros);
+
+            ventanaAbrir.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             ventanaAbrir.setLocationRelativeTo(null); // Centrar la nueva ventana
             ventanaAbrir.setVisible(true);            // Mostrar la nueva ventana
 
-            ventanaACerrar.setVisible(false);         // Ocultar la ventana actual
-
-            ventanaACerrar.dispose(); //libera recursos
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static <T> void cambiarVentana(JFrame ventanaACerrar, Class<? extends JFrame> claseVentanaAbrir, T parametroVentanaAbrir) {
-        try {
-            // Obtener el constructor que toma el tipo de parametroVentanaAbrir
-            Constructor<? extends JFrame> constructor = claseVentanaAbrir.getDeclaredConstructor(parametroVentanaAbrir.getClass());
 
-            // Crear la nueva instancia de ventana pasando el parámetro
-            JFrame ventanaAbrir = constructor.newInstance(parametroVentanaAbrir);
+
+    public static <T> void cambiarVentana(JFrame ventanaACerrar, Class<? extends JFrame> claseVentanaAbrir, T... parametros) {
+        try {
             
+       
+            
+              Class<?>[] tiposParametros = new Class[parametros.length];
+            for (int i = 0; i < parametros.length; i++) {
+                tiposParametros[i] = parametros[i].getClass();
+            }
+
+            Constructor<? extends JFrame> constructor = claseVentanaAbrir.getDeclaredConstructor(tiposParametros);
+
+       
+           JFrame ventanaAbrir = constructor.newInstance(parametros);
+
+            ventanaAbrir.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             ventanaAbrir.setLocationRelativeTo(null); // Centrar la nueva ventana
             ventanaAbrir.setVisible(true);            // Mostrar la nueva ventana
 
@@ -50,6 +69,7 @@ public class HelpersVista {
         }
     }
 
+    
     public static void mostrarMensaje(String mensaje, String tipoDeMensaje, String titulo) {
         JOptionPane optionpane = new JOptionPane(mensaje);
         if (tipoDeMensaje.equals("Info")) {

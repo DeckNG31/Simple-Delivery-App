@@ -14,9 +14,12 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import memories.ItemMenuMemory;
 import memories.VendedorMemory;
 import view.vendedor.ListaVendedorVista;
+import view.AdminVista;
 import view.MainVista;
 
 /**
@@ -35,9 +38,21 @@ public class Tp {
 
 
         SwingUtilities.invokeLater(() -> {
-            JFrame main = new MainVista();
-            main.setLocationRelativeTo(null);
-            main.setVisible(true);
+           try {
+                // Cambiar el Look and Feel a Nimbus
+                  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                
+                // O si prefieres Nimbus, descomenta la siguiente línea:
+                // UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+
+                // Crear la ventana principal
+                JFrame main = new MainVista();
+                main.setLocationRelativeTo(null);
+                main.setVisible(true);
+            } catch (UnsupportedLookAndFeelException | ClassNotFoundException |
+                     InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
 
         });
 

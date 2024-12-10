@@ -14,7 +14,9 @@ import java.util.List;
 public interface ItemMenuDAO {
 
     public List<ItemMenu> listarItemMenus(); // Listado
+    public List<ItemMenu> listarItemMenusPorVendedor(int vendedorId); // Listado
 
+    
     public void crearItemMenu(ItemMenu p); // crea
 
     public void editarItemMenu(ItemMenu p); // edita

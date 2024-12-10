@@ -191,5 +191,22 @@ public class VendedorJDBC implements VendedorDAO {
         }
         return null;
     }
+    
+     public ArrayList<Integer> obtenerIds(){
+      ArrayList<Integer> listaIds = new ArrayList<>();
+        Connection conn = DBConnector.getInstance();
+        String query = "SELECT id FROM vendedor";
+        try (Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+
+                listaIds.add(id);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteJDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaIds;
+    }
 }
 

@@ -4,6 +4,7 @@
  */
 package view.cliente;
 
+import controllers.AutenticacionController;
 import view.cliente.*;
 import controllers.ClienteController;
 import helpers.HelpersVista;
@@ -12,6 +13,7 @@ import isi.deso.tp.usuarios.Cliente;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import memories.ClienteMemory;
+import view.ClienteVista;
 
 /**
  *
@@ -219,7 +221,12 @@ public class EditarClienteVista extends javax.swing.JFrame {
 
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
 
-        HelpersVista.cambiarVentana(this, ListaClienteVista.class);
+        String rol = AutenticacionController.getInstance().getTipoUsuario();
+        switch (rol){
+          case "admin" -> HelpersVista.cambiarVentana(this, ListaClienteVista.class);
+          case "cliente" -> HelpersVista.cambiarVentana(this, ClienteVista.class);
+        } 
+              
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     /**

@@ -223,5 +223,64 @@ public class ItemMenuJDBC implements ItemMenuDAO {
         }
         return null;
     }
+    
+    @Override
+  public List<ItemMenu> listarItemMenusPorVendedor(int vendedorId) {
+        List<ItemMenu> lista = new ArrayList<>();
+        Connection conn = DBConnector.getInstance();
+        String query = "SELECT * FROM item_menu WHERE vendedorId = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, vendedorId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                double precio = rs.getDouble("precio");
+                Double peso = rs.getDouble("peso");
+                
+                Boolean aptoVegano = rs.getBoolean("apto_Vegano");
+
+                // Datos específicos de comida
+                Double calorias = rs.getDouble("calorias"); // Obtener el valor como double
+                Boolean aptoCeliaco;
+
+                if (rs.wasNull()) {
+                    calorias = null; // Si el valor era NULL en la base de datos, asignamos null
+                    aptoCeliaco = null;
+                } else {
+
+                    aptoCeliaco = rs.getBoolean("apto_Celiaco");
+                }
+
+                // Datos específicos de bebida
+                Double graduacionAlcohol = rs.getDouble("graduacion_Alcohol");
+                String tamanio;
+                if (rs.wasNull()) {
+                    graduacionAlcohol = null;
+                    tamanio = null;
+                } else {
+                    tamanio = rs.getString("tamanio");
+                }
+
+                Double volumen = tamanio != null ? parsearVolumen(tamanio) : null;
+
+                ItemMenu item = null;
+
+                if (calorias != null && aptoCeliaco != null) {
+                    // Crear un objeto Plato si tiene valores en los campos de comida
+                    item = new Plato(id, nombre, descripcion, precio, aptoVegano, peso, calorias, aptoCeliaco, vendedorId);
+                } else if (graduacionAlcohol != null && volumen != null) {
+                    // Crear un objeto Bebida si tiene valores en los campos de bebida
+                    item = new Bebida(id, nombre, descripcion, precio, aptoVegano, peso, volumen, graduacionAlcohol, vendedorId);
+                }
+
+                lista.add(item);
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error al listar items de menú", ex);
+        }
+        return lista;}
 
 }

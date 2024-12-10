@@ -108,4 +108,8 @@ public class ItemMenuController {
         return itemMenuDAO.buscarItemMenuPorId(id);
     }
 
+    public List<ItemMenu> listarItemMenusPorVendedor(int vendedorId){
+    return itemMenuDAO.listarItemMenusPorVendedor(vendedorId);
+    }
+    
 }

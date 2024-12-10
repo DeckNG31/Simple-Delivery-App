@@ -3,11 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-import view.vendedor.ListaVendedorVista;
+
+import controllers.ClienteController;
+import controllers.VendedorController;
 import helpers.HelpersVista;
-import view.ItemMenu.ListaItemMenuVista;
-import view.cliente.ListaClienteVista;
-import view.pedido.CrearPedidoVista;
 
 /**
  *
@@ -15,6 +14,8 @@ import view.pedido.CrearPedidoVista;
  */
 public class MainVista extends javax.swing.JFrame {
 
+ 
+    
     /**
      * Creates new form MainVista
      */
@@ -32,17 +33,17 @@ public class MainVista extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        vendedorBtn = new javax.swing.JButton();
+        adminBtn = new javax.swing.JButton();
         clienteBtn = new javax.swing.JButton();
-        itemMenuBtn = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        vendedorBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        vendedorBtn.setText("Vendedor");
-        vendedorBtn.addActionListener(new java.awt.event.ActionListener() {
+        adminBtn.setText("Admin");
+        adminBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vendedorBtnActionPerformed(evt);
+                adminBtnActionPerformed(evt);
             }
         });
 
@@ -53,17 +54,12 @@ public class MainVista extends javax.swing.JFrame {
             }
         });
 
-        itemMenuBtn.setText("ItemMenu");
-        itemMenuBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemMenuBtnActionPerformed(evt);
-            }
-        });
+        jLabel1.setText("¿ Cual es su rol ?");
 
-        jButton4.setText("Pedido");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        vendedorBtn.setText("Vendedor");
+        vendedorBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                vendedorBtnActionPerformed(evt);
             }
         });
 
@@ -72,64 +68,65 @@ public class MainVista extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(vendedorBtn)
-                        .addGap(18, 18, 18)
-                        .addComponent(clienteBtn))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(itemMenuBtn)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(adminBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vendedorBtn)
+                    .addComponent(clienteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(vendedorBtn)
-                    .addComponent(clienteBtn))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(itemMenuBtn)
-                    .addComponent(jButton4))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(clienteBtn)
+                .addGap(18, 18, 18)
+                .addComponent(vendedorBtn)
+                .addGap(18, 18, 18)
+                .addComponent(adminBtn)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void vendedorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendedorBtnActionPerformed
-
-        HelpersVista.cambiarVentana(this,ListaVendedorVista.class);
-    }//GEN-LAST:event_vendedorBtnActionPerformed
+    private void adminBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminBtnActionPerformed
+        // TODO add your handling code here:
+        HelpersVista.cambiarVentana(this, AdminVista.class);
+    }//GEN-LAST:event_adminBtnActionPerformed
 
     private void clienteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteBtnActionPerformed
-        HelpersVista.cambiarVentana(this,ListaClienteVista.class);
+        // TODO add your handling code here:
+         HelpersVista.cambiarVentana(this, LoginVista.class,"cliente");
+         
     }//GEN-LAST:event_clienteBtnActionPerformed
 
-    private void itemMenuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuBtnActionPerformed
-        HelpersVista.cambiarVentana(this,ListaItemMenuVista.class);
-    }//GEN-LAST:event_itemMenuBtnActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void vendedorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendedorBtnActionPerformed
         // TODO add your handling code here:
-        HelpersVista.cambiarVentana(this,CrearPedidoVista.class);
-    }//GEN-LAST:event_jButton4ActionPerformed
+         HelpersVista.cambiarVentana(this,LoginVista.class,"vendedor");
+    }//GEN-LAST:event_vendedorBtnActionPerformed
 
+   
+    
     /**
      * @param args the command line arguments
      */
@@ -166,9 +163,9 @@ public class MainVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adminBtn;
     private javax.swing.JButton clienteBtn;
-    private javax.swing.JButton itemMenuBtn;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton vendedorBtn;
     // End of variables declaration//GEN-END:variables

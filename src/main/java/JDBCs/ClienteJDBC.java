@@ -1,6 +1,7 @@
 package JDBCs;
 
 import DAOs.ClienteDAO;
+import exceptions.UsuarioNoEncontradoException;
 import isi.deso.tp.usuarios.Cliente;
 import isi.deso.tp.usuarios.Coordenada;
 import java.sql.Connection;
@@ -144,6 +145,10 @@ public class ClienteJDBC implements ClienteDAO {
 
                 return new Cliente(id, nombre, cuit, email, direccion, coord);
             }
+            else {
+            // Lanzar la excepción si no se encuentra el cliente
+            throw new UsuarioNoEncontradoException("Cliente con ID " + id + " no encontrado.");
+        }
         } catch (SQLException ex) {
             Logger.getLogger(ClienteJDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -167,5 +172,23 @@ public class ClienteJDBC implements ClienteDAO {
             Logger.getLogger(ClienteJDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    
+    public ArrayList<Integer> obtenerIds(){
+      ArrayList<Integer> listaIds = new ArrayList<>();
+        Connection conn = DBConnector.getInstance();
+        String query = "SELECT id FROM cliente";
+        try (Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+
+                listaIds.add(id);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteJDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaIds;
     }
 }

@@ -8,6 +8,7 @@ import JDBCs.ClienteJDBC;
 import DAOs.ClienteDAO;
 import isi.deso.tp.usuarios.Cliente;
 import isi.deso.tp.usuarios.Coordenada;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,5 +62,9 @@ public class ClienteController {
 
     public Cliente buscarClientePorId(int id) {
         return clienteDAO.buscarClientePorId(id);
+    }
+    
+    public ArrayList<Integer> obtenerIds(){
+    return clienteDAO.obtenerIds();
     }
 }

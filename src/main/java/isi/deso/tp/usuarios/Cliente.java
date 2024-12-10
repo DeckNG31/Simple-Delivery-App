@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Deck
  */
-public class Cliente implements SuscriptorPedido {
+public class Cliente implements SuscriptorPedido, Usuario{
 
     private int id;
     private String nombre;
@@ -138,6 +138,11 @@ public class Cliente implements SuscriptorPedido {
 
             factura.pagar();
         }
+    }
+
+    @Override
+      public String getTipo() {
+        return "cliente";
     }
 
 }

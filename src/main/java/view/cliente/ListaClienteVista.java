@@ -12,7 +12,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 //import memories.ClienteMemory;
-import view.MainVista;
+import view.AdminVista;
 
 /**
  *
@@ -267,7 +267,7 @@ public class ListaClienteVista extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        HelpersVista.cambiarVentana(this, MainVista.class);
+        HelpersVista.cambiarVentana(this, AdminVista.class);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public void buscar() {

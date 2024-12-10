@@ -5,6 +5,7 @@
 package DAOs;
 
 import isi.deso.tp.usuarios.Cliente;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,4 +23,6 @@ public interface ClienteDAO {
     public void eliminarCliente(int id); // elimina 
 
     public Cliente buscarClientePorId(int id); // busca
+    
+    public ArrayList<Integer> obtenerIds();
 }
