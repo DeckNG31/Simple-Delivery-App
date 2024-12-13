@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import exceptions.UsuarioNoEncontradoException;
 import isi.deso.tp.usuarios.Cliente;
 import isi.deso.tp.usuarios.Usuario;
 import isi.deso.tp.usuarios.Vendedor;
@@ -13,44 +14,56 @@ import isi.deso.tp.usuarios.Vendedor;
  * @author mariano
  */
 public class AutenticacionController {
-   private static AutenticacionController instance;
+
+    private static AutenticacionController instance;
     private static Usuario usuarioAutenticado;
 
     private static String tipoUsuario = "admin";
-    
-    
-    public static String getTipoUsuario(){
-        return tipoUsuario;
-    } 
-    
-    private AutenticacionController() {}
 
-     public static AutenticacionController getInstance() {
-     
+    public static String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    private AutenticacionController() {
+    }
+
+    public static AutenticacionController getInstance() {
+
         if (instance == null) {
             instance = new AutenticacionController();
         }
-        return instance;  
+        return instance;
     }
-    
-      public Usuario autenticarUsuario(String tipoUsuario, Integer id) {
+
+    public Usuario autenticarUsuario(String tipoUsuario, Integer id) {
         // Si el usuario ya está autenticado, no hacer nadaautenticarUsuario
         if (usuarioAutenticado != null) {
             System.out.println("Ya hay un usuario autenticado.");
             return null;
         }
-   
+
         switch (tipoUsuario.toLowerCase()) {
             case "cliente":
-                usuarioAutenticado = ClienteController.getInstance().buscarClientePorId(id);
+                try {
+                    usuarioAutenticado = ClienteController.getInstance().buscarClientePorId(id);
+                } catch (Exception e) {
+                    throw new UsuarioNoEncontradoException("Usuario no encontrado");
+                }
+
                 if (usuarioAutenticado == null) {
-                      return null;
+                    return null;
                 }
                 break;
             case "vendedor":
-                usuarioAutenticado = VendedorController.getInstance().buscarVendedorPorId(id); 
+                try {
+                    usuarioAutenticado = VendedorController.getInstance().buscarVendedorPorId(id);
+
+                } catch (Exception e) {
+                    throw new UsuarioNoEncontradoException("Usuario no encontrado");
+
+                }
                 if (usuarioAutenticado == null) {
-                     return null;
+                    return null;
                 }
                 break;
             default:
@@ -58,9 +71,9 @@ public class AutenticacionController {
         }
 
         this.tipoUsuario = tipoUsuario;
-        
+
         return usuarioAutenticado;
- 
+
     }
 
     public Cliente obtenerClienteAutenticado() {
@@ -86,8 +99,7 @@ public class AutenticacionController {
     // Método para cerrar sesión y limpiar la autenticación
     public void cerrarSesion() {
         usuarioAutenticado = null;
-        System.out.println("Sesión cerrada.");
+        tipoUsuario = "admin";
     }
 
-    
 }

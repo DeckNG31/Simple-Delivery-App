@@ -211,7 +211,13 @@ public class EditarClienteVista extends javax.swing.JFrame {
             longitudInput.setText("");
 
             //vuelve
-            HelpersVista.cambiarVentana(this, ListaClienteVista.class);
+            String rol = AutenticacionController.getInstance().getTipoUsuario();
+            switch (rol) {
+                case "admin" ->
+                    HelpersVista.cambiarVentana(this, ListaClienteVista.class);
+                case "cliente" ->
+                    HelpersVista.cambiarVentana(this, ClienteVista.class);
+            }
 
         } else {
 
@@ -222,11 +228,13 @@ public class EditarClienteVista extends javax.swing.JFrame {
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
 
         String rol = AutenticacionController.getInstance().getTipoUsuario();
-        switch (rol){
-          case "admin" -> HelpersVista.cambiarVentana(this, ListaClienteVista.class);
-          case "cliente" -> HelpersVista.cambiarVentana(this, ClienteVista.class);
-        } 
-              
+        switch (rol) {
+            case "admin" ->
+                HelpersVista.cambiarVentana(this, ListaClienteVista.class);
+            case "cliente" ->
+                HelpersVista.cambiarVentana(this, ClienteVista.class);
+        }
+
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     /**

@@ -15,6 +15,8 @@ public class Transferencia implements MetodoPago {
     private String cuit;
     private String cbu;
 
+    public Transferencia(){}
+    
     public Transferencia(String cuit, String cbu) {
         this.cuit = cuit;
         this.cbu = cbu;
@@ -43,7 +45,11 @@ public class Transferencia implements MetodoPago {
     
     
      public String getString(){
-        return "Transferencia";
+        return "transferencia";
     }
     
+     
+     
+
+  
 }

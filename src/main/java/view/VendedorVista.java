@@ -8,6 +8,8 @@ import controllers.AutenticacionController;
 import helpers.HelpersVista;
 import isi.deso.tp.usuarios.Vendedor;
 import view.ItemMenu.ListaItemMenuVista;
+import view.pedido.ListarPedidosVista;
+import view.vendedor.EditarVendedorVista;
 
 /**
  *
@@ -41,6 +43,7 @@ public class VendedorVista extends javax.swing.JFrame {
         itemMenuBtn = new javax.swing.JButton();
         editarPerdirBtn = new javax.swing.JButton();
         pedidosBtn = new javax.swing.JButton();
+        cerrarSesionBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,8 +57,25 @@ public class VendedorVista extends javax.swing.JFrame {
         });
 
         editarPerdirBtn.setText("Editar datos");
+        editarPerdirBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarPerdirBtnActionPerformed(evt);
+            }
+        });
 
         pedidosBtn.setText("Gestionar pedidos");
+        pedidosBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pedidosBtnActionPerformed(evt);
+            }
+        });
+
+        cerrarSesionBtn.setText("Cerrar sesion");
+        cerrarSesionBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cerrarSesionBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -73,6 +93,10 @@ public class VendedorVista extends javax.swing.JFrame {
                             .addComponent(editarPerdirBtn)
                             .addComponent(pedidosBtn))))
                 .addContainerGap(157, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(cerrarSesionBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,7 +109,9 @@ public class VendedorVista extends javax.swing.JFrame {
                 .addComponent(itemMenuBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(editarPerdirBtn)
-                .addGap(51, 51, 51))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cerrarSesionBtn)
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -108,6 +134,22 @@ public class VendedorVista extends javax.swing.JFrame {
         // TODO add your handling code here:
         HelpersVista.cambiarVentana(this, ListaItemMenuVista.class);
     }//GEN-LAST:event_itemMenuBtnActionPerformed
+
+    private void editarPerdirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarPerdirBtnActionPerformed
+        // TODO add your handling code here:
+         HelpersVista.cambiarVentana(this, EditarVendedorVista.class,AutenticacionController.getInstance().obtenerVendedorAutenticado().getId());
+    }//GEN-LAST:event_editarPerdirBtnActionPerformed
+
+    private void pedidosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pedidosBtnActionPerformed
+        // TODO add your handling code here:
+        HelpersVista.cambiarVentana(this, ListarPedidosVista.class);
+    }//GEN-LAST:event_pedidosBtnActionPerformed
+
+    private void cerrarSesionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarSesionBtnActionPerformed
+        // TODO add your handling code here:
+        AutenticacionController.getInstance().cerrarSesion();
+        HelpersVista.cambiarVentana(this, MainVista.class);
+    }//GEN-LAST:event_cerrarSesionBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,6 +187,7 @@ public class VendedorVista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cerrarSesionBtn;
     private javax.swing.JButton editarPerdirBtn;
     private javax.swing.JButton itemMenuBtn;
     private javax.swing.JPanel jPanel1;

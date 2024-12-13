@@ -65,15 +65,13 @@ public class ItemMenuJDBC implements ItemMenuDAO {
 
                 // Datos específicos de bebida
                 Double graduacionAlcohol = rs.getDouble("graduacion_Alcohol");
-                String tamanio;
+                Double volumen;
                 if (rs.wasNull()) {
                     graduacionAlcohol = null;
-                    tamanio = null;
+                    volumen = null;
                 } else {
-                    tamanio = rs.getString("tamanio");
+                    volumen = rs.getDouble("volumen");
                 }
-
-                Double volumen = tamanio != null ? parsearVolumen(tamanio) : null;
 
                 ItemMenu item = null;
 
@@ -91,15 +89,6 @@ public class ItemMenuJDBC implements ItemMenuDAO {
             logger.log(Level.SEVERE, "Error al listar items de menú", ex);
         }
         return lista;
-    }
-
-    private Double parsearVolumen(String tamanio) {
-        try {
-            return Double.parseDouble(tamanio.replace("ml", "").replace("L", ""));
-        } catch (NumberFormatException e) {
-            logger.log(Level.WARNING, "Error al parsear volumen: " + tamanio, e);
-            return null;
-        }
     }
 
     @Override
@@ -209,8 +198,14 @@ public class ItemMenuJDBC implements ItemMenuDAO {
                 Boolean aptoCeliaco = rs.wasNull() ? null : rs.getBoolean("apto_Celiaco");
 
                 Double graduacionAlcohol = rs.getDouble("graduacion_Alcohol");
-                String tamanio = rs.wasNull() ? null : rs.getString("tamanio");
-                Double volumen = tamanio != null ? parsearVolumen(tamanio) : null;
+                Double volumen;
+                if (rs.wasNull()) {
+                    graduacionAlcohol = null;
+                    volumen = null;
+                } else {
+                    volumen = rs.getDouble("volumen");
+                }
+               
 
                 if (calorias != null && aptoCeliaco != null) {
                     return new Plato(id, nombre, descripcion, precio, aptoVegano, peso, calorias, aptoCeliaco, vendedorId);
@@ -223,9 +218,57 @@ public class ItemMenuJDBC implements ItemMenuDAO {
         }
         return null;
     }
-    
+
     @Override
-  public List<ItemMenu> listarItemMenusPorVendedor(int vendedorId) {
+    public List<ItemMenu> buscarItemMenuPorIds(List<Integer> ids) {
+        List<ItemMenu> itemsMenus = new ArrayList<ItemMenu>();
+        String placeholders = String.join(",", ids.stream().map(id -> "?").toArray(String[]::new));
+
+        String query = "SELECT * FROM item_menu WHERE id IN (" + placeholders + ")";
+
+        Connection conn = DBConnector.getInstance();
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            for (int i = 0; i < ids.size(); i++) {
+                stmt.setInt(i + 1, ids.get(i));
+            }
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                double precio = rs.getDouble("precio");
+                int vendedorId = rs.getInt("vendedorId");  // Usamos el vendedorId directamente desde la base de datos
+                Boolean aptoVegano = rs.getBoolean("apto_Vegano");
+                Double peso = rs.getDouble("peso");
+
+                Double calorias = rs.getDouble("calorias");
+                Boolean aptoCeliaco = rs.wasNull() ? null : rs.getBoolean("apto_Celiaco");
+
+                Double graduacionAlcohol = rs.getDouble("graduacion_Alcohol");
+                Double volumen;
+                if (rs.wasNull()) {
+                    graduacionAlcohol = null;
+                    volumen = null;
+                } else {
+                    volumen = rs.getDouble("volumen");
+                }
+
+                if (calorias != null && aptoCeliaco != null) {
+                    itemsMenus.add(new Plato(id, nombre, descripcion, precio, aptoVegano, peso, calorias, aptoCeliaco, vendedorId));
+                } else if (graduacionAlcohol != null && volumen != null) {
+                    itemsMenus.add(new Bebida(id, nombre, descripcion, precio, aptoVegano, peso, volumen, graduacionAlcohol, vendedorId));
+                }
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error al buscar item de menú por ID", ex);
+        }
+        return itemsMenus;
+    }
+
+    @Override
+    public List<ItemMenu> listarItemMenusPorVendedor(int vendedorId) {
         List<ItemMenu> lista = new ArrayList<>();
         Connection conn = DBConnector.getInstance();
         String query = "SELECT * FROM item_menu WHERE vendedorId = ?";
@@ -239,7 +282,7 @@ public class ItemMenuJDBC implements ItemMenuDAO {
                 String descripcion = rs.getString("descripcion");
                 double precio = rs.getDouble("precio");
                 Double peso = rs.getDouble("peso");
-                
+
                 Boolean aptoVegano = rs.getBoolean("apto_Vegano");
 
                 // Datos específicos de comida
@@ -256,15 +299,13 @@ public class ItemMenuJDBC implements ItemMenuDAO {
 
                 // Datos específicos de bebida
                 Double graduacionAlcohol = rs.getDouble("graduacion_Alcohol");
-                String tamanio;
+                Double volumen;
                 if (rs.wasNull()) {
                     graduacionAlcohol = null;
-                    tamanio = null;
+                    volumen = null;
                 } else {
-                    tamanio = rs.getString("tamanio");
+                    volumen = rs.getDouble("volumen");
                 }
-
-                Double volumen = tamanio != null ? parsearVolumen(tamanio) : null;
 
                 ItemMenu item = null;
 
@@ -281,6 +322,7 @@ public class ItemMenuJDBC implements ItemMenuDAO {
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error al listar items de menú", ex);
         }
-        return lista;}
+        return lista;
+    }
 
 }

@@ -74,7 +74,7 @@ public class CrearBebidaVista extends javax.swing.JFrame {
 
         veganoBox.setText("Apto para vegano");
 
-        jLabel4.setText("Volumen");
+        jLabel4.setText("Volumen (ml)");
 
         jLabel9.setText("Graduacion de alcohol");
 

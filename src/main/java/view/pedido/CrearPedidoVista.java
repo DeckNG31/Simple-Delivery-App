@@ -4,17 +4,26 @@
  */
 package view.pedido;
 
+import controllers.AutenticacionController;
 import controllers.ClienteController;
+import controllers.ItemMenuController;
 import controllers.PedidoController;
 import helpers.HelpersVista;
 import isi.deso.tp.Pedido;
+import isi.deso.tp.menu.ItemMenu;
+import isi.deso.tp.menu.RegistroDetalle;
 import isi.deso.tp.usuarios.Cliente;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import view.ClienteVista;
 import view.ItemMenu.ListaItemMenuVista;
 
 /**
@@ -29,10 +38,28 @@ public class CrearPedidoVista extends javax.swing.JFrame {
     private final PedidoController pedidoDao;
     private DefaultTableModel modeloTablaItemMenu;
 
+    private LocalDate fechaActual;
+
+    private Integer vendedorId;
+
+    public Integer getVendedorId() {
+        return vendedorId;
+    }
+
+    public void setVendedorId(Integer vendedorId) {
+        this.vendedorId = vendedorId;
+    }
+
     public CrearPedidoVista() {
         initComponents();
 
         pedidoDao = PedidoController.getInstance();
+
+        fechaActual = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+        String fechaFormateada = fechaActual.format(formato);
+
+        labelFecha.setText(fechaFormateada);
 
         buttonGroup1.add(rbEfectivo);
         buttonGroup1.add(rbTransferencia);
@@ -40,9 +67,6 @@ public class CrearPedidoVista extends javax.swing.JFrame {
 
         //setea la precio total a 0
         labelTotal.setText("0");
-
-        //cargar clientes
-        cargarClientes();
 
         //inicializar tabla item menu
         modeloTablaItemMenu = new DefaultTableModel() {
@@ -58,72 +82,53 @@ public class CrearPedidoVista extends javax.swing.JFrame {
         tablaItemsAgregados.setModel(modeloTablaItemMenu);
     }
 
+    public void limpiarCarrito() {
+        DefaultTableModel modelo = (DefaultTableModel) tablaItemsAgregados.getModel();
+        modelo.setRowCount(0);
+        labelTotal.setText("0");
+    }
+
     public void addRowItemMenu(Object[] row) {
         //sumar total
         double precio = Double.parseDouble(row[2].toString());
         int cantidad = Integer.parseInt(row[3].toString());
-        
 
         //verificar si ya existe en la lista
         DefaultTableModel model = (DefaultTableModel) tablaItemsAgregados.getModel();
-        String nuevoId = row[0].toString(); 
+        String nuevoId = row[0].toString();
         boolean existe = false;
         int i;
         for (i = 0; i < model.getRowCount(); i++) {
-            String idExistente = model.getValueAt(i, 0).toString(); 
+            String idExistente = model.getValueAt(i, 0).toString();
             if (idExistente.equals(nuevoId)) {
-              existe = true;  
-              
+                existe = true;
+
                 break;
             }
         }
         if (!existe) {
             model.addRow(row);
         } else {
-           Integer cantActual = Integer.parseInt(model.getValueAt(i,3).toString()) ;
-           Integer cantNueva = cantActual + cantidad;
-           model.setValueAt(cantNueva, i, 3);
+            Integer cantActual = Integer.parseInt(model.getValueAt(i, 3).toString());
+            Integer cantNueva = cantActual + cantidad;
+            model.setValueAt(cantNueva, i, 3);
         }
 
-        
         sumarTotal(precio, cantidad);
     }
 
     private void sumarTotal(Double precio, Integer cantidad) {
         Double totalActual = Double.parseDouble(labelTotal.getText());
         Double nuevoTotal = totalActual + precio * cantidad;
+        nuevoTotal = Math.ceil(nuevoTotal * 100.0) / 100.0;
         labelTotal.setText(nuevoTotal.toString());
     }
 
     private void restarTotal(Double precio, Integer cantidad) {
         Double totalActual = Double.parseDouble(labelTotal.getText());
         Double nuevoTotal = totalActual - precio * cantidad;
+        nuevoTotal = Math.ceil(nuevoTotal * 100.0) / 100.0;
         labelTotal.setText(nuevoTotal.toString());
-    }
-
-    public void cargarClientes() {
-        DefaultTableModel Modelotabla = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Evita que todas las celdas sean editables
-            }
-        };
-
-        String titulos[] = {"ID", "Nombre"};
-        Modelotabla.setColumnIdentifiers(titulos);
-
-        // Llenar la tabla con los datos de los vendedores
-        ClienteController.getInstance().listarClientes().forEach(c -> {
-            Modelotabla.addRow(new Object[]{c.getId(), c.getNombre()});
-        });
-
-        // Establecer el modelo en la tabla
-        tablaClientes.setModel(Modelotabla);
-
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(Modelotabla);
-        tablaClientes.setRowSorter(sorter);
-        
-    tablaClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     /**
@@ -151,12 +156,7 @@ public class CrearPedidoVista extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         fieldCbu = new javax.swing.JTextField();
         rbEfectivo = new javax.swing.JRadioButton();
-        fecha = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         rbMercadoPago = new javax.swing.JRadioButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaClientes = new javax.swing.JTable();
         rbTransferencia = new javax.swing.JRadioButton();
         labelTotal = new javax.swing.JLabel();
         labelCliente = new javax.swing.JLabel();
@@ -179,9 +179,11 @@ public class CrearPedidoVista extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("Items agregados");
+        jLabel7.setText("Carrito");
 
         jLabel2.setText("CUIT");
+
+        labelFecha.setText("asdasda");
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -217,6 +219,11 @@ public class CrearPedidoVista extends javax.swing.JFrame {
         jLabel4.setText("CBU");
 
         fieldCbu.setEnabled(false);
+        fieldCbu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldCbuActionPerformed(evt);
+            }
+        });
 
         rbEfectivo.setText("Efectivo");
         rbEfectivo.addActionListener(new java.awt.event.ActionListener() {
@@ -225,12 +232,6 @@ public class CrearPedidoVista extends javax.swing.JFrame {
             }
         });
 
-        fecha.setText("Fecha: {dayname} {day} de {month} de {year}");
-
-        jLabel6.setText("Cliente seleccionado: ");
-
-        jLabel8.setText("Seleccione un cliente");
-
         rbMercadoPago.setText("Mercado Pago");
         rbMercadoPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,30 +239,14 @@ public class CrearPedidoVista extends javax.swing.JFrame {
             }
         });
 
-        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaClientesMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tablaClientes);
-
         rbTransferencia.setText("Transferencia");
         rbTransferencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbTransferenciaActionPerformed(evt);
             }
         });
+
+        labelTotal.setText("0.0");
 
         Guardar.setText("Guardar");
         Guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -282,90 +267,70 @@ public class CrearPedidoVista extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(105, 105, 105)
-                        .addComponent(fecha)
-                        .addGap(75, 75, 75)
-                        .addComponent(labelFecha))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelFecha)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(rbTransferencia)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(rbMercadoPago)
                                 .addGap(74, 74, 74)
                                 .addComponent(rbEfectivo))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnCancelar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Guardar))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(labelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(115, 115, 115)
                                 .addComponent(eliminarItemMenu)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAgregarItem))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(297, 297, 297))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btnCancelar)
-                                        .addGap(143, 143, 143)
-                                        .addComponent(Guardar)
-                                        .addGap(82, 82, 82))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel4)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(fieldCbu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                                                .addComponent(fieldCuit, javax.swing.GroupLayout.Alignment.LEADING))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel3)
-                                                .addComponent(fieldAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel6)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(labelCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addComponent(jLabel8)))))))
-                .addGap(33, 33, 33))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel4)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(fieldCbu, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(fieldCuit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(fieldAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel7)))
+                        .addGap(236, 236, 236)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelFecha))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(jLabel8)
+                .addComponent(labelCliente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(labelCliente))
+                .addComponent(labelFecha)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
                     .addComponent(btnAgregarItem)
-                    .addComponent(labelTotal)
-                    .addComponent(eliminarItemMenu))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                    .addComponent(eliminarItemMenu)
+                    .addComponent(jLabel9)
+                    .addComponent(labelTotal))
+                .addGap(18, 36, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbTransferencia)
                     .addComponent(rbMercadoPago)
-                    .addComponent(rbEfectivo))
+                    .addComponent(rbEfectivo)
+                    .addComponent(rbTransferencia))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -378,42 +343,29 @@ public class CrearPedidoVista extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fieldCbu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(Guardar))
-                .addGap(30, 30, 30))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
-        // TODO add your handling code here:
-         int row = tablaClientes.rowAtPoint(evt.getPoint());
-        if (row >= 0) {
-            // Obtener los datos de la fila clicada
-            String id = (String) tablaClientes.getValueAt(row, 0).toString();
-            String nombre = (String) tablaClientes.getValueAt(row, 1).toString();
-
-            labelCliente.setText(id + ", " + nombre);
-        }
-    }//GEN-LAST:event_tablaClientesMouseClicked
 
     private void rbEfectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEfectivoActionPerformed
         // TODO add your handling code here:
@@ -438,70 +390,80 @@ public class CrearPedidoVista extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        ventanaAbierta.dispose();
+        HelpersVista.cambiarVentana(this, ClienteVista.class);
+
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void fieldCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldCuitActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldCuitActionPerformed
 
+    private boolean isTablaVacia(JTable tabla) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        return modelo.getRowCount() == 0; // Devuelve true si no hay filas
+    }
+
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
 
-        // Validamos que los campos no estén vacíos y que se haya seleccionado un método de pago
-        if (!fieldAlias.getText().equals("")
-                && !fieldCbu.getText().equals("")
-                && !fieldCuit.getText().equals("")
-                && (rbEfectivo.isSelected() || rbMercadoPago.isSelected() || rbTransferencia.isSelected())) {
+        try {
+            if (isTablaVacia(tablaItemsAgregados)) {
+                throw new Exception("El carrito está vacio");
+            }
+            if (!rbMercadoPago.isSelected() && !rbTransferencia.isSelected() && !rbEfectivo.isSelected()) {
+                throw new Exception("Seleccione un metodo de pago");
+            }
 
-            // Obtenemos los valores de los campos
+            if (rbTransferencia.isSelected() && fieldCbu.getText().equals("") && fieldCuit.getText().equals("")) {
+                throw new Exception("La transferencia requiere CBU y CUIT");
+            }
+            if (rbMercadoPago.isSelected() && fieldAlias.getText().equals("")) {
+                throw new Exception("Mercado pago requiere el alias");
+            }
+            //apartir de aca podemos guardar
+
+            //guardar pedido
+            Double total = Double.parseDouble(labelTotal.getText());
+            Integer clienteId = AutenticacionController.getInstance().obtenerClienteAutenticado().getId();
+            String metodoPago = obtenerMetodoPagoSeleccionado();
             String alias = fieldAlias.getText();
             String cbu = fieldCbu.getText();
             String cuit = fieldCuit.getText();
-            String metodoPago = obtenerMetodoPagoSeleccionado();
-            //double total = calcularTotal();  // Suponiendo que tienes una función que calcula el total
-            //String fecha = obtenerFechaActual();  // Puedes usar una fecha actual o de selección
-            int clienteId = obtenerClienteSeleccionado(); // Asumiendo que tienes alguna forma de seleccionar un cliente
-
-            // pc.crearPedido(Double.NaN, LocalDate.EPOCH, WIDTH, metodoPagoStr);
-            // Crear el pedido
-            // Pedido pedido = new Pedido(fecha, total, metodoPago, cuit, alias, cbu, clienteId);
-            // Pedido pedido = new Pedido(total,fecha,clienteId,metodoPago);
-            // Guardar el pedido en la base de datos
-            // cc.crearPedido(pedido);
-            // Guardamos los detalles del pedido (items seleccionados)
-            //guardarDetallePedido(pedido.getId());
-            // Limpiar los campos
-            fieldAlias.setText("");
-            fieldCbu.setText("");
-            fieldCuit.setText("");
-
-            // Cambiar de vista (volvemos a la lista de pedidos)
-            HelpersVista.cambiarVentana(this, ListarPedidoVista.class);
-
-        } else {
-            // Mostrar un mensaje de error si los campos no están completos
-            HelpersVista.mostrarMensaje("Complete todos los campos y seleccione un método de pago", "Error", "Alerta");
+            List<RegistroDetalle> detalle = obtenerDetalle();
+            PedidoController.getInstance().crearPedido(detalle, total, fechaActual, clienteId, metodoPago, alias, cbu, cuit, vendedorId);
+            ventanaAbierta.dispose();
+            HelpersVista.cambiarVentana(this, ClienteVista.class);
+            //guardar pivot 
+        } catch (Exception e) {
+            HelpersVista.mostrarMensaje(e.getMessage(), "Error", "Alerta");
         }
-    }
-// Función para obtener el método de pago seleccionado
 
+    }
+
+    private List<RegistroDetalle> obtenerDetalle() {
+        List<RegistroDetalle> detalle = new ArrayList<>();
+        for (int i = 0; i < tablaItemsAgregados.getRowCount(); i++) {
+
+            Integer idItemMenu = Integer.parseInt(tablaItemsAgregados.getValueAt(i, 0).toString());
+
+            Integer cantidadRegistro = Integer.parseInt(tablaItemsAgregados.getValueAt(i, 3).toString());
+            RegistroDetalle registro = new RegistroDetalle(idItemMenu, cantidadRegistro);
+
+            detalle.add(registro);
+        }
+        return detalle;
+    }
+
+// Función para obtener el método de pago seleccionado
     private String obtenerMetodoPagoSeleccionado() {
         if (rbEfectivo.isSelected()) {
-            return "Efectivo";
+            return "efectivo";
         } else if (rbMercadoPago.isSelected()) {
-            return "Mercado Pago";
+            return "mercadoPago";
         } else if (rbTransferencia.isSelected()) {
-            return "Transferencia";
+            return "transferencia";
         }
         return "";
-    }
-
-// Función para obtener el ID del cliente seleccionado (suponiendo que tienes una tabla de clientes)
-    private int obtenerClienteSeleccionado() {
-        int selectedRow = tablaClientes.getSelectedRow();
-        if (selectedRow != -1) {
-            return Integer.parseInt(tablaClientes.getValueAt(selectedRow, 0).toString()); // ID del cliente en la columna 0
-        }
-        return -1; // Si no hay cliente seleccionado
     }
 
 // Función para guardar los detalles del pedido
@@ -516,10 +478,10 @@ public class CrearPedidoVista extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_GuardarActionPerformed
-
+    private JFrame ventanaAbierta;
     private void btnAgregarItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarItemActionPerformed
         // TODO add your handling code here:
-        HelpersVista.abrirVentana(CargarItemMenuVista.class, this);
+        ventanaAbierta = HelpersVista.abrirVentana(CargarItemMenuVista.class, this);
 
     }//GEN-LAST:event_btnAgregarItemActionPerformed
 
@@ -571,6 +533,10 @@ public class CrearPedidoVista extends javax.swing.JFrame {
 
     }//GEN-LAST:event_eliminarItemMenuActionPerformed
 
+    private void fieldCbuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldCbuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldCbuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -613,27 +579,22 @@ public class CrearPedidoVista extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton eliminarItemMenu;
-    private javax.swing.JLabel fecha;
     private javax.swing.JTextField fieldAlias;
     private javax.swing.JTextField fieldCbu;
     private javax.swing.JTextField fieldCuit;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelCliente;
     private javax.swing.JLabel labelFecha;
     private javax.swing.JLabel labelTotal;
     private javax.swing.JRadioButton rbEfectivo;
     private javax.swing.JRadioButton rbMercadoPago;
     private javax.swing.JRadioButton rbTransferencia;
-    private javax.swing.JTable tablaClientes;
     private javax.swing.JTable tablaItemsAgregados;
     // End of variables declaration//GEN-END:variables
 }

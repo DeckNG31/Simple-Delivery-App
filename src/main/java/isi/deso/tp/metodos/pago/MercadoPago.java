@@ -34,7 +34,15 @@ public class MercadoPago implements MetodoPago {
     
     @Override
     public String getString(){
-        return "Mercado Pago";
+        return "mercadopago";
     }
+    
+     public MetodoPago getInstance(String alias){
+    
+        return null;
+    
+    }
+
+
     
 }

@@ -8,7 +8,7 @@ package isi.deso.tp.menu;
  *
  * @author deck
  */
-public class Plato extends ItemMenu {
+public class Plato extends ItemMenu  {
 
     private Double calorias;
     private boolean aptoCeliaco;

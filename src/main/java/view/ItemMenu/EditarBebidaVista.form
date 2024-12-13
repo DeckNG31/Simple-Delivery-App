@@ -204,7 +204,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Volumen"/>
+            <Property name="text" type="java.lang.String" value="Volumen (ml)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="volumenInput">

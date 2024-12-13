@@ -12,4 +12,6 @@ public interface MetodoPago {
 
     public void pagar();
     public String getString();
+    
+ 
 }

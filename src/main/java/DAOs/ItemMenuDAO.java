@@ -24,4 +24,6 @@ public interface ItemMenuDAO {
     public void eliminarItemMenu(int id); // elimina 
 
     public ItemMenu buscarItemMenuPorId(int id); // busca
+    
+    public List<ItemMenu> buscarItemMenuPorIds(List<Integer> ids) ;
 }

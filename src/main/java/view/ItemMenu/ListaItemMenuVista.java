@@ -64,7 +64,7 @@ public class ListaItemMenuVista extends javax.swing.JFrame {
         };
 
         if(tipoUsuario.equals("admin")){
-                String titulos[] = {"ID", "Tipo", "Nombre", "Descripcion", "Precio", "Apto para veganos", "Peso", "Calorias", "Apto para celiacos", "Volumen", "Graduacion Alcohol", "Vendedor"};
+                String titulos[] = {"ID", "Tipo", "Nombre", "Descripcion", "Precio", "Apto para veganos", "Peso", "Calorias", "Apto para celiacos", "Volumen (ml)", "Graduacion Alcohol", "Vendedor"};
 Modelotabla.setColumnIdentifiers(titulos);
 
         // Llenar la tabla con los datos de los clientes

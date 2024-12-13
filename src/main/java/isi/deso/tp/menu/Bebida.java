@@ -8,7 +8,7 @@ package isi.deso.tp.menu;
  *
  * @author deck
  */
-public class Bebida extends ItemMenu {
+public class Bebida extends ItemMenu  {
 
     private Double volumen;
     private Double graduacionAlcohol;

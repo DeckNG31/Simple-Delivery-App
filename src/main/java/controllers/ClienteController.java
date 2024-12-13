@@ -61,6 +61,7 @@ public class ClienteController {
     }
 
     public Cliente buscarClientePorId(int id) {
+        
         return clienteDAO.buscarClientePorId(id);
     }
     

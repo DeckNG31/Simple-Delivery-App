@@ -4,6 +4,7 @@
  */
 package view.vendedor;
 
+import controllers.AutenticacionController;
 import controllers.VendedorController;
 import helpers.HelpersVista;
 import isi.deso.tp.usuarios.Coordenada;
@@ -11,6 +12,9 @@ import isi.deso.tp.usuarios.Vendedor;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import memories.VendedorMemory;
+import view.ClienteVista;
+import view.VendedorVista;
+import view.cliente.ListaClienteVista;
 
 /**
  *
@@ -181,7 +185,13 @@ public class EditarVendedorVista extends javax.swing.JFrame {
             longitudInput.setText("");
 
             //vuelve
-            HelpersVista.cambiarVentana(this, ListaVendedorVista.class);
+            String rol = AutenticacionController.getInstance().getTipoUsuario();
+            switch (rol) {
+                case "admin" ->
+                    HelpersVista.cambiarVentana(this, ListaVendedorVista.class);
+                case "vendedor" ->
+                    HelpersVista.cambiarVentana(this, VendedorVista.class);
+            }
         } else {
             HelpersVista.mostrarMensaje("Lename todo", "Error", "Alerta");
         }
@@ -189,8 +199,14 @@ public class EditarVendedorVista extends javax.swing.JFrame {
 
 
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
-  
-         HelpersVista.cambiarVentana(this, ListaVendedorVista.class);
+
+        String rol = AutenticacionController.getInstance().getTipoUsuario();
+        switch (rol) {
+            case "admin" ->
+                HelpersVista.cambiarVentana(this, ListaVendedorVista.class);
+            case "vendedor" ->
+                HelpersVista.cambiarVentana(this, VendedorVista.class);
+        }
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     /**

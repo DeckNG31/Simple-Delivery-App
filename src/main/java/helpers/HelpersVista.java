@@ -19,7 +19,7 @@ public class HelpersVista {
  
     
   
-    public static <T> void abrirVentana(Class<? extends JFrame> claseVentanaAbrir, T... parametros) {
+    public static <T> JFrame abrirVentana(Class<? extends JFrame> claseVentanaAbrir, T... parametros) {
         try {
             Class<?>[] tiposParametros = new Class[parametros.length];
             for (int i = 0; i < parametros.length; i++) {
@@ -35,9 +35,11 @@ public class HelpersVista {
             ventanaAbrir.setLocationRelativeTo(null); // Centrar la nueva ventana
             ventanaAbrir.setVisible(true);            // Mostrar la nueva ventana
 
+            return ventanaAbrir;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 

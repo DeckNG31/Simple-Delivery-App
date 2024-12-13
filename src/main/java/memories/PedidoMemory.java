@@ -9,6 +9,7 @@ import exceptions.ItemNoEncontradoException;
 import isi.deso.tp.EstadoPedido;
 import isi.deso.tp.Pedido;
 import isi.deso.tp.menu.ItemPedido;
+import isi.deso.tp.menu.RegistroDetalle;
 import isi.deso.tp.metodos.pago.MetodoPago;
 import isi.deso.tp.usuarios.Cliente;
 import isi.deso.tp.usuarios.Vendedor;
@@ -122,28 +123,49 @@ public class PedidoMemory implements PedidoDAO {
         return resultado;
     }
 
+    
+
     @Override
-    public List<Pedido> listarPedidos() {
+    public Integer crearPedido(Pedido p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public void crearPedido(Pedido p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void editarPedido(Pedido p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
 
     @Override
     public void eliminarPedido(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+   
+
     @Override
-    public Pedido buscarPedidoPorId(int id) {
+    public void cargarDetalle(Integer pedidoId, List<RegistroDetalle> detalle) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosDeCliente(Integer clienteId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<RegistroDetalle> obtenerDetalleDePedido(Integer pedidoId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosDeVendedor(Integer vendedorId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void actualizarEstadoPedido(Integer pedidoId, String estado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidos() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

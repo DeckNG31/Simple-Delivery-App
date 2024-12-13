@@ -13,5 +13,10 @@ public enum EstadoPedido {
     ACEPTADO,
     PREPARACION,
     EN_ENVIO,
-    ENVIADO
+    ENVIADO;
+
+    @Override
+    public String toString() {
+        return name();
+    }
 }
