@@ -19,11 +19,25 @@ public class ClienteController {
 
     private static ClienteController instance;
 
-    private final ClienteDAO clienteDAO;
+    private ClienteDAO clienteDAO;
 
     private ClienteController() {
         clienteDAO = ClienteJDBC.getInstance();
     }
+
+    public ClienteDAO getClienteDAO() {
+        return clienteDAO;
+    }
+
+    public void setCLienteDAO(ClienteDAO clienteDAO) {
+        this.clienteDAO = clienteDAO;
+    }
+    
+    public static void setInstance(ClienteController instance) {
+        ClienteController.instance = instance;
+    }
+
+    
 
     public static synchronized ClienteController getInstance() {
         if (instance == null) {
@@ -61,11 +75,11 @@ public class ClienteController {
     }
 
     public Cliente buscarClientePorId(int id) {
-        
+
         return clienteDAO.buscarClientePorId(id);
     }
-    
-    public ArrayList<Integer> obtenerIds(){
-    return clienteDAO.obtenerIds();
+
+    public ArrayList<Integer> obtenerIds() {
+        return clienteDAO.obtenerIds();
     }
 }

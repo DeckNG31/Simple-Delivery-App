@@ -73,7 +73,7 @@ public class Cliente implements SuscriptorPedido, Usuario{
     }
 
     public String getNombre() {
-        return nombre.toLowerCase();
+        return nombre;
     }
 
     public void setNombre(String nombre) {

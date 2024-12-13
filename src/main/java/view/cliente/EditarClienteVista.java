@@ -203,20 +203,16 @@ public class EditarClienteVista extends javax.swing.JFrame {
 
             cc.editarCliente(clienteEditar, nombreInput.getText(), cuitInput.getText(), emailInput.getText(), direccionInput.getText(), latitudInput.getText(), longitudInput.getText());
 
-            nombreInput.setText("");
-            cuitInput.setText("");
-            emailInput.setText("");
-            direccionInput.setText("");
-            latitudInput.setText("");
-            longitudInput.setText("");
-
             //vuelve
             String rol = AutenticacionController.getInstance().getTipoUsuario();
             switch (rol) {
                 case "admin" ->
                     HelpersVista.cambiarVentana(this, ListaClienteVista.class);
-                case "cliente" ->
+                case "cliente" -> {
                     HelpersVista.cambiarVentana(this, ClienteVista.class);
+                    AutenticacionController.getInstance().obtenerClienteAutenticado().setNombre(nombreInput.getText());
+                }
+
             }
 
         } else {

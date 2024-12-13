@@ -21,11 +21,19 @@ import java.util.List;
 public class VendedorController {
 
     private static VendedorController instance;
-    private final VendedorDAO vendedorDAO;
+    private VendedorDAO vendedorDAO;
 
     // Constructor privado para Singleton
     public VendedorController() {
         this.vendedorDAO = VendedorJDBC.getInstance(); // Implementación concreta del DAO
+    }
+
+    public VendedorDAO getClienteDAO() {
+        return vendedorDAO;
+    }
+
+    public void setCLienteDAO(VendedorDAO vendedorDAO) {
+        this.vendedorDAO = vendedorDAO;
     }
 
     // Método para obtener la instancia única (Singleton)
