@@ -23,42 +23,46 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PedidoController {
-    
+
     private static PedidoController instance;
-    
-    private final PedidoDAO pedidoDAO;
+
+    private PedidoDAO pedidoDAO;
     private final ItemMenuDAO itemMenuDAO;
-    
+
+    public void setPedidoDAO(PedidoDAO pedidoDAO) {
+        this.pedidoDAO = pedidoDAO;
+    }
+
     private PedidoController() {
         pedidoDAO = PedidoJDBC.getInstance(); // Suponiendo que tienes un PedidoJDBC implementando PedidoDAO
         itemMenuDAO = ItemMenuJDBC.getInstance();
     }
-    
+
     public static synchronized PedidoController getInstance() {
         if (instance == null) {
             instance = new PedidoController();
         }
         return instance;
     }
-    
+
     private static final Pattern CUIT_PATTERN = Pattern.compile("^\\d{11}$");
     private static final Pattern CBU_PATTERN = Pattern.compile("^\\d{22}$");
     private static final Pattern ALIAS_PATTERN = Pattern.compile("^[a-zA-Z0-9\\.]{6,20}$");
-    
+
     private void validarCUIT(String cuit) {
         Matcher matcher = CUIT_PATTERN.matcher(cuit);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("El CUIT proporcionado no es válido.");
         }
     }
-    
+
     private void validarCBU(String cbu) {
         Matcher matcher = CBU_PATTERN.matcher(cbu);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("El CBU proporcionado no es válido.");
         }
     }
-    
+
     private void validarAlias(String alias) {
         Matcher matcher = ALIAS_PATTERN.matcher(alias);
         if (!matcher.matches()) {
@@ -82,79 +86,65 @@ public class PedidoController {
         } catch (Exception e) {
             HelpersVista.mostrarMensaje(e.getMessage(), "Error", "error");
         }
-        
+
     }
-    
+
     public void actualizarEstadoPedido(Integer pedidoId, String estado) {
         pedidoDAO.actualizarEstadoPedido(pedidoId, estado);
     }
-    
+
     public PedidoItemMenuDTO obtenerPedidosDeCliente(Integer clienteId) {
         List<Pedido> pedidos = pedidoDAO.obtenerPedidosDeCliente(clienteId);
         Set<Integer> itemsMenuIds = new HashSet<>();
         pedidos.forEach((p) -> {
             List<RegistroDetalle> detalle = pedidoDAO.obtenerDetalleDePedido(p.getId());
-            
+
             p.setDetalle(detalle);
-            
+
             detalle.forEach((pd) -> {
                 itemsMenuIds.add(pd.getItemMenuId());
             });
         });
         List<ItemMenu> itemsMenus = itemMenuDAO.buscarItemMenuPorIds(new ArrayList<Integer>(itemsMenuIds));
-        
+
         return new PedidoItemMenuDTO(pedidos, itemsMenus);
     }
-    
-      public PedidoItemMenuDTO obtenerPedidos() {
+
+    public PedidoItemMenuDTO obtenerPedidos() {
         List<Pedido> pedidos = pedidoDAO.obtenerPedidos();
         Set<Integer> itemsMenuIds = new HashSet<>();
         pedidos.forEach((p) -> {
             List<RegistroDetalle> detalle = pedidoDAO.obtenerDetalleDePedido(p.getId());
-            
+
             p.setDetalle(detalle);
-            
+
             detalle.forEach((pd) -> {
                 itemsMenuIds.add(pd.getItemMenuId());
             });
         });
         List<ItemMenu> itemsMenus = itemMenuDAO.buscarItemMenuPorIds(new ArrayList<Integer>(itemsMenuIds));
-        
+
         return new PedidoItemMenuDTO(pedidos, itemsMenus);
     }
-    
+
     public PedidoItemMenuDTO obtenerPedidosDeVendedor(Integer vendedorId) {
         List<Pedido> pedidos = pedidoDAO.obtenerPedidosDeVendedor(vendedorId);
         Set<Integer> itemsMenuIds = new HashSet<>();
         pedidos.forEach((p) -> {
             List<RegistroDetalle> detalle = pedidoDAO.obtenerDetalleDePedido(p.getId());
-            
+
             p.setDetalle(detalle);
-            
+
             detalle.forEach((pd) -> {
                 itemsMenuIds.add(pd.getItemMenuId());
             });
         });
         List<ItemMenu> itemsMenus = itemMenuDAO.buscarItemMenuPorIds(new ArrayList<Integer>(itemsMenuIds));
-        
+
         return new PedidoItemMenuDTO(pedidos, itemsMenus);
     }
 
-    // Editar un pedido
-    /*
-    public void editarPedido(Pedido pedidoEditar, Double total, LocalDate fecha, Integer clienteId, String metodoPagoStr, String cbu, String cuit, String alias) {
-        // Convertir el String de metodoPago a un objeto MetodoPago
-        // MetodoPago metodoPago = obtenerMetodoPago(metodoPagoStr, cbu, cuit, alias);
-
-        // Actualizar los atributos del pedido
-        pedidoEditar.setTotal(total);
-        pedidoEditar.setFecha(fecha);
-        pedidoEditar.setClienteId(clienteId);
-        //pedidoEditar.setMetodoPago(metodoPago);
-
-        // Llamar al DAO para actualizar el pedido
-        pedidoDAO.editarPedido(pedidoEditar);
-    }*/
+    
     // Eliminar un pedido
     public void eliminarPedido(int id) {
         // Eliminar el pedido usando el DAO

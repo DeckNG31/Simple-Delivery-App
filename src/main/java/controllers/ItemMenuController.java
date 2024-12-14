@@ -17,13 +17,21 @@ import java.util.List;
  */
 public class ItemMenuController {
 
-    private final ItemMenuDAO itemMenuDAO;
+    private ItemMenuDAO itemMenuDAO;
 
     //singleton
     private static ItemMenuController instance;
 
     private ItemMenuController() {
         itemMenuDAO = ItemMenuJDBC.getInstance();
+    }
+
+    public void setItemMenuDAO(ItemMenuDAO itemMenuDAO) {
+        this.itemMenuDAO = itemMenuDAO;
+    }
+
+    public ItemMenuDAO getItemMenuDAO() {
+        return itemMenuDAO;
     }
 
     public static synchronized ItemMenuController getInstance() {
@@ -71,7 +79,7 @@ public class ItemMenuController {
             double volumenFormateado = parsearADouble(volumen, "El volumen debe ser un número");
             double alcoholFormateado = parsearADouble(alcohol, "La graduación del alcohol debe ser un número");
 
-            ItemMenu bebida = new Bebida(0,nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
+            ItemMenu bebida = new Bebida(0, nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
             itemMenuDAO.crearItemMenu(bebida);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -85,7 +93,7 @@ public class ItemMenuController {
             double volumenFormateado = parsearADouble(volumen, "El volumen debe ser un número");
             double alcoholFormateado = parsearADouble(alcohol, "La graduación del alcohol debe ser un número");
 
-            ItemMenu bebida = new Bebida(id,nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
+            ItemMenu bebida = new Bebida(id, nombre, descripcion, precioFormateado, aptoVegano, pesoFormateado, volumenFormateado, alcoholFormateado, vendedorId);
             itemMenuDAO.editarItemMenu(bebida);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -108,8 +116,8 @@ public class ItemMenuController {
         return itemMenuDAO.buscarItemMenuPorId(id);
     }
 
-    public List<ItemMenu> listarItemMenusPorVendedor(int vendedorId){
-    return itemMenuDAO.listarItemMenusPorVendedor(vendedorId);
+    public List<ItemMenu> listarItemMenusPorVendedor(int vendedorId) {
+        return itemMenuDAO.listarItemMenusPorVendedor(vendedorId);
     }
-    
+
 }

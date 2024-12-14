@@ -1,2 +1,4 @@
+controllers\ItemMenuControllerTest.class
 controllers\ClienteControllerTest.class
+controllers\PedidoControllerTest.class
 controllers\VendedorControllerTest.class

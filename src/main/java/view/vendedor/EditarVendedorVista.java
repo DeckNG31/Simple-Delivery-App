@@ -193,7 +193,7 @@ public class EditarVendedorVista extends javax.swing.JFrame {
                     HelpersVista.cambiarVentana(this, VendedorVista.class);
             }
         } else {
-            HelpersVista.mostrarMensaje("Lename todo", "Error", "Alerta");
+            HelpersVista.mostrarMensaje("Complete todos los campos", "Error", "Alerta");
         }
     }//GEN-LAST:event_guardarBtnActionPerformed
 
